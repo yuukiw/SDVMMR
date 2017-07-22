@@ -1,13 +1,12 @@
 ﻿using System;
 using Gtk;
-using Glade;
 
 public partial class MainWindow : Gtk.Window
 {
+
 	public MainWindow() : base(Gtk.WindowType.Toplevel)
 	{
 		Build();
-
 	}
 
 
@@ -39,6 +38,18 @@ public partial class MainWindow : Gtk.Window
 		}
 
 	}
+
+	protected void OnPlaySDVActivated(object sender, EventArgs e)
+	{
+		SDVMMR.Message Msg = new SDVMMR.Message("hi","this is a test");
+		Msg.Show();
+	}
+protected void OnOpenSettingsActivated(object sender, EventArgs e)
+{
+		SDVMMR.Setting Swin =new SDVMMR.Setting();
+	   Swin.Show();
+}
+
 
 
 }

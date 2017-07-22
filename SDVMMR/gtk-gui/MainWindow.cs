@@ -90,6 +90,7 @@ public partial class MainWindow
 		this.Name = "MainWindow";
 		this.Title = global::Mono.Unix.Catalog.GetString("MainWindow");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+		this.BorderWidth = ((uint)(5));
 		this.DefaultWidth = 959;
 		this.DefaultHeight = 600;
 		// Container child MainWindow.Gtk.Container+ContainerChild
@@ -123,7 +124,6 @@ public partial class MainWindow
 		w4.Fill = false;
 		// Container child vbox1.Gtk.Box+BoxChild
 		this.table1 = new global::Gtk.Table(((uint)(2)), ((uint)(2)), false);
-		this.table1.Name = "table1";
 		this.table1.RowSpacing = ((uint)(6));
 		this.table1.ColumnSpacing = ((uint)(6));
 		// Container child table1.Gtk.Table+TableChild
@@ -227,5 +227,7 @@ public partial class MainWindow
 		}
 		this.Show();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler(this.OnDeleteEvent);
+		this.Play_SDV.Activated += new global::System.EventHandler(this.OnPlaySDVActivated);
+		this.open_Settings.Activated += new global::System.EventHandler(this.OnOpenSettingsActivated);
 	}
 }

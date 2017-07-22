@@ -53,7 +53,6 @@
     <EmbeddedResource Include="..\..\..\..\..\..\White_Chicken.png" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="MainWindow.cs" />
     <Compile Include="gtk-gui\MainWindow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,10 +64,14 @@
     <Compile Include="Functions\DirectoryOperations.cs" />
     <Compile Include="Functions\ModListManagment.cs" />
     <Compile Include="Functions\Updates.cs" />
-    <Compile Include="JSON Dummies\ModInfos.cs" />
     <Compile Include="JSON Dummies\ModManifest.cs" />
     <Compile Include="Functions\JsonHandler.cs" />
     <Compile Include="JSON Dummies\SDVMMJson.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="gtk-gui\SDVMMR.Message.cs" />
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="Setting.cs" />
+    <Compile Include="gtk-gui\SDVMMR.Setting.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Functions\" />
