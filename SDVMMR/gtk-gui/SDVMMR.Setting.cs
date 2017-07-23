@@ -48,6 +48,8 @@ namespace SDVMMR
 
 		private global::Gtk.Button OverWriteBtn;
 
+		private global::Gtk.HBox hbox7;
+
 		private global::Gtk.HSeparator hseparator4;
 
 		private global::Gtk.HBox hbox5;
@@ -281,13 +283,20 @@ namespace SDVMMR
 			w21.Expand = false;
 			w21.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
+			this.hbox7 = new global::Gtk.HBox();
+			this.hbox7.Name = "hbox7";
+			this.hbox7.Spacing = 6;
+			this.vbox2.Add(this.hbox7);
+			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox7]));
+			w22.Position = 9;
+			// Container child vbox2.Gtk.Box+BoxChild
 			this.hseparator4 = new global::Gtk.HSeparator();
 			this.hseparator4.Name = "hseparator4";
 			this.vbox2.Add(this.hseparator4);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator4]));
-			w22.Position = 10;
-			w22.Expand = false;
-			w22.Fill = false;
+			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator4]));
+			w23.Position = 10;
+			w23.Expand = false;
+			w23.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.hbox5 = new global::Gtk.HBox();
 			this.hbox5.Name = "hbox5";
@@ -300,25 +309,26 @@ namespace SDVMMR
 			this.Save.UseUnderline = true;
 			this.Save.Label = global::Mono.Unix.Catalog.GetString("Save");
 			this.hbox5.Add(this.Save);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.Save]));
-			w23.PackType = ((global::Gtk.PackType)(1));
-			w23.Position = 2;
-			w23.Expand = false;
-			w23.Fill = false;
-			w23.Padding = ((uint)(5));
-			this.vbox2.Add(this.hbox5);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox5]));
-			w24.Position = 11;
+			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.Save]));
+			w24.PackType = ((global::Gtk.PackType)(1));
+			w24.Position = 2;
 			w24.Expand = false;
 			w24.Fill = false;
+			w24.Padding = ((uint)(5));
+			this.vbox2.Add(this.hbox5);
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox5]));
+			w25.Position = 11;
+			w25.Expand = false;
+			w25.Fill = false;
 			this.Add(this.vbox2);
 			if ((this.Child != null))
 			{
 				this.Child.ShowAll();
 			}
 			this.DefaultWidth = 840;
-			this.DefaultHeight = 364;
+			this.DefaultHeight = 464;
 			this.Show();
+			this.SteamFolderTN.Clicked += new global::System.EventHandler(this.OnSteamFolderTNClicked);
 		}
 	}
 }

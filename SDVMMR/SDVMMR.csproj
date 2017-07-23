@@ -72,6 +72,8 @@
     <Compile Include="gtk-gui\generated.cs" />
     <Compile Include="Setting.cs" />
     <Compile Include="gtk-gui\SDVMMR.Setting.cs" />
+    <Compile Include="OpenFile.cs" />
+    <Compile Include="gtk-gui\SDVMMR.OpenFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Functions\" />
