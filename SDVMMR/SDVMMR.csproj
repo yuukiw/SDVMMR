@@ -41,7 +41,7 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="INIFileParser">
-      <HintPath>..\packages\ini-parser.2.5.0\lib\net20\INIFileParser.dll</HintPath>
+      <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

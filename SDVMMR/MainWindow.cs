@@ -1,8 +1,13 @@
 ﻿using System;
 using Gtk;
+using System.Collections.Generic;
 
 public partial class MainWindow : Gtk.Window
 {
+	internal List<SDVMMR.ModInfo> Mods = new List<SDVMMR.ModInfo>();
+
+	//  TODO Set GOOD default values for settings
+	internal SDVMMR.SDVMMSettings SDVMMSettings = new SDVMMR.SDVMMSettings("", false,  "", "", false, false, "" );
 
 	public MainWindow() : base(Gtk.WindowType.Toplevel)
 	{
@@ -20,18 +25,18 @@ public partial class MainWindow : Gtk.Window
 	public void MethodWithLogic(Gdk.Key key)
 	{
 		Boolean smapiisInstalled = true;
-		if (key == Gdk.Key.Control_R) 
+		if (key == Gdk.Key.Alt_R || key == Gdk.Key.Alt_L) 
 		{
 			if(smapiisInstalled == true)
 			{ 
-				if (Play_SDV.StockId == "SDVMMR.SMAPI_mascot.png")
+				if (Play_SDV.StockId == "SIcon")
 				{
-					Play_SDV.StockId = "SDVMMR.White_Chicken.png";
+					Play_SDV.StockId = "SDVIcon";
 					Play_SDV.ShortLabel = "Play SDV";
 				}
 				else
 				{
-					Play_SDV.StockId = "SDVMMR.SMAPI_mascot.png";
+					Play_SDV.StockId = "SIcon";
 					Play_SDV.ShortLabel = "Start SMAPI";
 				}			
 			}
@@ -46,7 +51,7 @@ public partial class MainWindow : Gtk.Window
 	}
 protected void OnOpenSettingsActivated(object sender, EventArgs e)
 {
-		SDVMMR.Setting Swin =new SDVMMR.Setting();
+		SDVMMR.Setting Swin =new SDVMMR.Setting(SDVMMSettings, Mods);
 	   Swin.Show();
 }
 

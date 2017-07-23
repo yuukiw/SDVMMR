@@ -14,7 +14,7 @@ namespace SDVMMR
 				win.MethodWithLogic(e.Event.Key);
 			};
 
-			Startup start = new Startup();
+			Startup start = new Startup(win.SDVMMSettings, win.Mods);
 			win.Show();
 			Application.Run();
 		}

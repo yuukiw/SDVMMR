@@ -2,52 +2,80 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Gtk;
 using Newtonsoft.Json;
 
 namespace SDVMMR
 {
 	public class JsonHandler
 	{
-		string result = "";
 
-		public string readFromJson(string Path)
+		public SDVMMSettings readFromInfo(string Path)
 		{
-			return result;
+			StreamReader read = new StreamReader(Path);
+			string JsonData = read.ReadToEnd();
+			read.Close();
+			return JsonConvert.DeserializeObject<SDVMMSettings>(JsonData);
+		}
+
+		public ModInfo readFromMod(string Path)
+		{
+			StreamReader read = new StreamReader(Path);
+			string JsonData = read.ReadToEnd();
+			read.Close();
+			return JsonConvert.DeserializeObject<ModInfo>(JsonData);
+
+		}
+
+		public GitHub readFromGit(string Path)
+		{
+			StreamReader read = new StreamReader(Path);
+			string JsonData = read.ReadToEnd();
+			read.Close();
+			return JsonConvert.DeserializeObject<GitHub>(JsonData);
+		}
+
+		public ModManifest readFromModManifest(string Path)
+		{
+			StreamReader read = new StreamReader(Path);
+			string JsonData = read.ReadToEnd();
+			read.Close();
+			return JsonConvert.DeserializeObject<ModManifest>(JsonData);
 		}
 
 
 
-		public void writeToJSON(string SV, bool SisInst, string sFolder, string gFolder, bool gVersion, string filePath)
+		public void writeToInfo(SDVMMSettings settings)
 		{
-
-			var results = new SDVMMJsonInfo
-			{
-				SmapiVersion = SV,
-				SmapiIsinstalled = SisInst,
-				SteamFolder = sFolder,
-				GameFolder = gFolder,
-				GoGVersion = gVersion
-			};
-
-			File.WriteAllText(filePath, JsonConvert.SerializeObject(results));
+			//TODO path
+			string path = Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "SDVMM.json");
+			File.WriteAllText(path, JsonConvert.SerializeObject(settings));
 		}
 
-		public void writeToJSON(string name, string author, string version, string filePath, string uid, string MiniApiVersion, string Desc, bool IsA, bool IsX, string OrgXP)
-		{
-			var results = new SDVMMJsonMods
-			{
-				Name = name,
-				Author = author,
-				Version = version,
-				UniqueID = uid,
-				MinimumApiVersion = MiniApiVersion,
-				Description = Desc,
-				IsActive = IsA,
-				IsXnb = IsX,
-				OrgXnbPath = OrgXP
-			};
 
-			File.WriteAllText(filePath, JsonConvert.SerializeObject(results));
+
+		public void writeToMods(List<ModInfo> Mods)
+		{
+
+			// Write to JSON
+			// TODO path
+			string path = Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json");
+			File.WriteAllText(path, JsonConvert.SerializeObject(Mods));
 		}
-	}
+
+		List<ModInfo> loadModList()
+		{
+			StreamReader read = new StreamReader(Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json"));
+			string JsonData = read.ReadToEnd();
+			read.Close();
+
+			return JsonConvert.DeserializeObject<List<ModInfo>>(JsonData);
+		}
+
+
+		void saveModInfoList(List<ModInfo> list)
+		{
+			File.WriteAllText(Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json"), JsonConvert.SerializeObject(list));
+		}
+}
 }

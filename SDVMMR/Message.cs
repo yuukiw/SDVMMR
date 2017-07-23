@@ -4,7 +4,7 @@ namespace SDVMMR
 
 	public partial class Message : Gtk.Dialog
 	{
-		string rvalue = "";
+
 
 		public Message(string Message, string title)
 		{

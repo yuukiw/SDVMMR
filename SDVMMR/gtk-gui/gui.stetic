@@ -28,6 +28,7 @@
       </action>
       <action id="Play_SDV">
         <property name="Type">Action</property>
+        <property name="HideIfEmpty">False</property>
         <property name="IsImportant">True</property>
         <property name="Label" translatable="yes">Play SDV</property>
         <property name="ShortLabel" translatable="yes">Play SDV</property>
@@ -74,6 +75,10 @@
         <property name="StockId">gtk-preferences</property>
         <signal name="Activated" handler="OnOpenSettingsActivated" />
       </action>
+      <action id="Action1">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Title" translatable="yes">MainWindow</property>
@@ -112,6 +117,7 @@
                   <node type="Toolitem" action="open_Settings" />
                   <node type="Separator" />
                   <node type="Toolitem" action="open_about" />
+                  <node type="Toolitem" action="Action1" />
                 </node>
               </widget>
               <packing>
@@ -123,6 +129,18 @@
           </widget>
           <packing>
             <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.HButtonBox" id="hbuttonbox3">
+            <property name="MemberName" />
+            <property name="Size">0</property>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -224,7 +242,7 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">1</property>
+            <property name="Position">2</property>
             <property name="AutoSize">False</property>
           </packing>
         </child>
@@ -239,10 +257,22 @@
                 <child>
                   <widget class="Gtk.Label" id="SDV_Version">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">SDV Version: 1.1.1</property>
+                    <property name="LabelProp" translatable="yes">SDV Version:</property>
                   </widget>
                   <packing>
                     <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="SDVVersion">
+                    <property name="MemberName" />
+                    <property name="LabelProp" translatable="yes">0.0.0</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -253,7 +283,7 @@
                     <property name="MemberName" />
                   </widget>
                   <packing>
-                    <property name="Position">1</property>
+                    <property name="Position">2</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -262,10 +292,22 @@
                 <child>
                   <widget class="Gtk.Label" id="SMAPI_Version">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes">SMAPI Version: 1.1.1</property>
+                    <property name="LabelProp" translatable="yes">SMAPI Version:</property>
                   </widget>
                   <packing>
-                    <property name="Position">2</property>
+                    <property name="Position">3</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Label" id="SMAPIVersion">
+                    <property name="MemberName" />
+                    <property name="LabelProp" translatable="yes">0.0.0</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">4</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
@@ -281,7 +323,7 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">2</property>
+            <property name="Position">3</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -420,8 +462,9 @@
                 <property name="MemberName" />
                 <property name="WidthRequest">60</property>
                 <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">Change</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:gtk-directory Menu</property>
+                <property name="Label" translatable="yes" />
                 <property name="UseUnderline">True</property>
                 <signal name="Clicked" handler="OnSteamFolderTNClicked" />
               </widget>
@@ -475,9 +518,11 @@
                 <property name="MemberName" />
                 <property name="WidthRequest">60</property>
                 <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">Change</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:gtk-directory Menu</property>
+                <property name="Label" translatable="yes" />
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnGameFolderBtnClicked" />
               </widget>
               <packing>
                 <property name="Position">2</property>
@@ -516,6 +561,7 @@
               <widget class="Gtk.Entry" id="GogBox">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
+                <property name="Text" translatable="yes">False</property>
                 <property name="IsEditable">True</property>
                 <property name="InvisibleChar">●</property>
               </widget>
@@ -530,8 +576,9 @@
                 <property name="WidthRequest">60</property>
                 <property name="CanFocus">True</property>
                 <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">Change</property>
+                <property name="Label" translatable="yes">change</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnGogCBtnClicked" />
               </widget>
               <packing>
                 <property name="Position">2</property>
@@ -624,6 +671,7 @@
                 <property name="Type">TextOnly</property>
                 <property name="Label" translatable="yes">Change</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnOverWriteBtnClicked" />
               </widget>
               <packing>
                 <property name="PackType">End</property>
@@ -687,6 +735,7 @@
                 <property name="Type">TextOnly</property>
                 <property name="Label" translatable="yes">Save</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnSaveClicked" />
               </widget>
               <packing>
                 <property name="PackType">End</property>

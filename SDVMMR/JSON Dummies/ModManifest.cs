@@ -3,11 +3,11 @@ namespace SDVMMR
 {
 	public class ModManifest
 	{
-		public string Name { get; set; }
-		public string Author { get; set; }
-		public string Version { get; set; }
-		public string Description { get; set; }
-		public string UniqueID { get; set; }
-		public string MinimumApiVersion { get; set; }
+		public string Name { get;}
+		public string Author { get; }
+		public string Version { get; }
+		public string Description { get; }
+		public string UniqueID { get;  }
+		public string MinimumApiVersion { get; }
 	}
 }

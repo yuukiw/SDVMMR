@@ -9,12 +9,23 @@ namespace SDVMMR
 	{
 		static string sep = Path.DirectorySeparatorChar.ToString();
 
+		public static void createAppData(string path)
+		{
+			var dir = System.IO.Path.GetDirectoryName(path);
+			if (!System.IO.Directory.Exists(dir))
+			{
+				Directory.CreateDirectory(dir);
+			}
+			var file = File.Create(path);
+			file.Close();
+		}
 
 		public static string getFolder(string Folder)
 		{
 			if (Folder == "OldAppData")
 			{
 				string test = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+				string tes2 = Path.Combine(test, "SDVMM\\WindowsApplication1\\1.0.0.0\\");
 				return Path.Combine(test, "SDVMM\\WindowsApplication1\\1.0.0.0\\");
 			}
 			if (Folder == "AppData")
