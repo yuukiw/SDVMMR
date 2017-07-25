@@ -2,16 +2,19 @@
 using Gtk;
 using System.Collections.Generic;
 
+
 public partial class MainWindow : Gtk.Window
 {
-	internal List<SDVMMR.ModInfo> Mods = new List<SDVMMR.ModInfo>();
+    internal List<SDVMMR.ModInfo> Mods = new List<SDVMMR.ModInfo>();
 
 	//  TODO Set GOOD default values for settings
 	internal SDVMMR.SDVMMSettings SDVMMSettings = new SDVMMR.SDVMMSettings("", false,  "", "", false, false, "" );
 
 	public MainWindow() : base(Gtk.WindowType.Toplevel)
 	{
-		Build();
+        this.Mods = SDVMMR.ModListManagment.LoadList();
+		//TODO parse mods into treeview
+        Build();
 	}
 
 
@@ -46,8 +49,7 @@ public partial class MainWindow : Gtk.Window
 
 	protected void OnPlaySDVActivated(object sender, EventArgs e)
 	{
-		SDVMMR.Message Msg = new SDVMMR.Message("hi","this is a test");
-		Msg.Show();
+		
 	}
 protected void OnOpenSettingsActivated(object sender, EventArgs e)
 {
@@ -55,6 +57,8 @@ protected void OnOpenSettingsActivated(object sender, EventArgs e)
 	   Swin.Show();
 }
 
-
-
+	protected void OnAddModActivated(object sender, EventArgs e)
+	{
+		SDVMMR.ModListManagment.addMod("path", this.Mods );
+	}
 }

@@ -58,24 +58,23 @@ namespace SDVMMR
 		{
 
 			// Write to JSON
-			// TODO path
+
 			string path = Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json");
 			File.WriteAllText(path, JsonConvert.SerializeObject(Mods));
 		}
 
-		List<ModInfo> loadModList()
+		public List<ModInfo> loadModList()
 		{
-			StreamReader read = new StreamReader(Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json"));
-			string JsonData = read.ReadToEnd();
-			read.Close();
-
-			return JsonConvert.DeserializeObject<List<ModInfo>>(JsonData);
+			string JsonData = File.ReadAllText(Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json"));
+			return JsonData != null
+				? (JsonConvert.DeserializeObject<List<ModInfo>>(JsonData) ?? new List<ModInfo>())
+				 : new List<ModInfo>();
 		}
 
 
-		void saveModInfoList(List<ModInfo> list)
+		public void saveModInfoList(List<ModInfo> list)
 		{
 			File.WriteAllText(Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json"), JsonConvert.SerializeObject(list));
 		}
-}
+	}
 }

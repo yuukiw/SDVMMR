@@ -266,6 +266,7 @@ public partial class MainWindow
 		this.Show();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler(this.OnDeleteEvent);
 		this.Play_SDV.Activated += new global::System.EventHandler(this.OnPlaySDVActivated);
+		this.add_Mod.Activated += new global::System.EventHandler(this.OnAddModActivated);
 		this.open_Settings.Activated += new global::System.EventHandler(this.OnOpenSettingsActivated);
 	}
 }

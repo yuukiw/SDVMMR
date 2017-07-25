@@ -40,6 +40,7 @@
         <property name="Label" translatable="yes">add_Mod</property>
         <property name="ShortLabel" translatable="yes">add Mod</property>
         <property name="StockId">gtk-add</property>
+        <signal name="Activated" handler="OnAddModActivated" />
       </action>
       <action id="applyAction1">
         <property name="Type">Action</property>
