@@ -39,11 +39,11 @@ public partial class MainWindow
 
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
 
-	private global::Gtk.TreeView deactivated_Mods;
+	private global::Gtk.TreeView activeMods;
 
 	private global::Gtk.ScrolledWindow GtkScrolledWindow1;
 
-	private global::Gtk.TreeView activated_Mods;
+	private global::Gtk.TreeView treeview1;
 
 	private global::Gtk.Label label6;
 
@@ -143,7 +143,6 @@ public partial class MainWindow
 		w5.Fill = false;
 		// Container child vbox1.Gtk.Box+BoxChild
 		this.table1 = new global::Gtk.Table(((uint)(2)), ((uint)(2)), false);
-		this.table1.Name = "table1";
 		this.table1.RowSpacing = ((uint)(6));
 		this.table1.ColumnSpacing = ((uint)(6));
 		// Container child table1.Gtk.Table+TableChild
@@ -151,29 +150,29 @@ public partial class MainWindow
 		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 		this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 		// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
-		this.deactivated_Mods = new global::Gtk.TreeView();
-		this.deactivated_Mods.CanFocus = true;
-		this.deactivated_Mods.Name = "deactivated_Mods";
-		this.GtkScrolledWindow.Add(this.deactivated_Mods);
+		this.activeMods = new global::Gtk.TreeView();
+		this.activeMods.CanFocus = true;
+		this.activeMods.Name = "activeMods";
+		this.GtkScrolledWindow.Add(this.activeMods);
 		this.table1.Add(this.GtkScrolledWindow);
 		global::Gtk.Table.TableChild w7 = ((global::Gtk.Table.TableChild)(this.table1[this.GtkScrolledWindow]));
 		w7.TopAttach = ((uint)(1));
 		w7.BottomAttach = ((uint)(2));
-		w7.LeftAttach = ((uint)(1));
-		w7.RightAttach = ((uint)(2));
 		// Container child table1.Gtk.Table+TableChild
 		this.GtkScrolledWindow1 = new global::Gtk.ScrolledWindow();
 		this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
 		this.GtkScrolledWindow1.ShadowType = ((global::Gtk.ShadowType)(1));
 		// Container child GtkScrolledWindow1.Gtk.Container+ContainerChild
-		this.activated_Mods = new global::Gtk.TreeView();
-		this.activated_Mods.CanFocus = true;
-		this.activated_Mods.Name = "activated_Mods";
-		this.GtkScrolledWindow1.Add(this.activated_Mods);
+		this.treeview1 = new global::Gtk.TreeView();
+		this.treeview1.CanFocus = true;
+		this.treeview1.Name = "treeview1";
+		this.GtkScrolledWindow1.Add(this.treeview1);
 		this.table1.Add(this.GtkScrolledWindow1);
 		global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table1[this.GtkScrolledWindow1]));
 		w9.TopAttach = ((uint)(1));
 		w9.BottomAttach = ((uint)(2));
+		w9.LeftAttach = ((uint)(1));
+		w9.RightAttach = ((uint)(2));
 		w9.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child table1.Gtk.Table+TableChild
 		this.label6 = new global::Gtk.Label();
@@ -264,7 +263,6 @@ public partial class MainWindow
 			this.Child.ShowAll();
 		}
 		this.Show();
-		this.DeleteEvent += new global::Gtk.DeleteEventHandler(this.OnDeleteEvent);
 		this.Play_SDV.Activated += new global::System.EventHandler(this.OnPlaySDVActivated);
 		this.add_Mod.Activated += new global::System.EventHandler(this.OnAddModActivated);
 		this.open_Settings.Activated += new global::System.EventHandler(this.OnOpenSettingsActivated);

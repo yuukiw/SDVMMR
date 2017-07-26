@@ -8,7 +8,7 @@ namespace SDVMMR
 	{
 		public static void Main(string[] args)
 		{
-			Application.Init();		
+			Application.Init();
 			MainWindow win = new MainWindow();
 			win.KeyPressEvent += (sender, e) =>
 			{
@@ -16,9 +16,9 @@ namespace SDVMMR
 			};
 			Startup start = new Startup(win.SDVMMSettings, win.Mods);
 			win.Show();
-			Application.Run();
+		Application.Run();
 		}
 
 
-	}
+}
 }

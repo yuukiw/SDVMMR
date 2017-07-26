@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Gtk;
 
 namespace SDVMMR
 {
@@ -10,10 +13,10 @@ namespace SDVMMR
 
 		}
 
-		internal static List<ModInfo> LoadList()
+		internal static List<ModInfo> LoadList(ListStore ModStore)
 		{
 			JsonHandler j = new JsonHandler();
-			List<ModInfo> LoadedMods = j.loadModList();
+			List<ModInfo> LoadedMods = j.loadModList(ModStore);
 			return LoadedMods;
 		}
 
@@ -23,13 +26,30 @@ namespace SDVMMR
 			j.saveModInfoList(LoadedMods);
 		}
 
-		internal static void addMod(string path, List<ModInfo> mods)
+		internal static void addMod(string path, List<ModInfo> mods, Gtk.ListStore ModStore)
 		{
-            //TODO Parse Manifest
-			ModInfo newMod = new ModInfo("hi", "notme", "1.0", "", "keine", "0.0", "this is a test", true, false, "");
 			try
 			{
-				mods.Add(newMod);
+				JsonHandler json = new JsonHandler();
+				ModManifest Manifest = json.readFromModManifest(Path.Combine(path, "manifest.json"));
+				//TODO check if unique id is valid or if its a xnb mod
+				string uId = Manifest.UniqueID;
+				string version = String.Concat(Manifest.Version.MajorVersion, ".", Manifest.Version.MinorVersion, ".", Manifest.Version.PatchVersion);
+				ModInfo newMod = new ModInfo(Manifest.Name, Manifest.Author, version, path, uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, true, false/*isX*/, "OrgXP");
+
+
+				ModInfo modLookingFor = mods.Find(x => x.UniqueID == uId);
+				if (modLookingFor != null)
+				{
+					var mod = mods.Where(d => d.Version != version).FirstOrDefault();
+					if (mod != null) { mod.Version = version; }
+
+				}
+				else
+				{
+					mods.Add(newMod);
+					addToTree(newMod, ModStore);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -37,6 +57,20 @@ namespace SDVMMR
 				msg.Show();
 			}
 			SaveList(mods);
+		}
+
+		internal static void addToTree(ModInfo Mod, ListStore ModStore)
+		{
+			
+			/*Gtk.TreeIter iter = ModStore.AppendValues(Mod.Name);
+			ModStore.AppendValues(iter, "Author", Mod.Author);
+			ModStore.AppendValues(iter, "Version", Mod.Version);
+			ModStore.AppendValues(iter, "Description", Mod.Description);
+			ModStore.AppendValues(iter, "Is Active", Mod.IsActive.ToString());*/
+
+        ModStore.AppendValues(Mod.IsActive.ToString(),Mod.Name,Mod.Author,Mod.Version);
+
+
 		}
 	}
 }

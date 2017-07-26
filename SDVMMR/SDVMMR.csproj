@@ -76,6 +76,8 @@
     <Compile Include="gtk-gui\SDVMMR.OpenFile.cs" />
     <Compile Include="Functions\ModUpdateHanlder.cs" />
     <Compile Include="Functions\UpdateHandler.cs" />
+    <Compile Include="OpenFolder.cs" />
+    <Compile Include="gtk-gui\SDVMMR.OpenFolder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Functions\" />

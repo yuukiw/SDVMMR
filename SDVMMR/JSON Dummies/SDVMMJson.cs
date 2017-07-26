@@ -32,7 +32,7 @@ namespace SDVMMR
 
 public class ModInfo
 	{
-	public ModInfo(string name, string author, string version, string filePath, string uid, string MiniApiVersion, string Desc, bool IsA, bool IsX, string OrgXP)
+	public ModInfo(string name, string author, string version, string filePath, string uid, string MiniApiVersion, string Desc, string entry,bool IsA, bool IsX, string OrgXP)
 		{
 			Name = name;
 			Author = author;
@@ -40,6 +40,7 @@ public class ModInfo
 			UniqueID = uid;
 			MinimumApiVersion = MiniApiVersion;
 			Description = Desc;
+			EntryDll = entry;
 			IsActive = IsA;
 			IsXnb = IsX;
 			OrgXnbPath = OrgXP;
@@ -52,6 +53,7 @@ public class ModInfo
 		public string UniqueID { get; set; }
 		public string MinimumApiVersion { get; set; }
 		public string Description { get; set; }
+		public string EntryDll { get; set;}
 		public bool IsActive { get; set; }
 		public bool IsXnb { get; set; }
 		public string OrgXnbPath { get; set; }

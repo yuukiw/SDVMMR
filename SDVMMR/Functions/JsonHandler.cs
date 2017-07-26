@@ -18,7 +18,7 @@ namespace SDVMMR
 			return JsonConvert.DeserializeObject<SDVMMSettings>(JsonData);
 		}
 
-		public ModInfo readFromMod(string Path)
+		internal static ModInfo readFromMod(string Path)
 		{
 			StreamReader read = new StreamReader(Path);
 			string JsonData = read.ReadToEnd();
@@ -37,9 +37,7 @@ namespace SDVMMR
 
 		public ModManifest readFromModManifest(string Path)
 		{
-			StreamReader read = new StreamReader(Path);
-			string JsonData = read.ReadToEnd();
-			read.Close();
+			string JsonData = File.ReadAllText(Path);
 			return JsonConvert.DeserializeObject<ModManifest>(JsonData);
 		}
 
@@ -63,9 +61,17 @@ namespace SDVMMR
 			File.WriteAllText(path, JsonConvert.SerializeObject(Mods));
 		}
 
-		public List<ModInfo> loadModList()
+		public List<ModInfo> loadModList(ListStore ModStore)
 		{
+			if (!File.Exists(Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json")))
+			{
+				var dir = System.IO.Path.GetDirectoryName(Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json"));
+				var file = File.Create(Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json"));
+				file.Close();
+			}
 			string JsonData = File.ReadAllText(Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json"));
+
+		
 			return JsonData != null
 				? (JsonConvert.DeserializeObject<List<ModInfo>>(JsonData) ?? new List<ModInfo>())
 				 : new List<ModInfo>();
