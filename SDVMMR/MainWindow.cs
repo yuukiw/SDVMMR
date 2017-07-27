@@ -16,9 +16,9 @@ public partial class MainWindow : Gtk.Window {
 
 	public MainWindow() : base(Gtk.WindowType.Toplevel) {
 
-		SetupWindow();
-
 		this.SDVMMSettings = FileHandler.LoadSettings();
+
+		SetupWindow();
 
 		ModManager = new ModManager(SDVMMSettings, activeMods.Model as ListStore);
 
