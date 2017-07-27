@@ -87,6 +87,7 @@
     <Compile Include="Functions\MoveMod.cs" />
     <Compile Include="ErrorAlert.cs" />
     <Compile Include="gtk-gui\SDVMMR.ErrorAlert.cs" />
+    <Compile Include="Functions\recSearchForXNB.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

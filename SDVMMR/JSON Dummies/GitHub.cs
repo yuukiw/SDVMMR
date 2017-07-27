@@ -1,21 +1,33 @@
 ﻿using System;
+using Newtonsoft.Json;
+
 namespace SDVMMR
 {
-	public class GitHub
-	{
-		public class GitRelease
-		{
-			public string tag_name { get; set; }
-			public string name { get; set; }
-			public string body { get; set; }
-			public GitAsset[] assets { get; set; }
-		}
+public class GitRelease
+{
+	public string Name { get; set; }
 
-		public class GitAsset
-		{
-			public string name { get; set; }
-			public string content_type { get; set; }
-			public string browser_download_url { get; set; }
-		}
-	}
+	[JsonProperty("tag_name")]
+	public string TagName { get; set; }
+
+	[JsonProperty("draft")]
+	public bool IsDraft { get; set; }
+
+	[JsonProperty("prerelease")]
+	public bool IsPreRelease { get; set; }
+
+	[JsonProperty("assets")]
+	public GitDownload[] Downloads { get; set; }
+}
+
+public class GitDownload
+{
+	public string Name { get; set; }
+
+	[JsonProperty("created_at")]
+	public DateTime Created { get; set; }
+
+	[JsonProperty("browser_download_url")]
+	public string DownloadUrl { get; set; }
+}
 }

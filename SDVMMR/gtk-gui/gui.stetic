@@ -287,7 +287,6 @@
   </widget>
   <widget class="Gtk.Dialog" id="SDVMMR.Message" design-size="400 300">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">window1</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="BorderWidth">5</property>
     <property name="Buttons">1</property>
@@ -597,7 +596,6 @@
                 <property name="DrawIndicator">True</property>
                 <property name="HasLabel">True</property>
                 <property name="UseUnderline">True</property>
-                <property name="Xalign">0.44</property>
               </widget>
               <packing>
                 <property name="Position">0</property>

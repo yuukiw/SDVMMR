@@ -1,8 +1,26 @@
 ﻿using System;
+using System.IO;
+using System.Net;
+using Newtonsoft.Json;
+
 namespace SDVMMR
 {
-	public class UpdateHandler
+	internal static class UpdateHandler
 	{
-		// TODO
+		public static void DownloadSDVMM(string url)
+		{
+
+		}
+
+		public static void DownloadSMAPI(string url)
+		{
+			
+		}
+				public static void DownloadXNBLoader(string url)
+		{
+			
+		}
+
 	}
+
 }

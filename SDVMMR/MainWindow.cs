@@ -13,9 +13,18 @@ public partial class MainWindow : Gtk.Window {
 
 	internal SDVMMSettings SDVMMSettings;
 
+	internal string SDVMMVersion = "1.0";
+
 	public MainWindow() : base(Gtk.WindowType.Toplevel) {
 
 		this.SDVMMSettings = FileHandler.LoadSettings();
+
+		string Sv = SDVMMSettings.SmapiVersion;
+		string XnBVersion = "";
+		foreach (ModInfo Mod in Mods) 
+			if (Mod.Name == "XNBLoader") XnBVersion = Mod.Version;	
+
+		Updates.CheckForUpdates(Sv,SDVMMVersion,XnBVersion);
 
 		SetupWindow();
 
@@ -29,7 +38,7 @@ public partial class MainWindow : Gtk.Window {
 	private void SetupWindow() {
 		Build();
 		//this.Title = "SDVMM 1.0";
-		SDVVersion.Text = "1.0";
+		SDVVersion.Text = SDVMMVersion;
 		SMAPIVersion.Text = SDVMMSettings.SmapiVersion;
 		// Createing  columns
 		Gtk.TreeViewColumn CBColumn = new Gtk.TreeViewColumn();
@@ -98,7 +107,7 @@ public partial class MainWindow : Gtk.Window {
 	}
 
 	public void MethodWithLogic(Gdk.Key key) {
-		Boolean smapiisInstalled = true;
+		Boolean smapiisInstalled = SDVMMSettings.SmapiIsinstalled;
 		if (key == Gdk.Key.Alt_R || key == Gdk.Key.Alt_L) {
 			if (smapiisInstalled == true) {
 				if (Play_SDV.StockId == "SIcon") {

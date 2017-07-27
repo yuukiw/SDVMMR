@@ -114,7 +114,7 @@ public partial class MainWindow
 		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.Header]));
 		w2.Position = 0;
 		// Container child vbox2.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString("<ui><toolbar name='toolbar1'><toolitem name='Play_SDV' action='Play_SDV'/><separator/><toolitem name='add_Mod' action='add_Mod'/><toolitem name='open_Folder' action='open_Folder'/><toolitem name='open_Settings' action='open_Settings'/><separator/><toolitem name='open_about' action='open_about'/><toolitem name='Action1' action='Action1'/></toolbar></ui>");
+		this.UIManager.AddUiFromString(@"<ui><toolbar name='toolbar1'><toolitem name='Play_SDV' action='Play_SDV'/><separator/><toolitem name='add_Mod' action='add_Mod'/><toolitem name='open_Folder' action='open_Folder'/><toolitem name='open_Settings' action='open_Settings'/><separator/><toolitem name='open_about' action='open_about'/><toolitem name='Action1' action='Action1'/></toolbar></ui>");
 		this.toolbar1 = ((global::Gtk.Toolbar)(this.UIManager.GetWidget("/toolbar1")));
 		this.toolbar1.Name = "toolbar1";
 		this.toolbar1.ShowArrow = false;

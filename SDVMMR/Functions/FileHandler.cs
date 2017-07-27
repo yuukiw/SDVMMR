@@ -43,15 +43,15 @@ namespace SDVMMR {
 			return JsonConvert.DeserializeObject<ModInfo>(JsonData);
 		}
 
-		public static GitHub LoadFromGit(string Path) {
+		/*public static GitHub.GitRelease LoadFromGit(string Path) {
 			if (!File.Exists(Path))
 				return null;
 
 			StreamReader read = new StreamReader(Path);
 			string JsonData = read.ReadToEnd();
 			read.Close();
-			return JsonConvert.DeserializeObject<GitHub>(JsonData);
-		}
+			return JsonConvert.DeserializeObject<GitHub.GitRelease>(JsonData);
+		}*/
 
 		public static ModManifest LoadModManifest(string Path) {
 			if (!File.Exists(Path))
