@@ -10,8 +10,9 @@ namespace SDVMMR
 	public class JsonHandler
 	{
 
-		public SDVMMSettings readFromInfo(string Path)
+		public SDVMMSettings readFromInfo()
 		{
+			string Path = System.IO.Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "SDVMM.json");
 			StreamReader read = new StreamReader(Path);
 			string JsonData = read.ReadToEnd();
 			read.Close();
@@ -20,11 +21,11 @@ namespace SDVMMR
 
 		internal static ModInfo readFromMod(string Path)
 		{
+
 			StreamReader read = new StreamReader(Path);
 			string JsonData = read.ReadToEnd();
 			read.Close();
 			return JsonConvert.DeserializeObject<ModInfo>(JsonData);
-
 		}
 
 		public GitHub readFromGit(string Path)
@@ -71,7 +72,7 @@ namespace SDVMMR
 			}
 			string JsonData = File.ReadAllText(Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json"));
 
-		
+
 			return JsonData != null
 				? (JsonConvert.DeserializeObject<List<ModInfo>>(JsonData) ?? new List<ModInfo>())
 				 : new List<ModInfo>();

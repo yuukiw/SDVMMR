@@ -8,17 +8,20 @@ namespace SDVMMR
 	{
 		public static void Main(string[] args)
 		{
-			Application.Init();
-			MainWindow win = new MainWindow();
-			win.KeyPressEvent += (sender, e) =>
+			try
 			{
-				win.MethodWithLogic(e.Event.Key);
-			};
-			Startup start = new Startup(win.SDVMMSettings, win.Mods);
-			win.Show();
-		Application.Run();
+				Application.Init();
+				MainWindow win = new MainWindow();
+				//Startup start = new Startup(win.SDVMMSettings, win.Mods);
+				win.Show();
+				Application.Run();
+			}
+			catch (Exception ex)
+			{
+				Message msg = new SDVMMR.Message(ex.ToString(), "error");
+				msg.Show();
+			}
+
 		}
-
-
-}
+	}
 }

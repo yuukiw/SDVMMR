@@ -6,8 +6,8 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>SDVMMR</RootNamespace>
     <AssemblyName>SDVMMR</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <ApplicationManifest>zipHandling.manifest</ApplicationManifest>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,7 +24,7 @@
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>anycpu</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,14 +43,21 @@
     <Reference Include="INIFileParser">
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\..\..\..\..\..\SDVM.png" />
-    <EmbeddedResource Include="..\..\..\..\..\..\SMAPI_mascot.png" />
-    <EmbeddedResource Include="..\..\..\..\..\..\White_Chicken.png" />
     <EmbeddedResource Include="gtk-gui\gui.stetic">
       <LogicalName>gui.stetic</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="SDVM.png" />
+    <EmbeddedResource Include="SMAPI_mascot.png" />
+    <EmbeddedResource Include="White_Chicken.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindow.cs" />
@@ -78,11 +85,9 @@
     <Compile Include="Functions\UpdateHandler.cs" />
     <Compile Include="OpenFolder.cs" />
     <Compile Include="gtk-gui\SDVMMR.OpenFolder.cs" />
+    <Compile Include="Functions\MoveMod.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Functions\" />
-    <Folder Include="JSON Dummies\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="Program.cs" />
     <None Include="packages.config" />

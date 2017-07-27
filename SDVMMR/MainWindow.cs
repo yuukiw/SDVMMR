@@ -6,7 +6,7 @@ using System.IO;
 public partial class MainWindow : Gtk.Window
 {
 	internal List<SDVMMR.ModInfo> Mods = new List<SDVMMR.ModInfo>();
-	internal Gtk.ListStore ModStore = new Gtk.ListStore(typeof(string), typeof(string),typeof(string),typeof(string));
+	internal Gtk.ListStore ModStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(string), typeof(string));
 
 	//  TODO Set GOOD default values for settings
 	internal SDVMMR.SDVMMSettings SDVMMSettings = new SDVMMR.SDVMMSettings("", false, "", "", false, false, "");
@@ -16,12 +16,17 @@ public partial class MainWindow : Gtk.Window
 		this.Mods = SDVMMR.ModListManagment.LoadList(ModStore);
 		//TODO parse mods into treeview
 		Build();
+		//this.Title = "SDVMM 1.0";
+		SDVVersion.Text = "1.0";
+		SDVMMR.JsonHandler jas = new SDVMMR.JsonHandler();
+		SDVMMSettings = jas.readFromInfo();
+		SMAPIVersion.Text = SDVMMSettings.SmapiVersion;
 		// Createing  columns
 		Gtk.TreeViewColumn CBColumn = new Gtk.TreeViewColumn();
 		CBColumn.Title = "Active";
 
 		Gtk.CellRendererText CBCell = new Gtk.CellRendererText();
-        CBColumn.PackStart(CBCell, true);
+		CBColumn.PackStart(CBCell, true);
 
 		Gtk.TreeViewColumn NameColumn = new Gtk.TreeViewColumn();
 		NameColumn.Title = "Name";
@@ -41,28 +46,45 @@ public partial class MainWindow : Gtk.Window
 		Gtk.CellRendererText VersionCell = new Gtk.CellRendererText();
 		VersionColumn.PackStart(VersionCell, true);
 
+		Gtk.TreeViewColumn DescColumn = new Gtk.TreeViewColumn();
+		DescColumn.Title = "Description";
+
+
+		Gtk.CellRendererText DescCell = new Gtk.CellRendererText();
+		DescColumn.PackStart(DescCell, true);
+
 		// Add the columns to the TreeView
 		activeMods.AppendColumn(CBColumn);
 		activeMods.AppendColumn(NameColumn);
 		activeMods.AppendColumn(AuthorColumn);
 		activeMods.AppendColumn(VersionColumn);
+		activeMods.AppendColumn(DescColumn);
 
 		NameColumn.AddAttribute(ModsNameCell, "text", 1);
 		AuthorColumn.AddAttribute(AuthorCell, "text", 2);
-		VersionColumn.AddAttribute(VersionCell, "text",3);
+		VersionColumn.AddAttribute(VersionCell, "text", 3);
+		DescColumn.AddAttribute(DescCell, "text", 4);
 
 		// the column checkbox is created
 		Gtk.CellRendererToggle valueCb = new CellRendererToggle();
 		CBColumn.PackStart(valueCb, true);
 
+		refreshTreeView();
 
-
-
-		activeMods.Model = ModStore;
 		//SDVMMR.ModListManagment.addToTree(SDVMMR.JsonHandler.readFromMod(System.IO.Path.Combine(SDVMMR.DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json")), ModStore);
 	}
 
 
+
+	internal void refreshTreeView()
+	{
+		ModStore.Clear();
+		foreach (SDVMMR.ModInfo Mod in Mods)
+		{
+			ModStore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version);
+		}
+		activeMods.Model = ModStore;
+	}
 
 
 	protected void OnDeleteEvent(object sender, DeleteEventArgs a)
@@ -120,18 +142,25 @@ public partial class MainWindow : Gtk.Window
 			file.Close();
 			if (System.IO.File.Exists(System.IO.Path.Combine(folder, "manifest.json")))
 			{
-				SDVMMR.ModListManagment.addMod(folder, this.Mods, this.ModStore);
+				SDVMMR.ModListManagment.addMod(folder, this.Mods, this.ModStore, SDVMMSettings);
+				activeMods.Model = null;
+				ModStore.Clear();
+				foreach (SDVMMR.ModInfo Mod in Mods)
+				{
+					ModStore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version);
+				}
+				activeMods.Model = ModStore;
 				filechooser.Destroy();
 			}
 			else
 			{
 				SDVMMR.Message msg = new SDVMMR.Message("Please Choose the correct Folder.", "Wrong Folder");
 				msg.Show();
+				refreshTreeView();
 				filechooser.Destroy();
 			}
 		}
-	}
 
-
+}
 
 }

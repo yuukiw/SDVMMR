@@ -97,7 +97,6 @@ namespace SDVMMR
 		{
 			if (SteamFolderBox.Text != "" & GameFolderBox.Text != "")
 			{
-				string path = System.IO.Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "SDVMM.json");
 				bool help = false;
 				if (GogBox.Text == "True")
 					help = true;
@@ -105,12 +104,17 @@ namespace SDVMMR
 				if (overWriteLabel.Text == "will be overwritten")
 					help2 = true;
 				JsonHandler json = new JsonHandler();
-				var Info = json.readFromInfo(path);
+				var Info = json.readFromInfo();
 				//  This createss a new one each time its run. instead change settings object and pass it to `writeToInfo`
 
 				//json.writeToInfo("", true, SteamFolderBox.Text, GameFolderBox.Text, help, help2,path );
 				settings.SmapiIsinstalled = true;
-				// more settings
+				settings.GameFolder = GameFolderBox.Text;
+				settings.GoGVersion = help;
+				settings.overWrite = help2;
+				//TODO settings.SmapiVersion =
+				settings.SteamFolder = SteamFolderBox.Text;
+
 				json.writeToInfo(this.settings);
 			}
 			else

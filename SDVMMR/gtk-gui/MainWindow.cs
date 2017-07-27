@@ -41,12 +41,6 @@ public partial class MainWindow
 
 	private global::Gtk.TreeView activeMods;
 
-	private global::Gtk.ScrolledWindow GtkScrolledWindow1;
-
-	private global::Gtk.TreeView treeview1;
-
-	private global::Gtk.Label label6;
-
 	private global::Gtk.Label label7;
 
 	private global::Gtk.VBox vbox3;
@@ -142,7 +136,8 @@ public partial class MainWindow
 		w5.Expand = false;
 		w5.Fill = false;
 		// Container child vbox1.Gtk.Box+BoxChild
-		this.table1 = new global::Gtk.Table(((uint)(2)), ((uint)(2)), false);
+		this.table1 = new global::Gtk.Table(((uint)(2)), ((uint)(1)), false);
+		this.table1.Name = "table1";
 		this.table1.RowSpacing = ((uint)(6));
 		this.table1.ColumnSpacing = ((uint)(6));
 		// Container child table1.Gtk.Table+TableChild
@@ -159,42 +154,16 @@ public partial class MainWindow
 		w7.TopAttach = ((uint)(1));
 		w7.BottomAttach = ((uint)(2));
 		// Container child table1.Gtk.Table+TableChild
-		this.GtkScrolledWindow1 = new global::Gtk.ScrolledWindow();
-		this.GtkScrolledWindow1.Name = "GtkScrolledWindow1";
-		this.GtkScrolledWindow1.ShadowType = ((global::Gtk.ShadowType)(1));
-		// Container child GtkScrolledWindow1.Gtk.Container+ContainerChild
-		this.treeview1 = new global::Gtk.TreeView();
-		this.treeview1.CanFocus = true;
-		this.treeview1.Name = "treeview1";
-		this.GtkScrolledWindow1.Add(this.treeview1);
-		this.table1.Add(this.GtkScrolledWindow1);
-		global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table1[this.GtkScrolledWindow1]));
-		w9.TopAttach = ((uint)(1));
-		w9.BottomAttach = ((uint)(2));
-		w9.LeftAttach = ((uint)(1));
-		w9.RightAttach = ((uint)(2));
-		w9.YOptions = ((global::Gtk.AttachOptions)(4));
-		// Container child table1.Gtk.Table+TableChild
-		this.label6 = new global::Gtk.Label();
-		this.label6.Name = "label6";
-		this.label6.LabelProp = global::Mono.Unix.Catalog.GetString("deactivated Mods");
-		this.table1.Add(this.label6);
-		global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table1[this.label6]));
-		w10.LeftAttach = ((uint)(1));
-		w10.RightAttach = ((uint)(2));
-		w10.XOptions = ((global::Gtk.AttachOptions)(4));
-		w10.YOptions = ((global::Gtk.AttachOptions)(4));
-		// Container child table1.Gtk.Table+TableChild
 		this.label7 = new global::Gtk.Label();
 		this.label7.Name = "label7";
-		this.label7.LabelProp = global::Mono.Unix.Catalog.GetString("activated Mods");
+		this.label7.LabelProp = global::Mono.Unix.Catalog.GetString("Mods");
 		this.table1.Add(this.label7);
-		global::Gtk.Table.TableChild w11 = ((global::Gtk.Table.TableChild)(this.table1[this.label7]));
-		w11.XOptions = ((global::Gtk.AttachOptions)(4));
-		w11.YOptions = ((global::Gtk.AttachOptions)(4));
+		global::Gtk.Table.TableChild w8 = ((global::Gtk.Table.TableChild)(this.table1[this.label7]));
+		w8.XOptions = ((global::Gtk.AttachOptions)(4));
+		w8.YOptions = ((global::Gtk.AttachOptions)(4));
 		this.vbox1.Add(this.table1);
-		global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.table1]));
-		w12.Position = 2;
+		global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.table1]));
+		w9.Position = 2;
 		// Container child vbox1.Gtk.Box+BoxChild
 		this.vbox3 = new global::Gtk.VBox();
 		this.vbox3.Name = "vbox3";
@@ -208,55 +177,55 @@ public partial class MainWindow
 		this.SDV_Version.Name = "SDV_Version";
 		this.SDV_Version.LabelProp = global::Mono.Unix.Catalog.GetString("SDV Version:");
 		this.hbox5.Add(this.SDV_Version);
-		global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.SDV_Version]));
-		w13.Position = 0;
-		w13.Expand = false;
-		w13.Fill = false;
+		global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.SDV_Version]));
+		w10.Position = 0;
+		w10.Expand = false;
+		w10.Fill = false;
 		// Container child hbox5.Gtk.Box+BoxChild
 		this.SDVVersion = new global::Gtk.Label();
 		this.SDVVersion.Name = "SDVVersion";
 		this.SDVVersion.LabelProp = global::Mono.Unix.Catalog.GetString("0.0.0");
 		this.hbox5.Add(this.SDVVersion);
-		global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.SDVVersion]));
-		w14.Position = 1;
-		w14.Expand = false;
-		w14.Fill = false;
+		global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.SDVVersion]));
+		w11.Position = 1;
+		w11.Expand = false;
+		w11.Fill = false;
 		// Container child hbox5.Gtk.Box+BoxChild
 		this.vseparator1 = new global::Gtk.VSeparator();
 		this.vseparator1.Name = "vseparator1";
 		this.hbox5.Add(this.vseparator1);
-		global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.vseparator1]));
-		w15.Position = 2;
-		w15.Expand = false;
-		w15.Fill = false;
+		global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.vseparator1]));
+		w12.Position = 2;
+		w12.Expand = false;
+		w12.Fill = false;
 		// Container child hbox5.Gtk.Box+BoxChild
 		this.SMAPI_Version = new global::Gtk.Label();
 		this.SMAPI_Version.Name = "SMAPI_Version";
 		this.SMAPI_Version.LabelProp = global::Mono.Unix.Catalog.GetString("SMAPI Version:");
 		this.hbox5.Add(this.SMAPI_Version);
-		global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.SMAPI_Version]));
-		w16.Position = 3;
-		w16.Expand = false;
-		w16.Fill = false;
+		global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.SMAPI_Version]));
+		w13.Position = 3;
+		w13.Expand = false;
+		w13.Fill = false;
 		// Container child hbox5.Gtk.Box+BoxChild
 		this.SMAPIVersion = new global::Gtk.Label();
 		this.SMAPIVersion.Name = "SMAPIVersion";
 		this.SMAPIVersion.LabelProp = global::Mono.Unix.Catalog.GetString("0.0.0");
 		this.hbox5.Add(this.SMAPIVersion);
-		global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.SMAPIVersion]));
-		w17.Position = 4;
-		w17.Expand = false;
-		w17.Fill = false;
+		global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.SMAPIVersion]));
+		w14.Position = 4;
+		w14.Expand = false;
+		w14.Fill = false;
 		this.vbox3.Add(this.hbox5);
-		global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.hbox5]));
-		w18.Position = 0;
-		w18.Expand = false;
-		w18.Fill = false;
+		global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox3[this.hbox5]));
+		w15.Position = 0;
+		w15.Expand = false;
+		w15.Fill = false;
 		this.vbox1.Add(this.vbox3);
-		global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.vbox3]));
-		w19.Position = 3;
-		w19.Expand = false;
-		w19.Fill = false;
+		global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox1[this.vbox3]));
+		w16.Position = 3;
+		w16.Expand = false;
+		w16.Fill = false;
 		this.Add(this.vbox1);
 		if ((this.Child != null))
 		{

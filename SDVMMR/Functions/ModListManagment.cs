@@ -26,7 +26,7 @@ namespace SDVMMR
 			j.saveModInfoList(LoadedMods);
 		}
 
-		internal static void addMod(string path, List<ModInfo> mods, Gtk.ListStore ModStore)
+		internal static void addMod(string path, List<ModInfo> mods, Gtk.ListStore ModStore, SDVMMSettings setting)
 		{
 			try
 			{
@@ -42,8 +42,10 @@ namespace SDVMMR
 				if (modLookingFor != null)
 				{
 					var mod = mods.Where(d => d.Version != version).FirstOrDefault();
-					if (mod != null) { mod.Version = version; }
-
+					if (mod != null) 
+					{ 
+						mod.Version = version; 
+					}
 				}
 				else
 				{
@@ -56,21 +58,27 @@ namespace SDVMMR
 				Message msg = new Message(ex.ToString(), "error");
 				msg.Show();
 			}
+			try
+			{
+				string destFolder = System.IO.Path.Combine(setting.GameFolder, "Mods", Path.GetFileName(path));
+				var source = new DirectoryInfo(path);
+				var destination = new DirectoryInfo(destFolder);
+				source.MoveMod(destination);
+				//Directory.Delete(path, true);
+			}
+			catch (Exception ex)
+			{
+				SDVMMR.Message msg = new Message(ex.ToString(), "Error");
+				msg.Show();
+			}
 			SaveList(mods);
 		}
 
 		internal static void addToTree(ModInfo Mod, ListStore ModStore)
 		{
-			
-			/*Gtk.TreeIter iter = ModStore.AppendValues(Mod.Name);
-			ModStore.AppendValues(iter, "Author", Mod.Author);
-			ModStore.AppendValues(iter, "Version", Mod.Version);
-			ModStore.AppendValues(iter, "Description", Mod.Description);
-			ModStore.AppendValues(iter, "Is Active", Mod.IsActive.ToString());*/
-
-        ModStore.AppendValues(Mod.IsActive.ToString(),Mod.Name,Mod.Author,Mod.Version);
-
-
+			ModStore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version, Mod.Description);
 		}
+
+
 	}
 }

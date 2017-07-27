@@ -30,14 +30,22 @@ namespace SDVMMR
 			}
 			if (Folder == "AppData")
 			{
-				return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+				return Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 			}
 			if (Folder == "User")
 			{
-				return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+				return Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 			}
 
 			return null;
 		}
+
+		internal static void moveMod(string FromFolder, string ToFolder)
+		{
+		}
+
+
+
+
 	}
 }

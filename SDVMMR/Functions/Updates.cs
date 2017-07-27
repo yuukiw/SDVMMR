@@ -5,7 +5,7 @@ namespace SDVMMR
 	{
 		public Updates()
 		{
-			//TODO
+			//TODO check for updates
 		}
 	}
 }
