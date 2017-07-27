@@ -19,16 +19,17 @@ public partial class MainWindow : Gtk.Window {
 
 		this.SDVMMSettings = FileHandler.LoadSettings();
 
-		string Sv = SDVMMSettings.SmapiVersion;
-		string XnBVersion = "";
-		foreach (ModInfo Mod in Mods) 
-			if (Mod.Name == "XNBLoader") XnBVersion = Mod.Version;	
-
-		Updates.CheckForUpdates(Sv,SDVMMVersion,XnBVersion);
-
 		SetupWindow();
 
 		this.ModManager = new ModManager(SDVMMSettings, activeMods.Model as ListStore);
+
+		string Sv = SDVMMSettings.SmapiVersion;
+		string XnBVersion = "";
+		foreach (ModInfo Mod in Mods)
+			if (Mod.Name == "XNBLoader") XnBVersion = Mod.Version;
+
+		Updates.CheckForUpdates(Sv, SDVMMVersion, XnBVersion);
+
 
 		RefreshTreeView();
 
