@@ -287,6 +287,7 @@
   </widget>
   <widget class="Gtk.Dialog" id="SDVMMR.Message" design-size="400 300">
     <property name="MemberName" />
+    <property name="Title" translatable="yes">window1</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="BorderWidth">5</property>
     <property name="Buttons">1</property>
@@ -300,7 +301,7 @@
             <property name="MemberName" />
             <property name="ShadowType">In</property>
             <child>
-              <widget class="Gtk.TextView" id="msgBox">
+              <widget class="Gtk.TextView" id="msgBox2">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="ShowScrollbars">True</property>
@@ -334,8 +335,6 @@
             <property name="Type">StockItem</property>
             <property name="StockId">gtk-ok</property>
             <property name="ResponseId">-5</property>
-            <signal name="Activated" handler="OnButtonOkActivated" />
-            <signal name="Clicked" handler="OnButtonOkClicked" />
             <property name="label">gtk-ok</property>
           </widget>
           <packing>
@@ -891,6 +890,74 @@
           </widget>
           <packing>
             <property name="Position">1</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+  <widget class="Gtk.Window" id="SDVMMR.ErrorAlert" design-size="400 300">
+    <property name="MemberName">ErrorAlert</property>
+    <property name="CanFocus">True</property>
+    <property name="Title" translatable="yes">Error</property>
+    <property name="WindowPosition">Center</property>
+    <child>
+      <widget class="Gtk.VBox" id="vbox3">
+        <property name="MemberName" />
+        <property name="Spacing">6</property>
+        <property name="BorderWidth">10</property>
+        <child>
+          <widget class="Gtk.ScrolledWindow" id="GtkScrolledWindow">
+            <property name="MemberName" />
+            <property name="ShadowType">In</property>
+            <child>
+              <widget class="Gtk.TextView" id="ErrorOutput">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="ShowScrollbars">True</property>
+                <property name="Editable">False</property>
+                <property name="CursorVisible">False</property>
+                <property name="AcceptsTab">False</property>
+                <property name="Text" translatable="yes" />
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">0</property>
+            <property name="AutoSize">True</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="Message">
+            <property name="MemberName" />
+            <property name="LabelProp" translatable="yes">SDVMM Will Now Close</property>
+          </widget>
+          <packing>
+            <property name="Position">1</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Alignment" id="alignment5">
+            <property name="MemberName" />
+            <property name="LeftPadding">40</property>
+            <property name="RightPadding">40</property>
+            <child>
+              <widget class="Gtk.Button" id="OKButton">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Type">TextOnly</property>
+                <property name="Label" translatable="yes">OK</property>
+                <property name="UseUnderline">True</property>
+              </widget>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">2</property>
+            <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
           </packing>

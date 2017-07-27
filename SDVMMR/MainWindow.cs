@@ -11,7 +11,6 @@ public partial class MainWindow : Gtk.Window {
 
 	ListStore ModStore => activeMods.Model as ListStore;
 
-	//  TODO Set GOOD default values for settings
 	internal SDVMMSettings SDVMMSettings;
 
 	public MainWindow() : base(Gtk.WindowType.Toplevel) {
@@ -20,9 +19,7 @@ public partial class MainWindow : Gtk.Window {
 
 		SetupWindow();
 
-		ModManager = new ModManager(SDVMMSettings, activeMods.Model as ListStore);
-
-		//TODO parse mods into treeview
+		this.ModManager = new ModManager(SDVMMSettings, activeMods.Model as ListStore);
 
 		refreshTreeView();
 

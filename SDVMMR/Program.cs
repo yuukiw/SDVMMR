@@ -5,16 +5,35 @@ using Glade;
 namespace SDVMMR {
 	class MainClass {
 		public static void Main(string[] args) {
+			MainWindow main = null;
+
 			try {
 				Application.Init();
-				MainWindow win = new MainWindow();
+				main = new MainWindow();
 				//Startup start = new Startup(win.SDVMMSettings, win.Mods);
-				win.Show();
+
+				main.Show();
 				Application.Run();
 			} catch (Exception ex) {
-				Console.Write(ex.ToString());
-				Message msg = new SDVMMR.Message(ex.ToString(), "error");
-				msg.Show();
+
+				// close main window to prevent further damage
+				if (main != null)
+					main.Destroy();
+
+				Console.Write(ex);
+
+				// Alert User
+				ErrorAlert alert = new ErrorAlert(ex.ToString(), "Error") {
+					DefaultWidth = 100,
+					DefaultHeight = 100
+				};
+
+				alert.WindowShouldClosed += (sender, e) => {
+					Application.Quit();
+				};
+
+				Application.Run();
+				alert.Present();
 			}
 
 		}

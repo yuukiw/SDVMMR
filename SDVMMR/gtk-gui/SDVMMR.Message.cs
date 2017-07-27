@@ -6,7 +6,7 @@ namespace SDVMMR
 	{
 		private global::Gtk.ScrolledWindow GtkScrolledWindow;
 
-		private global::Gtk.TextView msgBox;
+		private global::Gtk.TextView msgBox2;
 
 		private global::Gtk.Button buttonOk;
 
@@ -15,6 +15,7 @@ namespace SDVMMR
 			global::Stetic.Gui.Initialize(this);
 			// Widget SDVMMR.Message
 			this.Name = "SDVMMR.Message";
+			this.Title = global::Mono.Unix.Catalog.GetString("window1");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			this.BorderWidth = ((uint)(5));
 			// Internal child SDVMMR.Message.VBox
@@ -26,13 +27,13 @@ namespace SDVMMR
 			this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 			this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 			// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
-			this.msgBox = new global::Gtk.TextView();
-			this.msgBox.CanFocus = true;
-			this.msgBox.Name = "msgBox";
-			this.msgBox.Editable = false;
-			this.msgBox.CursorVisible = false;
-			this.msgBox.AcceptsTab = false;
-			this.GtkScrolledWindow.Add(this.msgBox);
+			this.msgBox2 = new global::Gtk.TextView();
+			this.msgBox2.CanFocus = true;
+			this.msgBox2.Name = "msgBox2";
+			this.msgBox2.Editable = false;
+			this.msgBox2.CursorVisible = false;
+			this.msgBox2.AcceptsTab = false;
+			this.GtkScrolledWindow.Add(this.msgBox2);
 			w1.Add(this.GtkScrolledWindow);
 			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(w1[this.GtkScrolledWindow]));
 			w3.Position = 0;
@@ -61,8 +62,6 @@ namespace SDVMMR
 			this.DefaultWidth = 400;
 			this.DefaultHeight = 300;
 			this.Show();
-			this.buttonOk.Activated += new global::System.EventHandler(this.OnButtonOkActivated);
-			this.buttonOk.Clicked += new global::System.EventHandler(this.OnButtonOkClicked);
 		}
 	}
 }
