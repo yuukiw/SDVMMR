@@ -349,7 +349,7 @@
     <property name="MemberName" />
     <property name="Title" translatable="yes">Setting</property>
     <property name="WindowPosition">CenterOnParent</property>
-    <property name="BorderWidth">5</property>
+    <property name="BorderWidth">12</property>
     <property name="Resizable">False</property>
     <property name="AllowGrow">False</property>
     <child>
@@ -359,6 +359,7 @@
         <child>
           <widget class="Gtk.Label" id="label1">
             <property name="MemberName" />
+            <property name="Ypad">6</property>
             <property name="LabelProp" translatable="yes">&lt;b&gt;General Settings&lt;/b&gt;</property>
             <property name="UseMarkup">True</property>
           </widget>
@@ -562,6 +563,7 @@
         <child>
           <widget class="Gtk.Label" id="label6">
             <property name="MemberName" />
+            <property name="Ypad">6</property>
             <property name="LabelProp" translatable="yes">&lt;b&gt;Mod Settings&lt;/b&gt;</property>
             <property name="UseMarkup">True</property>
           </widget>
@@ -588,50 +590,19 @@
             <property name="MemberName" />
             <property name="Spacing">6</property>
             <child>
-              <widget class="Gtk.Label" id="OverWrite">
+              <widget class="Gtk.CheckButton" id="overwriteButton">
                 <property name="MemberName" />
-                <property name="WidthRequest">80</property>
-                <property name="LabelProp" translatable="yes">Game files</property>
+                <property name="CanFocus">True</property>
+                <property name="Label" translatable="yes">Overwrite Game Files</property>
+                <property name="DrawIndicator">True</property>
+                <property name="HasLabel">True</property>
+                <property name="UseUnderline">True</property>
+                <property name="Xalign">0.44</property>
               </widget>
               <packing>
                 <property name="Position">0</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
+                <property name="AutoSize">False</property>
                 <property name="Fill">False</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Label" id="overWriteLabel">
-                <property name="MemberName" />
-                <property name="WidthRequest">0</property>
-                <property name="LabelProp" translatable="yes">won't be overwritten</property>
-                <property name="Justify">Fill</property>
-              </widget>
-              <packing>
-                <property name="Position">1</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-                <property name="Padding">5</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="Gtk.Button" id="OverWriteBtn">
-                <property name="MemberName" />
-                <property name="WidthRequest">60</property>
-                <property name="CanFocus">True</property>
-                <property name="Type">TextOnly</property>
-                <property name="Label" translatable="yes">Change</property>
-                <property name="UseUnderline">True</property>
-                <signal name="Clicked" handler="OnOverWriteBtnClicked" />
-              </widget>
-              <packing>
-                <property name="PackType">End</property>
-                <property name="Position">2</property>
-                <property name="AutoSize">True</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
-                <property name="Padding">5</property>
               </packing>
             </child>
           </widget>
@@ -643,42 +614,9 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.HBox" id="hbox7">
-            <property name="MemberName" />
-            <property name="Spacing">6</property>
-            <child>
-              <placeholder />
-            </child>
-            <child>
-              <placeholder />
-            </child>
-          </widget>
-          <packing>
-            <property name="Position">9</property>
-            <property name="AutoSize">True</property>
-          </packing>
-        </child>
-        <child>
-          <widget class="Gtk.HSeparator" id="hseparator4">
-            <property name="MemberName" />
-          </widget>
-          <packing>
-            <property name="Position">10</property>
-            <property name="AutoSize">True</property>
-            <property name="Expand">False</property>
-            <property name="Fill">False</property>
-          </packing>
-        </child>
-        <child>
           <widget class="Gtk.HBox" id="hbox5">
             <property name="MemberName" />
             <property name="Spacing">6</property>
-            <child>
-              <placeholder />
-            </child>
-            <child>
-              <placeholder />
-            </child>
             <child>
               <widget class="Gtk.Button" id="Save">
                 <property name="MemberName" />
@@ -691,7 +629,7 @@
               </widget>
               <packing>
                 <property name="PackType">End</property>
-                <property name="Position">2</property>
+                <property name="Position">0</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
@@ -700,7 +638,8 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">11</property>
+            <property name="PackType">End</property>
+            <property name="Position">9</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>

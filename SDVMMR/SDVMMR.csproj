@@ -67,7 +67,6 @@
     <Compile Include="JSON Dummies\GitHub.cs" />
     <Compile Include="Functions\shaCheck.cs" />
     <Compile Include="Functions\zipHandling.cs" />
-    <Compile Include="Functions\Startup.cs" />
     <Compile Include="Functions\DirectoryOperations.cs" />
     <Compile Include="Functions\ModManager.cs" />
     <Compile Include="Functions\Updates.cs" />

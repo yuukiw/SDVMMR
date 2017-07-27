@@ -42,15 +42,7 @@ namespace SDVMMR
 
 		private global::Gtk.HBox hbox6;
 
-		private global::Gtk.Label OverWrite;
-
-		private global::Gtk.Label overWriteLabel;
-
-		private global::Gtk.Button OverWriteBtn;
-
-		private global::Gtk.HBox hbox7;
-
-		private global::Gtk.HSeparator hseparator4;
+		private global::Gtk.CheckButton overwriteButton;
 
 		private global::Gtk.HBox hbox5;
 
@@ -63,7 +55,7 @@ namespace SDVMMR
 			this.Name = "SDVMMR.Setting";
 			this.Title = global::Mono.Unix.Catalog.GetString("Setting");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
-			this.BorderWidth = ((uint)(5));
+			this.BorderWidth = ((uint)(12));
 			this.Resizable = false;
 			this.AllowGrow = false;
 			// Container child SDVMMR.Setting.Gtk.Container+ContainerChild
@@ -73,6 +65,7 @@ namespace SDVMMR
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.label1 = new global::Gtk.Label();
 			this.label1.Name = "label1";
+			this.label1.Ypad = 6;
 			this.label1.LabelProp = global::Mono.Unix.Catalog.GetString("<b>General Settings</b>");
 			this.label1.UseMarkup = true;
 			this.vbox2.Add(this.label1);
@@ -227,6 +220,7 @@ namespace SDVMMR
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.label6 = new global::Gtk.Label();
 			this.label6.Name = "label6";
+			this.label6.Ypad = 6;
 			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Mod Settings</b>");
 			this.label6.UseMarkup = true;
 			this.vbox2.Add(this.label6);
@@ -247,61 +241,22 @@ namespace SDVMMR
 			this.hbox6.Name = "hbox6";
 			this.hbox6.Spacing = 6;
 			// Container child hbox6.Gtk.Box+BoxChild
-			this.OverWrite = new global::Gtk.Label();
-			this.OverWrite.WidthRequest = 80;
-			this.OverWrite.Name = "OverWrite";
-			this.OverWrite.LabelProp = global::Mono.Unix.Catalog.GetString("Game files");
-			this.hbox6.Add(this.OverWrite);
-			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.hbox6[this.OverWrite]));
+			this.overwriteButton = new global::Gtk.CheckButton();
+			this.overwriteButton.CanFocus = true;
+			this.overwriteButton.Name = "overwriteButton";
+			this.overwriteButton.Label = global::Mono.Unix.Catalog.GetString("Overwrite Game Files");
+			this.overwriteButton.DrawIndicator = true;
+			this.overwriteButton.UseUnderline = true;
+			this.overwriteButton.Xalign = 0.44F;
+			this.hbox6.Add(this.overwriteButton);
+			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.hbox6[this.overwriteButton]));
 			w20.Position = 0;
-			w20.Expand = false;
 			w20.Fill = false;
-			// Container child hbox6.Gtk.Box+BoxChild
-			this.overWriteLabel = new global::Gtk.Label();
-			this.overWriteLabel.WidthRequest = 0;
-			this.overWriteLabel.Name = "overWriteLabel";
-			this.overWriteLabel.LabelProp = global::Mono.Unix.Catalog.GetString("won't be overwritten");
-			this.overWriteLabel.Justify = ((global::Gtk.Justification)(3));
-			this.hbox6.Add(this.overWriteLabel);
-			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.hbox6[this.overWriteLabel]));
-			w21.Position = 1;
+			this.vbox2.Add(this.hbox6);
+			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox6]));
+			w21.Position = 8;
 			w21.Expand = false;
 			w21.Fill = false;
-			w21.Padding = ((uint)(5));
-			// Container child hbox6.Gtk.Box+BoxChild
-			this.OverWriteBtn = new global::Gtk.Button();
-			this.OverWriteBtn.WidthRequest = 60;
-			this.OverWriteBtn.CanFocus = true;
-			this.OverWriteBtn.Name = "OverWriteBtn";
-			this.OverWriteBtn.UseUnderline = true;
-			this.OverWriteBtn.Label = global::Mono.Unix.Catalog.GetString("Change");
-			this.hbox6.Add(this.OverWriteBtn);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.hbox6[this.OverWriteBtn]));
-			w22.PackType = ((global::Gtk.PackType)(1));
-			w22.Position = 2;
-			w22.Expand = false;
-			w22.Fill = false;
-			w22.Padding = ((uint)(5));
-			this.vbox2.Add(this.hbox6);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox6]));
-			w23.Position = 8;
-			w23.Expand = false;
-			w23.Fill = false;
-			// Container child vbox2.Gtk.Box+BoxChild
-			this.hbox7 = new global::Gtk.HBox();
-			this.hbox7.Name = "hbox7";
-			this.hbox7.Spacing = 6;
-			this.vbox2.Add(this.hbox7);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox7]));
-			w24.Position = 9;
-			// Container child vbox2.Gtk.Box+BoxChild
-			this.hseparator4 = new global::Gtk.HSeparator();
-			this.hseparator4.Name = "hseparator4";
-			this.vbox2.Add(this.hseparator4);
-			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator4]));
-			w25.Position = 10;
-			w25.Expand = false;
-			w25.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.hbox5 = new global::Gtk.HBox();
 			this.hbox5.Name = "hbox5";
@@ -314,17 +269,18 @@ namespace SDVMMR
 			this.Save.UseUnderline = true;
 			this.Save.Label = global::Mono.Unix.Catalog.GetString("Save");
 			this.hbox5.Add(this.Save);
-			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.Save]));
-			w26.PackType = ((global::Gtk.PackType)(1));
-			w26.Position = 2;
-			w26.Expand = false;
-			w26.Fill = false;
-			w26.Padding = ((uint)(5));
+			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.Save]));
+			w22.PackType = ((global::Gtk.PackType)(1));
+			w22.Position = 0;
+			w22.Expand = false;
+			w22.Fill = false;
+			w22.Padding = ((uint)(5));
 			this.vbox2.Add(this.hbox5);
-			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox5]));
-			w27.Position = 11;
-			w27.Expand = false;
-			w27.Fill = false;
+			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox5]));
+			w23.PackType = ((global::Gtk.PackType)(1));
+			w23.Position = 9;
+			w23.Expand = false;
+			w23.Fill = false;
 			this.Add(this.vbox2);
 			if ((this.Child != null))
 			{
@@ -336,7 +292,6 @@ namespace SDVMMR
 			this.SteamFolderTN.Clicked += new global::System.EventHandler(this.OnSteamFolderTNClicked);
 			this.GameFolderBtn.Clicked += new global::System.EventHandler(this.OnGameFolderBtnClicked);
 			this.GogCBtn.Clicked += new global::System.EventHandler(this.OnGogCBtnClicked);
-			this.OverWriteBtn.Clicked += new global::System.EventHandler(this.OnOverWriteBtnClicked);
 			this.Save.Clicked += new global::System.EventHandler(this.OnSaveClicked);
 		}
 	}

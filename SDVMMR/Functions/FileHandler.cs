@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Gtk;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 
 namespace SDVMMR {
@@ -12,16 +14,22 @@ namespace SDVMMR {
 
 		public static SDVMMSettings LoadSettings() {
 			string Path = System.IO.Path.Combine(dataDirectory, "SDVMM", "SDVMM.json");
-			SDVMMSettings defaultSettings = new SDVMMSettings("", false, "", "", false, false, "");
 
 			// TODO Set proper initial values for settings
 			if (!File.Exists(Path))
-				return defaultSettings;
+				return CreateDefaultSettings();
 
 			StreamReader read = new StreamReader(Path);
 			string JsonData = read.ReadToEnd();
 			read.Close();
-			return JsonConvert.DeserializeObject<SDVMMSettings>(JsonData) ?? defaultSettings;
+
+			var loadedSettings = JsonConvert.DeserializeObject<SDVMMSettings>(JsonData);
+
+			// always check for SMAPI version
+			if (loadedSettings != null)
+				loadedSettings.SmapiVersion = getSMAPIVersion(loadedSettings.GameFolder);
+
+			return loadedSettings ?? CreateDefaultSettings();
 		}
 
 		internal static ModInfo LoadModInfo(string Path) {
@@ -78,6 +86,64 @@ namespace SDVMMR {
 			string JsonData = File.ReadAllText(modListPath);
 
 			return JsonConvert.DeserializeObject<List<ModInfo>>(JsonData) ?? new List<ModInfo>();
+		}
+
+		internal static string getSMAPIVersion(string gameFolder) {
+			if (System.IO.File.Exists(System.IO.Path.Combine(gameFolder, "StardewModdingAPI.exe"))) {
+				System.Diagnostics.FileVersionInfo myFileVersionInfo = FileVersionInfo.GetVersionInfo(System.IO.Path.Combine(gameFolder, "StardewModdingAPI.exe"));
+				return myFileVersionInfo.FileVersion;
+			} else
+				return "";
+		}
+
+		private static SDVMMSettings CreateDefaultSettings() {
+			var settings = new SDVMMSettings("", "", "", false, false);
+			string defaultSPath = "";
+			string defaultGogPath = "";
+			string userpath = DirectoryOperations.getFolder("User");
+			//search for attached drives
+
+			// TODO Find Steam Path. Only does game path
+
+			DriveInfo[] allDrives = DriveInfo.GetDrives();
+			foreach (DriveInfo d in allDrives) {
+				//check if the drive is a HDD
+				if (d.DriveType == DriveType.Fixed) {
+					//find out which OS SDVMM is running on and based on guess the paths
+					if (Environment.OSVersion.Platform == PlatformID.Win32NT) {
+						defaultSPath = Path.Combine(d.Name, "Program Files (x86)", "Steam", "steamapps", "common", "Games", "Stardew Valley");
+						defaultGogPath = Path.Combine(d.Name, "Program Files (x86)", "GalaxyClient", "Games", "Stardew Valley");
+						//if the registry entries exist take them instead.
+						if (Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\GOG.com\\Games\\1453375253", "Path", null) != null) {
+							defaultGogPath = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\GOG.com\\Games\\1453375253", "Path", null).ToString();
+						}
+						if (Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 413150", "InstallLocation", null) != null) {
+							defaultSPath = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Steam App 413150", "InstallLocation", null).ToString();
+						}
+					}
+					if (Environment.OSVersion.Platform == PlatformID.MacOSX) {
+						defaultSPath = Path.Combine(userpath, "Library", "Application Support", "Steam", "steamapps", "common", "Stardew Valley", "Contents", "MacOS");
+						defaultGogPath = Path.Combine("Applications", "Stardew Valley.app", "Contents", "MacOS");
+					}
+					if (Environment.OSVersion.Platform == PlatformID.Unix) {
+						defaultGogPath = Path.Combine(userpath, "Games", "Stardew Valley", "game");
+						defaultSPath = Path.Combine(userpath, ".local", "share", "Steam", "steamapps", "common", "Stardew Valley");
+					}
+				}
+				if (System.IO.Directory.Exists(defaultSPath) || System.IO.Directory.Exists(defaultGogPath)) {
+					if (System.IO.Directory.Exists(defaultSPath)) {
+						settings.GameFolder = defaultSPath;
+					} else {
+						settings.GameFolder = defaultGogPath;
+						settings.GoGVersion = true;
+					}
+					break;
+				}
+			}
+
+			settings.SmapiVersion = getSMAPIVersion(settings.GameFolder);
+
+			return settings;
 		}
 	}
 }

@@ -71,31 +71,15 @@ namespace SDVMMR {
 				GogBox.Text = "False";
 		}
 
-		protected void OnOverWriteBtnClicked(object sender, EventArgs e) {
-			if (overWriteLabel.Text == "won't be overwritten")
-				overWriteLabel.Text = "will be overwritten";
-			else
-				overWriteLabel.Text = "won't be overwritten";
-		}
-
 		protected void OnSaveClicked(object sender, EventArgs e) {
 			if (SteamFolderBox.Text != "" & GameFolderBox.Text != "") {
-				bool help = false;
-				if (GogBox.Text == "True")
-					help = true;
-				bool help2 = false;
-				if (overWriteLabel.Text == "will be overwritten")
-					help2 = true;
-				var Info = FileHandler.LoadSettings();
-				//  This createss a new one each time its run. instead change settings object and pass it to `writeToInfo`
+				bool isGOG = (GogBox.Text == "True");
+				bool overwrite = overwriteButton.Active;
 
-				//json.writeToInfo("", true, SteamFolderBox.Text, GameFolderBox.Text, help, help2,path );
-				settings.SmapiIsinstalled = true;
 				settings.GameFolder = GameFolderBox.Text;
-				settings.GoGVersion = help;
-				settings.overWrite = help2;
-				//TODO settings.SmapiVersion =
 				settings.SteamFolder = SteamFolderBox.Text;
+				settings.GoGVersion = isGOG;
+				settings.overWrite = overwrite;
 
 				FileHandler.SaveSettings(this.settings);
 			} else {
