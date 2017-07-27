@@ -12,15 +12,16 @@ namespace SDVMMR {
 
 		public static SDVMMSettings LoadSettings() {
 			string Path = System.IO.Path.Combine(dataDirectory, "SDVMM", "SDVMM.json");
+			SDVMMSettings defaultSettings = new SDVMMSettings("", false, "", "", false, false, "");
 
 			// TODO Set proper initial values for settings
 			if (!File.Exists(Path))
-				return new SDVMMSettings("", false, "", "", false, false, "");
+				return defaultSettings;
 
 			StreamReader read = new StreamReader(Path);
 			string JsonData = read.ReadToEnd();
 			read.Close();
-			return JsonConvert.DeserializeObject<SDVMMSettings>(JsonData);
+			return JsonConvert.DeserializeObject<SDVMMSettings>(JsonData) ?? defaultSettings;
 		}
 
 		internal static ModInfo LoadModInfo(string Path) {
