@@ -2,24 +2,31 @@
 using Gtk;
 using System.Collections.Generic;
 using System.IO;
+using SDVMMR;
 
-public partial class MainWindow : Gtk.Window
-{
-	internal List<SDVMMR.ModInfo> Mods = new List<SDVMMR.ModInfo>();
-	internal Gtk.ListStore ModStore = new Gtk.ListStore(typeof(string), typeof(string), typeof(string), typeof(string), typeof(string));
+public partial class MainWindow : Gtk.Window {
+	internal List<ModInfo> Mods = new List<ModInfo>();
+	ListStore Modstore => activeMods.Model as ListStore;
 
 	//  TODO Set GOOD default values for settings
-	internal SDVMMR.SDVMMSettings SDVMMSettings = new SDVMMR.SDVMMSettings("", false, "", "", false, false, "");
+	internal SDVMMSettings SDVMMSettings;
 
-	public MainWindow() : base(Gtk.WindowType.Toplevel)
-	{
-		this.Mods = SDVMMR.ModListManagment.LoadList(ModStore);
+	public MainWindow() : base(Gtk.WindowType.Toplevel) {
+		this.Mods = FileHandler.LoadModList();
+		this.SDVMMSettings = FileHandler.LoadSettings();
+
 		//TODO parse mods into treeview
+		SetupWindow();
+
+		refreshTreeView();
+
+		//SDVMMR.ModListManagment.addToTree(SDVMMR.JsonHandler.readFromMod(System.IO.Path.Combine(SDVMMR.DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json")), ModStore);
+	}
+
+	private void SetupWindow() {
 		Build();
 		//this.Title = "SDVMM 1.0";
 		SDVVersion.Text = "1.0";
-		SDVMMR.JsonHandler jas = new SDVMMR.JsonHandler();
-		SDVMMSettings = jas.readFromInfo();
 		SMAPIVersion.Text = SDVMMSettings.SmapiVersion;
 		// Createing  columns
 		Gtk.TreeViewColumn CBColumn = new Gtk.TreeViewColumn();
@@ -60,6 +67,8 @@ public partial class MainWindow : Gtk.Window
 		activeMods.AppendColumn(VersionColumn);
 		activeMods.AppendColumn(DescColumn);
 
+		activeMods.Model = new ListStore(typeof(string), typeof(string), typeof(string), typeof(string), typeof(string));
+
 		NameColumn.AddAttribute(ModsNameCell, "text", 1);
 		AuthorColumn.AddAttribute(AuthorCell, "text", 2);
 		VersionColumn.AddAttribute(VersionCell, "text", 3);
@@ -69,45 +78,30 @@ public partial class MainWindow : Gtk.Window
 		Gtk.CellRendererToggle valueCb = new CellRendererToggle();
 		CBColumn.PackStart(valueCb, true);
 
-		refreshTreeView();
-
-		//SDVMMR.ModListManagment.addToTree(SDVMMR.JsonHandler.readFromMod(System.IO.Path.Combine(SDVMMR.DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json")), ModStore);
 	}
 
-
-
-	internal void refreshTreeView()
-	{
-		ModStore.Clear();
-		foreach (SDVMMR.ModInfo Mod in Mods)
-		{
-			ModStore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version);
+	internal void refreshTreeView() {
+		Modstore.Clear();
+		foreach (ModInfo Mod in Mods) {
+			Modstore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version);
 		}
-		activeMods.Model = ModStore;
 	}
 
-
-	protected void OnDeleteEvent(object sender, DeleteEventArgs a)
-	{
-		SDVMMR.ModListManagment.SaveList(Mods);
+	protected override bool OnDeleteEvent(Gdk.Event evnt) {
+		base.OnDeleteEvent(evnt);
+		FileHandler.SaveModList(Mods);
 		Application.Quit();
-		a.RetVal = true;
+		return true;
 	}
 
-	public void MethodWithLogic(Gdk.Key key)
-	{
+	public void MethodWithLogic(Gdk.Key key) {
 		Boolean smapiisInstalled = true;
-		if (key == Gdk.Key.Alt_R || key == Gdk.Key.Alt_L)
-		{
-			if (smapiisInstalled == true)
-			{
-				if (Play_SDV.StockId == "SIcon")
-				{
+		if (key == Gdk.Key.Alt_R || key == Gdk.Key.Alt_L) {
+			if (smapiisInstalled == true) {
+				if (Play_SDV.StockId == "SIcon") {
 					Play_SDV.StockId = "SDVIcon";
 					Play_SDV.ShortLabel = "Play SDV";
-				}
-				else
-				{
+				} else {
 					Play_SDV.StockId = "SIcon";
 					Play_SDV.ShortLabel = "Start SMAPI";
 				}
@@ -116,18 +110,16 @@ public partial class MainWindow : Gtk.Window
 
 	}
 
-	protected void OnPlaySDVActivated(object sender, EventArgs e)
-	{
+	protected void OnPlaySDVActivated(object sender, EventArgs e) {
 
 	}
-	protected void OnOpenSettingsActivated(object sender, EventArgs e)
-	{
-		SDVMMR.Setting Swin = new SDVMMR.Setting(SDVMMSettings, Mods);
+
+	protected void OnOpenSettingsActivated(object sender, EventArgs e) {
+		Setting Swin = new Setting(SDVMMSettings, Mods);
 		Swin.Show();
 	}
 
-	protected void OnAddModActivated(object sender, EventArgs e)
-	{
+	protected void OnAddModActivated(object sender, EventArgs e) {
 		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog(
 				   "Choose the file to open",
 				   this,
@@ -135,32 +127,27 @@ public partial class MainWindow : Gtk.Window
 				   "Cancel", ResponseType.Cancel,
 				   "Open", ResponseType.Accept);
 
-		if (filechooser.Run() == (int)ResponseType.Accept)
-		{
-			System.IO.FileStream file = System.IO.File.OpenRead(filechooser.Filename);
+		if (filechooser.Run() == (int)ResponseType.Accept) {
+			FileStream file = File.OpenRead(filechooser.Filename);
 			var folder = System.IO.Path.GetDirectoryName(filechooser.Filename);
 			file.Close();
-			if (System.IO.File.Exists(System.IO.Path.Combine(folder, "manifest.json")))
-			{
-				SDVMMR.ModListManagment.addMod(folder, this.Mods, this.ModStore, SDVMMSettings);
+			if (File.Exists(System.IO.Path.Combine(folder, "manifest.json"))) {
+				ModListManagment.addMod(folder, this.Mods, this.ModStore, SDVMMSettings);
 				activeMods.Model = null;
 				ModStore.Clear();
-				foreach (SDVMMR.ModInfo Mod in Mods)
-				{
+				foreach (ModInfo Mod in Mods) {
 					ModStore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version);
 				}
 				activeMods.Model = ModStore;
 				filechooser.Destroy();
-			}
-			else
-			{
-				SDVMMR.Message msg = new SDVMMR.Message("Please Choose the correct Folder.", "Wrong Folder");
+			} else {
+				Message msg = new Message("Please Choose the correct Folder.", "Wrong Folder");
 				msg.Show();
 				refreshTreeView();
 				filechooser.Destroy();
 			}
 		}
 
-}
+	}
 
 }

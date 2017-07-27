@@ -72,7 +72,7 @@
     <Compile Include="Functions\ModListManagment.cs" />
     <Compile Include="Functions\Updates.cs" />
     <Compile Include="JSON Dummies\ModManifest.cs" />
-    <Compile Include="Functions\JsonHandler.cs" />
+    <Compile Include="Functions\FileHandler.cs" />
     <Compile Include="JSON Dummies\SDVMMJson.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="gtk-gui\SDVMMR.Message.cs" />

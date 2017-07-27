@@ -260,7 +260,7 @@ namespace SDVMMR
 			this.overWriteLabel = new global::Gtk.Label();
 			this.overWriteLabel.WidthRequest = 0;
 			this.overWriteLabel.Name = "overWriteLabel";
-			this.overWriteLabel.LabelProp = global::Mono.Unix.Catalog.GetString("won\'t be overwritten");
+			this.overWriteLabel.LabelProp = global::Mono.Unix.Catalog.GetString("won't be overwritten");
 			this.overWriteLabel.Justify = ((global::Gtk.Justification)(3));
 			this.hbox6.Add(this.overWriteLabel);
 			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.hbox6[this.overWriteLabel]));

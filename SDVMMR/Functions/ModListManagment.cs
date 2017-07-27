@@ -4,34 +4,15 @@ using System.IO;
 using System.Linq;
 using Gtk;
 
-namespace SDVMMR
-{
-	public class ModListManagment
-	{
-		public ModListManagment()
-		{
+namespace SDVMMR {
+	public class ModListManagment {
+		public ModListManagment() {
 
 		}
 
-		internal static List<ModInfo> LoadList(ListStore ModStore)
-		{
-			JsonHandler j = new JsonHandler();
-			List<ModInfo> LoadedMods = j.loadModList(ModStore);
-			return LoadedMods;
-		}
-
-		internal static void SaveList(List<ModInfo> LoadedMods)
-		{
-			JsonHandler j = new JsonHandler();
-			j.saveModInfoList(LoadedMods);
-		}
-
-		internal static void addMod(string path, List<ModInfo> mods, Gtk.ListStore ModStore, SDVMMSettings setting)
-		{
-			try
-			{
-				JsonHandler json = new JsonHandler();
-				ModManifest Manifest = json.readFromModManifest(Path.Combine(path, "manifest.json"));
+		internal static void addMod(string path, List<ModInfo> mods, Gtk.ListStore ModStore, SDVMMSettings setting) {
+			try {
+				ModManifest Manifest = FileHandler.LoadModManifest(Path.Combine(path, "manifest.json"));
 				//TODO check if unique id is valid or if its a xnb mod
 				string uId = Manifest.UniqueID;
 				string version = String.Concat(Manifest.Version.MajorVersion, ".", Manifest.Version.MinorVersion, ".", Manifest.Version.PatchVersion);
@@ -39,43 +20,33 @@ namespace SDVMMR
 
 
 				ModInfo modLookingFor = mods.Find(x => x.UniqueID == uId);
-				if (modLookingFor != null)
-				{
+				if (modLookingFor != null) {
 					var mod = mods.Where(d => d.Version != version).FirstOrDefault();
-					if (mod != null) 
-					{ 
-						mod.Version = version; 
+					if (mod != null) {
+						mod.Version = version;
 					}
-				}
-				else
-				{
+				} else {
 					mods.Add(newMod);
 					addToTree(newMod, ModStore);
 				}
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				Message msg = new Message(ex.ToString(), "error");
 				msg.Show();
 			}
-			try
-			{
+			try {
 				string destFolder = System.IO.Path.Combine(setting.GameFolder, "Mods", Path.GetFileName(path));
 				var source = new DirectoryInfo(path);
 				var destination = new DirectoryInfo(destFolder);
 				source.MoveMod(destination);
 				//Directory.Delete(path, true);
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				SDVMMR.Message msg = new Message(ex.ToString(), "Error");
 				msg.Show();
 			}
-			SaveList(mods);
+			FileHandler.SaveModList(mods);
 		}
 
-		internal static void addToTree(ModInfo Mod, ListStore ModStore)
-		{
+		internal static void addToTree(ModInfo Mod, ListStore ModStore) {
 			ModStore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version, Mod.Description);
 		}
 
