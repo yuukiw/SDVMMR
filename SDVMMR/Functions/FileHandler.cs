@@ -29,7 +29,6 @@ namespace SDVMMR {
 			if (!File.Exists(Path))
 				return null;
 
-
 			StreamReader read = new StreamReader(Path);
 			string JsonData = read.ReadToEnd();
 			read.Close();
@@ -54,15 +53,11 @@ namespace SDVMMR {
 			return JsonConvert.DeserializeObject<ModManifest>(JsonData);
 		}
 
-
-
 		public static void SaveSettings(SDVMMSettings settings) {
 			//TODO path
 			string path = Path.Combine(dataDirectory, "SDVMM", "SDVMM.json");
 			File.WriteAllText(path, JsonConvert.SerializeObject(settings));
 		}
-
-
 
 		public static void SaveModList(List<ModInfo> Mods) {
 

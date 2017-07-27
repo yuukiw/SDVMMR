@@ -69,11 +69,11 @@
     <Compile Include="Functions\zipHandling.cs" />
     <Compile Include="Functions\Startup.cs" />
     <Compile Include="Functions\DirectoryOperations.cs" />
-    <Compile Include="Functions\ModListManagment.cs" />
+    <Compile Include="Functions\ModManager.cs" />
     <Compile Include="Functions\Updates.cs" />
     <Compile Include="JSON Dummies\ModManifest.cs" />
     <Compile Include="Functions\FileHandler.cs" />
-    <Compile Include="JSON Dummies\SDVMMJson.cs" />
+    <Compile Include="JSON Dummies\SDVMMData.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="gtk-gui\SDVMMR.Message.cs" />
     <Compile Include="gtk-gui\generated.cs" />

@@ -5,18 +5,24 @@ using System.IO;
 using SDVMMR;
 
 public partial class MainWindow : Gtk.Window {
-	internal List<ModInfo> Mods = new List<ModInfo>();
+
+	internal ModManager ModManager;
+	private List<ModInfo> Mods => ModManager.Mods;
+
 	ListStore ModStore => activeMods.Model as ListStore;
 
 	//  TODO Set GOOD default values for settings
 	internal SDVMMSettings SDVMMSettings;
 
 	public MainWindow() : base(Gtk.WindowType.Toplevel) {
-		this.Mods = FileHandler.LoadModList();
+
+		SetupWindow();
+
 		this.SDVMMSettings = FileHandler.LoadSettings();
 
+		ModManager = new ModManager(SDVMMSettings, activeMods.Model as ListStore);
+
 		//TODO parse mods into treeview
-		SetupWindow();
 
 		refreshTreeView();
 
@@ -132,7 +138,7 @@ public partial class MainWindow : Gtk.Window {
 			var folder = System.IO.Path.GetDirectoryName(filechooser.Filename);
 			file.Close();
 			if (File.Exists(System.IO.Path.Combine(folder, "manifest.json"))) {
-				ModListManagment.addMod(folder, this.Mods, this.ModStore, SDVMMSettings);
+				ModManager.addMod(folder);
 				activeMods.Model = null;
 				ModStore.Clear();
 				foreach (ModInfo Mod in Mods) {
