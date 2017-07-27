@@ -21,7 +21,7 @@ public partial class MainWindow : Gtk.Window {
 
 		this.ModManager = new ModManager(SDVMMSettings, activeMods.Model as ListStore);
 
-		refreshTreeView();
+		RefreshTreeView();
 
 		//SDVMMR.ModListManagment.addToTree(SDVMMR.JsonHandler.readFromMod(System.IO.Path.Combine(SDVMMR.DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json")), ModStore);
 	}
@@ -83,7 +83,7 @@ public partial class MainWindow : Gtk.Window {
 
 	}
 
-	internal void refreshTreeView() {
+	internal void RefreshTreeView() {
 		ModStore.Clear();
 		foreach (ModInfo Mod in Mods) {
 			ModStore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version);
@@ -131,24 +131,20 @@ public partial class MainWindow : Gtk.Window {
 				   "Open", ResponseType.Accept);
 
 		if (filechooser.Run() == (int)ResponseType.Accept) {
-			FileStream file = File.OpenRead(filechooser.Filename);
+
 			var folder = System.IO.Path.GetDirectoryName(filechooser.Filename);
-			file.Close();
 			if (File.Exists(System.IO.Path.Combine(folder, "manifest.json"))) {
+
 				ModManager.addMod(folder);
-				activeMods.Model = null;
-				ModStore.Clear();
-				foreach (ModInfo Mod in Mods) {
-					ModStore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version);
-				}
-				activeMods.Model = ModStore;
-				filechooser.Destroy();
+				RefreshTreeView();
+
 			} else {
 				Message msg = new Message("Please Choose the correct Folder.", "Wrong Folder");
 				msg.Show();
-				refreshTreeView();
-				filechooser.Destroy();
+				RefreshTreeView();
 			}
+
+			filechooser.Destroy();
 		}
 
 	}

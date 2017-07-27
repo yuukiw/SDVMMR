@@ -11,9 +11,10 @@ namespace SDVMMR {
 				Application.Init();
 				main = new MainWindow();
 				//Startup start = new Startup(win.SDVMMSettings, win.Mods);
+				main.Present();
 
-				main.Show();
 				Application.Run();
+
 			} catch (Exception ex) {
 
 				// close main window to prevent further damage
@@ -31,9 +32,9 @@ namespace SDVMMR {
 				alert.WindowShouldClosed += (sender, e) => {
 					Application.Quit();
 				};
-
-				Application.Run();
 				alert.Present();
+				Application.Run();
+
 			}
 
 		}
