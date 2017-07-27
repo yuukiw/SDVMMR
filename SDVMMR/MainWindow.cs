@@ -6,7 +6,7 @@ using SDVMMR;
 
 public partial class MainWindow : Gtk.Window {
 	internal List<ModInfo> Mods = new List<ModInfo>();
-	ListStore Modstore => activeMods.Model as ListStore;
+	ListStore ModStore => activeMods.Model as ListStore;
 
 	//  TODO Set GOOD default values for settings
 	internal SDVMMSettings SDVMMSettings;
@@ -81,9 +81,9 @@ public partial class MainWindow : Gtk.Window {
 	}
 
 	internal void refreshTreeView() {
-		Modstore.Clear();
+		ModStore.Clear();
 		foreach (ModInfo Mod in Mods) {
-			Modstore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version);
+			ModStore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version);
 		}
 	}
 
