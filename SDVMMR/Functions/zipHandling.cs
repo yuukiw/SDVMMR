@@ -1,11 +1,14 @@
 ﻿using System;
+using System.IO;
+using System.IO.Compression;
+
 namespace SDVMMR
 {
 	public class zipHandling
 	{
-		public zipHandling()
+		public void extractZip(string sourcePath, string destPath)
 		{
-			//TODO
+			System.IO.Compression.ZipFile.ExtractToDirectory(sourcePath,destPath);
 		}
 	}
 }
