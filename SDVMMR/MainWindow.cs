@@ -124,7 +124,8 @@ public partial class MainWindow : Gtk.Window {
 	}
 
 	protected void OnPlaySDVActivated(object sender, EventArgs e) {
-
+		WriteToVDF vdf = new WriteToVDF();
+		vdf.EditVDF();
 	}
 
 	protected void OnOpenSettingsActivated(object sender, EventArgs e) {

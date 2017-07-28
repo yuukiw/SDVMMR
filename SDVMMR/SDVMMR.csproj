@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="Gameloop.Vdf">
+      <HintPath>..\packages\Gameloop.Vdf.0.3.0\lib\net45\Gameloop.Vdf.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -87,6 +90,7 @@
     <Compile Include="ErrorAlert.cs" />
     <Compile Include="gtk-gui\SDVMMR.ErrorAlert.cs" />
     <Compile Include="Functions\recSearchForXNB.cs" />
+    <Compile Include="Functions\WriteToVDF.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

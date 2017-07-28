@@ -18,7 +18,7 @@ namespace SDVMMR
 			{
 				SMAPIVersion = smapiVersion;
 				SDVMMVersion = sdvmmVersion;
-				CheckSDVMM();
+				//CheckSDVMM();
 				CheckSmapi();
 				CheckXNBLoader(mVersion);
 			}

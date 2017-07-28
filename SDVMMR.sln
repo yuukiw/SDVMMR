@@ -19,8 +19,15 @@ Global
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileFormatDefault
 		$0.TextStylePolicy = $2
 		$2.scope = text/plain
+		$2.FileWidth = 120
+		$2.TabsToSpaces = False
+		$2.inheritsSet = VisualStudio
+		$2.inheritsScope = text/plain
 		$0.VersionControlPolicy = $3
+		$3.inheritsSet = Mono
 	EndGlobalSection
 EndGlobal
