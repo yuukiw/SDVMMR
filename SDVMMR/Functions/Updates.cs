@@ -12,8 +12,10 @@ namespace SDVMMR
 	{
 		internal static string SDVMMVersion = "";
 		internal static string SMAPIVersion = "";
+		internal static string downloadUrl = "";
 		public static void CheckForUpdates(string smapiVersion, string sdvmmVersion,string mVersion)
 		{
+			System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors)  => true;
 			if (checkForConection() == true)
 			{
 				SMAPIVersion = smapiVersion;
@@ -66,7 +68,7 @@ namespace SDVMMR
 			try
 			{
 				GitRelease release = GetLatestRelease("yuukiw/SDVMMR");
-				string downloadUrl = (release.TagName != SDVMMVersion)
+				downloadUrl = (release.TagName != SDVMMVersion)
 				   ? release.Downloads.OrderByDescending(p => p.Created).FirstOrDefault(p => !p.Name.Contains("developers"))?.DownloadUrl
 				   : null;
 				UpdateHandler.DownloadSMAPI(downloadUrl);
@@ -82,7 +84,7 @@ namespace SDVMMR
 			try
 			{
 				GitRelease release = GetLatestRelease("Pathoschild/SMAPI");
-				string downloadUrl = (release.TagName != SMAPIVersion)
+				downloadUrl = (release.TagName != SMAPIVersion)
 				   ? release.Downloads.OrderByDescending(p => p.Created).FirstOrDefault(p => !p.Name.Contains("developers"))?.DownloadUrl
 				   : null;
 				UpdateHandler.DownloadSMAPI(downloadUrl);
@@ -102,7 +104,7 @@ namespace SDVMMR
 					Version = "0.0";
 
 				GitRelease release = GetLatestRelease("Pathoschild/SMAPI");
-				string downloadUrl = (release.TagName != Version)
+				downloadUrl = (release.TagName != Version)
 				   ? release.Downloads.OrderByDescending(p => p.Created).FirstOrDefault(p => !p.Name.Contains("developers"))?.DownloadUrl
 				   : null;
 				if(downloadUrl != null) 

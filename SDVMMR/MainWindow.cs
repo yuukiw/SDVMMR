@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using SDVMMR;
 
-public partial class MainWindow : Gtk.Window {
+public partial class MainWindow : Gtk.Window
+{
 
 	internal ModManager ModManager;
 	private List<ModInfo> Mods => ModManager.Mods;
@@ -15,7 +16,8 @@ public partial class MainWindow : Gtk.Window {
 
 	internal string SDVMMVersion = "1.0";
 
-	public MainWindow() : base(Gtk.WindowType.Toplevel) {
+	public MainWindow() : base(Gtk.WindowType.Toplevel)
+	{
 
 		this.SDVMMSettings = FileHandler.LoadSettings();
 
@@ -36,7 +38,8 @@ public partial class MainWindow : Gtk.Window {
 		//SDVMMR.ModListManagment.addToTree(SDVMMR.JsonHandler.readFromMod(System.IO.Path.Combine(SDVMMR.DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json")), ModStore);
 	}
 
-	private void SetupWindow() {
+	private void SetupWindow()
+	{
 		Build();
 		//this.Title = "SDVMM 1.0";
 		SDVVersion.Text = SDVMMVersion;
@@ -93,28 +96,44 @@ public partial class MainWindow : Gtk.Window {
 
 	}
 
-	internal void RefreshTreeView() {
+	internal void RefreshTreeView()
+	{
 		ModStore.Clear();
-		foreach (ModInfo Mod in Mods) {
+		foreach (ModInfo Mod in Mods)
+		{
 			ModStore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version);
 		}
 	}
 
-	protected override bool OnDeleteEvent(Gdk.Event evnt) {
+	protected override bool OnDeleteEvent(Gdk.Event evnt)
+	{
 		base.OnDeleteEvent(evnt);
 		FileHandler.SaveModList(Mods);
 		Application.Quit();
 		return true;
 	}
 
-	public void MethodWithLogic(Gdk.Key key) {
+	public bool exit()
+	{
+		FileHandler.SaveModList(Mods);
+		Application.Quit();
+		return true;
+	}
+
+	public void MethodWithLogic(Gdk.Key key)
+	{
 		Boolean smapiisInstalled = SDVMMSettings.SmapiIsinstalled;
-		if (key == Gdk.Key.Alt_R || key == Gdk.Key.Alt_L) {
-			if (smapiisInstalled == true) {
-				if (Play_SDV.StockId == "SIcon") {
+		if (key == Gdk.Key.Alt_R || key == Gdk.Key.Alt_L)
+		{
+			if (smapiisInstalled == true)
+			{
+				if (Play_SDV.StockId == "SIcon")
+				{
 					Play_SDV.StockId = "SDVIcon";
 					Play_SDV.ShortLabel = "Play SDV";
-				} else {
+				}
+				else
+				{
 					Play_SDV.StockId = "SIcon";
 					Play_SDV.ShortLabel = "Start SMAPI";
 				}
@@ -123,17 +142,20 @@ public partial class MainWindow : Gtk.Window {
 
 	}
 
-	protected void OnPlaySDVActivated(object sender, EventArgs e) {
+	protected void OnPlaySDVActivated(object sender, EventArgs e)
+	{
 		WriteToVDF vdf = new WriteToVDF();
 		vdf.EditVDF();
 	}
 
-	protected void OnOpenSettingsActivated(object sender, EventArgs e) {
+	protected void OnOpenSettingsActivated(object sender, EventArgs e)
+	{
 		Setting Swin = new Setting(SDVMMSettings, Mods);
 		Swin.Show();
 	}
 
-	protected void OnAddModActivated(object sender, EventArgs e) {
+	protected void OnAddModActivated(object sender, EventArgs e)
+	{
 		Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog(
 				   "Choose the file to open",
 				   this,
@@ -141,19 +163,13 @@ public partial class MainWindow : Gtk.Window {
 				   "Cancel", ResponseType.Cancel,
 				   "Open", ResponseType.Accept);
 
-		if (filechooser.Run() == (int)ResponseType.Accept) {
+		if (filechooser.Run() == (int)ResponseType.Accept)
+		{
 
-			var folder = System.IO.Path.GetDirectoryName(filechooser.Filename);
-			if (File.Exists(System.IO.Path.Combine(folder, "manifest.json"))) {
+			var folder = filechooser.Filename;
+			ModManager.addMod(folder);
+			RefreshTreeView();
 
-				ModManager.addMod(folder);
-				RefreshTreeView();
-
-			} else {
-				Message msg = new Message("Please Choose the correct Folder.", "Wrong Folder");
-				msg.Show();
-				RefreshTreeView();
-			}
 
 			filechooser.Destroy();
 		}

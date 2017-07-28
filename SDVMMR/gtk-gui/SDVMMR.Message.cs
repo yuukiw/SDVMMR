@@ -15,7 +15,6 @@ namespace SDVMMR
 			global::Stetic.Gui.Initialize(this);
 			// Widget SDVMMR.Message
 			this.Name = "SDVMMR.Message";
-			this.Title = global::Mono.Unix.Catalog.GetString("window1");
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 			this.BorderWidth = ((uint)(5));
 			// Internal child SDVMMR.Message.VBox

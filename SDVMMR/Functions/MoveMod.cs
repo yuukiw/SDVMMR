@@ -8,7 +8,7 @@ namespace System.IO
 {
 	public static class DirectoryInfoExtensions
 	{
-		public static void MoveMod(this DirectoryInfo source, DirectoryInfo target)
+		internal static void MoveMod(this DirectoryInfo source, DirectoryInfo target)
 		{
 			if (!target.Exists)
 				target.Create();

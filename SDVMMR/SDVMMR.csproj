@@ -43,6 +43,7 @@
     <Reference Include="INIFileParser">
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -52,6 +53,9 @@
     <Reference Include="Gameloop.Vdf">
       <HintPath>..\packages\Gameloop.Vdf.0.3.0\lib\net45\Gameloop.Vdf.dll</HintPath>
     </Reference>
+    <Reference Include="System.Dynamic" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">

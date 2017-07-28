@@ -247,7 +247,6 @@ namespace SDVMMR
 			this.overwriteButton.Label = global::Mono.Unix.Catalog.GetString("Overwrite Game Files");
 			this.overwriteButton.DrawIndicator = true;
 			this.overwriteButton.UseUnderline = true;
-			this.overwriteButton.Xalign = 0.44F;
 			this.hbox6.Add(this.overwriteButton);
 			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.hbox6[this.overwriteButton]));
 			w20.Position = 0;
