@@ -84,24 +84,28 @@ public partial class MainWindow : Gtk.Window
 		activeMods.AppendColumn(DescColumn);
 
 		activeMods.Model = new ListStore(typeof(string), typeof(string), typeof(string), typeof(string), typeof(string));
+		// the column checkbox is created
+		Gtk.CellRendererToggle valueCb = new CellRendererToggle();
+		CBColumn.PackStart(valueCb, true);
 
+		CBColumn.AddAttribute(valueCb, "bool", 0);
 		NameColumn.AddAttribute(ModsNameCell, "text", 1);
 		AuthorColumn.AddAttribute(AuthorCell, "text", 2);
 		VersionColumn.AddAttribute(VersionCell, "text", 3);
 		DescColumn.AddAttribute(DescCell, "text", 4);
 
-		// the column checkbox is created
-		Gtk.CellRendererToggle valueCb = new CellRendererToggle();
-		CBColumn.PackStart(valueCb, true);
 
 	}
 
 	internal void RefreshTreeView()
 	{
 		ModStore.Clear();
+		int row = 0;
 		foreach (ModInfo Mod in Mods)
 		{
 			ModStore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version);
+
+			row++;
 		}
 	}
 
@@ -144,8 +148,7 @@ public partial class MainWindow : Gtk.Window
 
 	protected void OnPlaySDVActivated(object sender, EventArgs e)
 	{
-		WriteToVDF vdf = new WriteToVDF();
-		vdf.EditVDF();
+
 	}
 
 	protected void OnOpenSettingsActivated(object sender, EventArgs e)
@@ -162,7 +165,13 @@ public partial class MainWindow : Gtk.Window
 				   FileChooserAction.Open,
 				   "Cancel", ResponseType.Cancel,
 				   "Open", ResponseType.Accept);
-
+		filechooser.SelectMultiple = true;
+		FileFilter filter = new FileFilter();
+		filter.Name = "Mods";
+		filter.AddPattern("*.dll");
+		filter.AddPattern("*.xnb");
+		filter.AddPattern("*.zip");
+		filechooser.Filter = filter;
 		if (filechooser.Run() == (int)ResponseType.Accept)
 		{
 

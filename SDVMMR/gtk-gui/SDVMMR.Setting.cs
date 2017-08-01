@@ -44,6 +44,18 @@ namespace SDVMMR
 
 		private global::Gtk.CheckButton overwriteButton;
 
+		private global::Gtk.HSeparator hseparator4;
+
+		private global::Gtk.Label label2;
+
+		private global::Gtk.HSeparator hseparator5;
+
+		private global::Gtk.HButtonBox hbuttonbox2;
+
+		private global::Gtk.HBox hbox1;
+
+		private global::Gtk.Button SetVDF;
+
 		private global::Gtk.HBox hbox5;
 
 		private global::Gtk.Button Save;
@@ -257,6 +269,60 @@ namespace SDVMMR
 			w21.Expand = false;
 			w21.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
+			this.hseparator4 = new global::Gtk.HSeparator();
+			this.hseparator4.Name = "hseparator4";
+			this.vbox2.Add(this.hseparator4);
+			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator4]));
+			w22.Position = 9;
+			w22.Expand = false;
+			w22.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.label2 = new global::Gtk.Label();
+			this.label2.Name = "label2";
+			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Steam Settings</b>");
+			this.label2.UseMarkup = true;
+			this.vbox2.Add(this.label2);
+			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.label2]));
+			w23.Position = 10;
+			w23.Expand = false;
+			w23.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.hseparator5 = new global::Gtk.HSeparator();
+			this.hseparator5.Name = "hseparator5";
+			this.vbox2.Add(this.hseparator5);
+			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator5]));
+			w24.Position = 11;
+			w24.Expand = false;
+			w24.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.hbuttonbox2 = new global::Gtk.HButtonBox();
+			this.hbuttonbox2.Name = "hbuttonbox2";
+			this.vbox2.Add(this.hbuttonbox2);
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbuttonbox2]));
+			w25.Position = 12;
+			w25.Expand = false;
+			w25.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
+			this.hbox1 = new global::Gtk.HBox();
+			this.hbox1.Name = "hbox1";
+			this.hbox1.Spacing = 6;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.SetVDF = new global::Gtk.Button();
+			this.SetVDF.CanFocus = true;
+			this.SetVDF.Name = "SetVDF";
+			this.SetVDF.UseUnderline = true;
+			this.SetVDF.Label = global::Mono.Unix.Catalog.GetString("Set LaunchOptions");
+			this.hbox1.Add(this.SetVDF);
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.SetVDF]));
+			w26.Position = 1;
+			w26.Expand = false;
+			w26.Fill = false;
+			this.vbox2.Add(this.hbox1);
+			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox1]));
+			w27.Position = 13;
+			w27.Expand = false;
+			w27.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
 			this.hbox5 = new global::Gtk.HBox();
 			this.hbox5.Name = "hbox5";
 			this.hbox5.Spacing = 6;
@@ -268,29 +334,30 @@ namespace SDVMMR
 			this.Save.UseUnderline = true;
 			this.Save.Label = global::Mono.Unix.Catalog.GetString("Save");
 			this.hbox5.Add(this.Save);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.Save]));
-			w22.PackType = ((global::Gtk.PackType)(1));
-			w22.Position = 0;
-			w22.Expand = false;
-			w22.Fill = false;
-			w22.Padding = ((uint)(5));
+			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.Save]));
+			w28.PackType = ((global::Gtk.PackType)(1));
+			w28.Position = 0;
+			w28.Expand = false;
+			w28.Fill = false;
+			w28.Padding = ((uint)(5));
 			this.vbox2.Add(this.hbox5);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox5]));
-			w23.PackType = ((global::Gtk.PackType)(1));
-			w23.Position = 9;
-			w23.Expand = false;
-			w23.Fill = false;
+			global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox5]));
+			w29.PackType = ((global::Gtk.PackType)(1));
+			w29.Position = 14;
+			w29.Expand = false;
+			w29.Fill = false;
 			this.Add(this.vbox2);
 			if ((this.Child != null))
 			{
 				this.Child.ShowAll();
 			}
 			this.DefaultWidth = 840;
-			this.DefaultHeight = 464;
+			this.DefaultHeight = 401;
 			this.Show();
 			this.SteamFolderTN.Clicked += new global::System.EventHandler(this.OnSteamFolderTNClicked);
 			this.GameFolderBtn.Clicked += new global::System.EventHandler(this.OnGameFolderBtnClicked);
 			this.GogCBtn.Clicked += new global::System.EventHandler(this.OnGogCBtnClicked);
+			this.SetVDF.Clicked += new global::System.EventHandler(this.OnSetVDFClicked);
 			this.Save.Clicked += new global::System.EventHandler(this.OnSaveClicked);
 		}
 	}

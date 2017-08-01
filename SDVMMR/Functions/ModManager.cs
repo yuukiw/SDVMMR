@@ -25,6 +25,31 @@ namespace SDVMMR
 		{
 			try
 			{
+				if ((System.IO.Path.GetFileName(path).Contains(".zip"))
+				{
+					string oldPath = path;
+					if (!Directory.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unzipped"))
+					{
+						System.IO.Directory.CreateDirectory(DirectoryOperations.getFolder("ExeFolder"), "unzipped");
+					}
+					    zipHandling.extractZip(path, Path.Combine(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unzipped")));
+					//todo look for files and set new path
+					var x = Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories).ToList();
+					if (x.Count > 0)
+					{
+						path = x[0];
+					}
+					if (oldPath == path)
+					{
+						x = Directory.GetFiles(path, "*.xnb", SearchOption.AllDirectories).ToList();
+						if (x.Count > 0)
+						{
+							path = x[0];
+						}
+					}
+
+				}
+
 				if (System.IO.Path.GetFileName(path).Contains(".xnb"))
 				{
 					string destPath = recSearchForXNB.recXNB(System.IO.Path.Combine(Settings.GameFolder, "Content"), System.IO.Path.GetFileName(path));
@@ -47,7 +72,7 @@ namespace SDVMMR
 							IsA: true,
 							IsX: true,
 							OrgXP: orgpath);
-						
+
 						Mods.Add(newMod);
 					}
 					if (destPath != "" & Settings.overWrite == true)

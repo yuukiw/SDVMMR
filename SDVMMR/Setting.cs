@@ -3,21 +3,30 @@ using System.IO;
 using Gtk;
 using System.Collections.Generic;
 
-namespace SDVMMR {
-	public partial class Setting : Gtk.Window {
+namespace SDVMMR
+{
+	public partial class Setting : Gtk.Window
+	{
 		List<ModInfo> Mods;
 		SDVMMSettings settings;
 
 		public Setting(SDVMMSettings settings, List<ModInfo> mods) :
-				base(Gtk.WindowType.Toplevel) {
+				base(Gtk.WindowType.Toplevel)
+		{
 			this.Mods = mods;
 			this.settings = settings;
 			this.Build();
+			if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+			SetVDF.Hide();
+
+
+
 
 
 		}
 
-		protected void OnSteamFolderTNClicked(object sender, EventArgs e) {
+		protected void OnSteamFolderTNClicked(object sender, EventArgs e)
+		{
 			string folder = "";
 			Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog(
 					   "Choose the file to open",
@@ -26,14 +35,18 @@ namespace SDVMMR {
 					   "Cancel", ResponseType.Cancel,
 					   "Open", ResponseType.Accept);
 
-			if (filechooser.Run() == (int)ResponseType.Accept) {
+			if (filechooser.Run() == (int)ResponseType.Accept)
+			{
 				System.IO.FileStream file = System.IO.File.OpenRead(filechooser.Filename);
 				folder = System.IO.Path.GetDirectoryName(filechooser.Filename);
 				file.Close();
-				if (System.IO.File.Exists(System.IO.Path.Combine(folder, "Steam.dll"))) {
+				if (System.IO.File.Exists(System.IO.Path.Combine(folder, "Steam.dll")))
+				{
 					SteamFolderBox.Text = folder;
 					filechooser.Destroy();
-				} else {
+				}
+				else
+				{
 					SDVMMR.Message msg = new Message("Please Choose the correct Folder.", "Wrong Folder");
 					msg.Show();
 					filechooser.Destroy();
@@ -42,7 +55,8 @@ namespace SDVMMR {
 
 		}
 
-		protected void OnGameFolderBtnClicked(object sender, EventArgs e) {
+		protected void OnGameFolderBtnClicked(object sender, EventArgs e)
+		{
 			string folder = "";
 			Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog(
 					   "Choose the file to open",
@@ -51,28 +65,35 @@ namespace SDVMMR {
 					   "Cancel", ResponseType.Cancel,
 					   "Open", ResponseType.Accept);
 
-			if (filechooser.Run() == (int)ResponseType.Accept) {
+			if (filechooser.Run() == (int)ResponseType.Accept)
+			{
 				System.IO.FileStream file = System.IO.File.OpenRead(filechooser.Filename);
 				folder = System.IO.Path.GetDirectoryName(filechooser.Filename);
 				file.Close();
-				if (System.IO.File.Exists(System.IO.Path.Combine(folder, "Stardew Valley.exe"))) {
+				if (System.IO.File.Exists(System.IO.Path.Combine(folder, "Stardew Valley.exe")))
+				{
 					GameFolderBox.Text = folder;
-				} else {
+				}
+				else
+				{
 					SDVMMR.Message msg = new Message("Please Choose the correct Folder.", "Wrong Folder");
 					msg.Show();
 				}
 			}
 		}
 
-		protected void OnGogCBtnClicked(object sender, EventArgs e) {
+		protected void OnGogCBtnClicked(object sender, EventArgs e)
+		{
 			if (GogBox.Text == "False")
 				GogBox.Text = "True";
 			else
 				GogBox.Text = "False";
 		}
 
-		protected void OnSaveClicked(object sender, EventArgs e) {
-			if (SteamFolderBox.Text != "" & GameFolderBox.Text != "") {
+		protected void OnSaveClicked(object sender, EventArgs e)
+		{
+			if (SteamFolderBox.Text != "" & GameFolderBox.Text != "")
+			{
 				bool isGOG = (GogBox.Text == "True");
 				bool overwrite = overwriteButton.Active;
 
@@ -82,10 +103,18 @@ namespace SDVMMR {
 				settings.overWrite = overwrite;
 
 				FileHandler.SaveSettings(this.settings);
-			} else {
+			}
+			else
+			{
 				SDVMMR.Message msg = new Message("not all Values are set.", "Error");
 				msg.Show();
 			}
+		}
+
+
+		protected void OnSetVDFClicked(object sender, EventArgs e)
+		{
+			WriteToVDF.EditVDF(settings);
 		}
 	}
 }

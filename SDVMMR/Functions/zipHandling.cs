@@ -6,7 +6,7 @@ namespace SDVMMR
 {
 	public class zipHandling
 	{
-		public void extractZip(string sourcePath, string destPath)
+		internal static void extractZip(string sourcePath, string destPath)
 		{
 			System.IO.Compression.ZipFile.ExtractToDirectory(sourcePath,destPath);
 		}
