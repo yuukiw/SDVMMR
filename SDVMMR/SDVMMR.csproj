@@ -96,6 +96,8 @@
     <Compile Include="Functions\recSearchForXNB.cs" />
     <Compile Include="Functions\WriteToVDF.cs" />
     <Compile Include="JSON Dummies\Translations.cs" />
+    <Compile Include="About.cs" />
+    <Compile Include="gtk-gui\SDVMMR.About.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

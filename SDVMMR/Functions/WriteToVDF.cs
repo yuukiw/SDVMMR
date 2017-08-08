@@ -20,6 +20,9 @@ namespace SDVMMR
 		{
 			try
 			{
+
+
+
 				var files = Directory.GetFiles(Path.Combine(Settings.SteamFolder, "userdata"), "localconfig.vdf", SearchOption.AllDirectories).ToArray();
 
 				// find game settings
@@ -61,19 +64,23 @@ namespace SDVMMR
 					Message msg = new Message(MainWindow.Translation.LaunchOptionApplied, "error");
 					return;
 				}
-				// kill steam
+								// kill steam
 				foreach (var process in Process.GetProcessesByName("Steam"))
 				{
 					process.Kill();
-				}
 
+				}
 
 
 				// apply launch options
 				if (!File.Exists(Path.Combine(Path.GetDirectoryName(files[i]), "localconfig-sdvmm.vdf.bak")))
 					File.Copy(files[i], Path.Combine(Path.GetDirectoryName(files[i]), "localconfig-sdvmm.vdf.bak"));
-				VValue launchOptions = new VValue(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "StardewModdingAPI.exe %command%"));
-				game.Add("LaunchOptions", launchOptions);
+				//VValue launchOptions = new VValue(@String.Join(""," ","\\\"",MainWindow.SDVMMSettings.GameFolder.Replace("\\","\\\\"),"\\\\" ,"StardewModdingAPI.exe","\\\" ", "%command%"));
+
+string path = Path.Combine(MainWindow.SDVMMSettings.GameFolder, "StardewModdingAPI.exe").Replace(@"\", @"\\");
+VValue launchOptions = new VValue($" \\\"{path}\\\" %command%");
+
+				game.Add("LaunchOptions",launchOptions);
 				File.WriteAllText(files[i], raw.ToString());
 			}
 			catch (Exception ex)

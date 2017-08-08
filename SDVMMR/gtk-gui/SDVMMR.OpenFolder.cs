@@ -14,8 +14,6 @@ namespace SDVMMR
 
 		private global::Gtk.Button openSDVMMFolder;
 
-		private global::Gtk.Button buttonCancel;
-
 		private global::Gtk.Button buttonOk;
 
 		protected virtual void Build()
@@ -24,6 +22,8 @@ namespace SDVMMR
 			// Widget SDVMMR.OpenFolder
 			this.Name = "SDVMMR.OpenFolder";
 			this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+			this.Resizable = false;
+			this.AllowGrow = false;
 			// Internal child SDVMMR.OpenFolder.VBox
 			global::Gtk.VBox w1 = this.VBox;
 			w1.Name = "dialog1_VBox";
@@ -86,18 +86,6 @@ namespace SDVMMR
 			w7.BorderWidth = ((uint)(5));
 			w7.LayoutStyle = ((global::Gtk.ButtonBoxStyle)(4));
 			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
-			this.buttonCancel = new global::Gtk.Button();
-			this.buttonCancel.CanDefault = true;
-			this.buttonCancel.CanFocus = true;
-			this.buttonCancel.Name = "buttonCancel";
-			this.buttonCancel.UseStock = true;
-			this.buttonCancel.UseUnderline = true;
-			this.buttonCancel.Label = "gtk-cancel";
-			this.AddActionWidget(this.buttonCancel, -6);
-			global::Gtk.ButtonBox.ButtonBoxChild w8 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w7[this.buttonCancel]));
-			w8.Expand = false;
-			w8.Fill = false;
-			// Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
 			this.buttonOk = new global::Gtk.Button();
 			this.buttonOk.CanDefault = true;
 			this.buttonOk.CanFocus = true;
@@ -106,10 +94,9 @@ namespace SDVMMR
 			this.buttonOk.UseUnderline = true;
 			this.buttonOk.Label = "gtk-ok";
 			this.AddActionWidget(this.buttonOk, -5);
-			global::Gtk.ButtonBox.ButtonBoxChild w9 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w7[this.buttonOk]));
-			w9.Position = 1;
-			w9.Expand = false;
-			w9.Fill = false;
+			global::Gtk.ButtonBox.ButtonBoxChild w8 = ((global::Gtk.ButtonBox.ButtonBoxChild)(w7[this.buttonOk]));
+			w8.Expand = false;
+			w8.Fill = false;
 			if ((this.Child != null))
 			{
 				this.Child.ShowAll();
@@ -117,6 +104,10 @@ namespace SDVMMR
 			this.DefaultWidth = 400;
 			this.DefaultHeight = 201;
 			this.Show();
+			this.openAppDataFolder.Clicked += new global::System.EventHandler(this.OnOpenAppDataFolderClicked);
+			this.openGameFolder.Clicked += new global::System.EventHandler(this.OnOpenGameFolderClicked);
+			this.openSDVMMFolder.Clicked += new global::System.EventHandler(this.OnOpenSDVMMFolderClicked);
+			this.buttonOk.Clicked += new global::System.EventHandler(this.OnButtonOkClicked);
 		}
 	}
 }

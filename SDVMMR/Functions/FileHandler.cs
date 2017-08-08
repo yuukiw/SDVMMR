@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
+
 namespace SDVMMR
 {
 	public static class FileHandler
@@ -23,7 +24,7 @@ namespace SDVMMR
 			// TODO Set proper initial values for settings
 			if (!File.Exists(Path))
 				return CreateDefaultSettings();
-			
+
 
 			StreamReader read = new StreamReader(Path);
 			string JsonData = read.ReadToEnd();
@@ -157,9 +158,9 @@ namespace SDVMMR
 					//find out which OS SDVMM is running on and based on guess the paths
 					if (Environment.OSVersion.Platform == PlatformID.Win32NT)
 					{
-						if (System.IO.File.Exists( Path.Combine(d.Name, "Program Files (x86)", "Steam", "Steam.exe")))
-						{ 
-							settings.SteamFolder = Path.Combine(d.Name, "Program Files (x86)", "Steam" );
+						if (System.IO.File.Exists(Path.Combine(d.Name, "Program Files (x86)", "Steam", "Steam.exe")))
+						{
+							settings.SteamFolder = Path.Combine(d.Name, "Program Files (x86)", "Steam");
 						}
 						defaultSPath = Path.Combine(d.Name, "Program Files (x86)", "Steam", "steamapps", "common", "Stardew Valley");
 						defaultGogPath = Path.Combine(d.Name, "Program Files (x86)", "GalaxyClient", "Games", "Stardew Valley");
@@ -175,8 +176,8 @@ namespace SDVMMR
 					}
 					if (Environment.OSVersion.Platform == PlatformID.MacOSX)
 					{
-							if (System.IO.File.Exists( Path.Combine(userpath, "Library", "Application Support", "Steam", "Steam.exe")))
-						{ 
+						if (System.IO.File.Exists(Path.Combine(userpath, "Library", "Application Support", "Steam", "Steam.exe")))
+						{
 							settings.SteamFolder = Path.Combine(userpath, "Library", "Application Support", "Steam");
 						}
 						defaultSPath = Path.Combine(userpath, "Library", "Application Support", "Steam", "steamapps", "common", "Stardew Valley", "Contents", "MacOS");
@@ -184,8 +185,8 @@ namespace SDVMMR
 					}
 					if (Environment.OSVersion.Platform == PlatformID.Unix)
 					{
-							if (System.IO.File.Exists( Path.Combine(userpath, ".local", "share", "Steam", "Steam.exe")))
-						{ 
+						if (System.IO.File.Exists(Path.Combine(userpath, ".local", "share", "Steam", "Steam.exe")))
+						{
 							settings.SteamFolder = Path.Combine(userpath, ".local", "share", "Steam");
 						}
 

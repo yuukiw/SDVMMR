@@ -385,7 +385,7 @@ namespace SDVMMR
 			{
 				this.Child.ShowAll();
 			}
-			this.DefaultWidth = 730;
+			this.DefaultWidth = 740;
 			this.DefaultHeight = 447;
 			this.Show();
 			this.SteamFolderTN.Clicked += new global::System.EventHandler(this.OnSteamFolderTNClicked);

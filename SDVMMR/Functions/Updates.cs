@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Cache;
+using Gtk;
 using Newtonsoft.Json;
 
 namespace SDVMMR
@@ -13,8 +14,10 @@ namespace SDVMMR
 		internal static string SDVMMVersion = "";
 		internal static string SMAPIVersion = "";
 		internal static string downloadUrl = "";
-		public static void CheckForUpdates(string smapiVersion, string sdvmmVersion, string mVersion, string gameFolder)
+		internal static ListStore ModStore;
+		public static void CheckForUpdates(string smapiVersion, string sdvmmVersion, string mVersion, string gameFolder,ListStore Mods)
 		{
+			ModStore = Mods;
 			System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
 			if (checkForConection() == true)
 			{
@@ -100,18 +103,9 @@ namespace SDVMMR
 		{
 			if (!File.Exists(Path.Combine(path, "Mods", "XnbLoader", "XnbLoader.dll")))
 			{
-				UpdateHandler.DownloadXNBLoader("http://community.playstarbound.com/resources/xnb-loader.4506/download?version=20562");
+				UpdateHandler.DownloadXNBLoader("http://community.playstarbound.com/resources/xnb-loader.4506/download?version=20562",ModStore);
 
 			}
-			if (!File.Exists(Path.Combine(path, "Mods", "XnbLoader", "content", "Minigames")))
-			{
-				var folder = new DirectoryInfo(Path.Combine(MainWindow.SDVMMSettings.GameFolder, "content")).EnumerateDirectories("*.*", SearchOption.AllDirectories);
-				var folderarray = folder.ToArray();			
-				for (int i = 0; i < folderarray.Length; i++)
-				{
-					string dir = Path.Combine(path, "Mods", "XnbLoader", "content", folderarray[i].FullName.Replace(MainWindow.SDVMMSettings.GameFolder,Path.Combine(MainWindow.SDVMMSettings.GameFolder,"Mods","XnbLoader")));
-						Directory.CreateDirectory(dir);				
-				}
 			}
 
 			/*	try
@@ -132,5 +126,5 @@ namespace SDVMMR
 					Message msg = new Message(ex.ToString(), "Error");
 				}*/
 		}
-	}
+
 }

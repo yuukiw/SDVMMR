@@ -25,6 +25,8 @@ public partial class MainWindow
 
 	private global::Gtk.Action Action1;
 
+	private global::Gtk.Action support;
+
 	private global::Gtk.VBox vbox1;
 
 	private global::Gtk.VBox vbox2;
@@ -90,6 +92,8 @@ public partial class MainWindow
 		w1.Add(this.open_Settings, null);
 		this.Action1 = new global::Gtk.Action("Action1", null, null, null);
 		w1.Add(this.Action1, null);
+		this.support = new global::Gtk.Action("support", null, null, "gtk-about");
+		w1.Add(this.support, null);
 		this.UIManager.InsertActionGroup(w1, 0);
 		this.AddAccelGroup(this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
@@ -114,7 +118,7 @@ public partial class MainWindow
 		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.Header]));
 		w2.Position = 0;
 		// Container child vbox2.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString(@"<ui><toolbar name='toolbar1'><toolitem name='Play_SDV' action='Play_SDV'/><separator/><toolitem name='add_Mod' action='add_Mod'/><toolitem name='open_Folder' action='open_Folder'/><toolitem name='open_Settings' action='open_Settings'/><separator/><toolitem name='open_about' action='open_about'/><toolitem name='Action1' action='Action1'/></toolbar></ui>");
+		this.UIManager.AddUiFromString(@"<ui><toolbar name='toolbar1'><toolitem name='Play_SDV' action='Play_SDV'/><separator/><toolitem name='add_Mod' action='add_Mod'/><toolitem name='open_Folder' action='open_Folder'/><toolitem name='open_Settings' action='open_Settings'/><separator/><toolitem name='open_about' action='open_about'/><toolitem name='support' action='support'/></toolbar></ui>");
 		this.toolbar1 = ((global::Gtk.Toolbar)(this.UIManager.GetWidget("/toolbar1")));
 		this.toolbar1.Name = "toolbar1";
 		this.toolbar1.ShowArrow = false;
@@ -234,6 +238,9 @@ public partial class MainWindow
 		this.Show();
 		this.Play_SDV.Activated += new global::System.EventHandler(this.OnPlaySDVActivated);
 		this.add_Mod.Activated += new global::System.EventHandler(this.OnAddModActivated);
+		this.open_Folder.Activated += new global::System.EventHandler(this.OnOpenFolderActivated);
+		this.open_about.Activated += new global::System.EventHandler(this.OnOpenAboutActivated);
 		this.open_Settings.Activated += new global::System.EventHandler(this.OnOpenSettingsActivated);
+		this.support.Activated += new global::System.EventHandler(this.OnSupportActivated);
 	}
 }

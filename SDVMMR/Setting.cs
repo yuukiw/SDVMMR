@@ -166,9 +166,6 @@ namespace SDVMMR
 
 		protected void OnSetVDFClicked(object sender, EventArgs e)
 		{
-
-
-
 			WriteToVDF.EditVDF(settings);
 		}
 	}
