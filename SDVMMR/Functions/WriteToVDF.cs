@@ -6,87 +6,81 @@ using System.Runtime;
 using Microsoft.CSharp;
 using Gameloop.Vdf;
 using System.Linq;
+using System.Diagnostics;
 
 namespace SDVMMR
 {
 	public class WriteToVDF
 	{
+		internal static dynamic raw;
+		internal static VObject game;
+		internal static string path;
 
 		internal static void EditVDF(SDVMMSettings Settings)
 		{
-
 			try
 			{
-				var x = Directory.GetFiles(Path.Combine(Settings.SteamFolder, "userdata"), "localconfig.vdf", SearchOption.AllDirectories).ToList();
+				var files = Directory.GetFiles(Path.Combine(Settings.SteamFolder, "userdata"), "localconfig.vdf", SearchOption.AllDirectories).ToArray();
+
+				// find game settings
+
 				int i = 0;
-				if (x.Count > 1)
+				for (i = 0; i < files.Length; i++)
 				{
-					bool exist = false;
+					// read file
+					var fileText = File.ReadAllText(files[i]);
+					if (fileText == null)
+						continue;
+					VdfSerializerSettings ste = new VdfSerializerSettings();
+					ste.UsesEscapeSequences = true;
 
-					while (exist == false)
+					raw = VdfConvert.Deserialize(fileText, ste);
+					VObject data = (VObject)raw.UserLocalConfigStore.Software.Valve.Steam.Apps;
+
+					if (data.ContainsKey("413150"))
 					{
-						string cached = File.ReadAllText(x[i]);
-
-						VdfSerializerSettings ste = new VdfSerializerSettings();
-						ste.UsesEscapeSequences = true;
-
-						dynamic test1 = VdfConvert.Deserialize(cached, ste);
-						VObject game1 = (VObject)test1.UserLocalConfigStore.Software.Valve.Steam.apps;
-						if (game1.ContainsKey("413150"))
-						{
-							exist = true;
-						}
-						if (x.Count <= i)
-						{
-							i = 999;
-						}
-						else
-						{
-							i++;
-						}
+						game = (VObject)raw.UserLocalConfigStore.Software.Valve.Steam.Apps["413150"];
+						break;
 					}
-				}
-				if (i != 999)
-				{
-					if (File.Exists(Path.Combine(x[i], "localconfig-sdvmm.vdf.bak")))
-					{
-						Message msg = new Message("LaunchOptions allready seem to have been applied", "error");
-					}
-					else
-					{
-						i--;
 
-						System.IO.File.Copy(x[i], Path.Combine(Path.GetDirectoryName(x[i]), "localconfig-sdvmm.vdf.bak"));
-
-						string cachedThing = File.ReadAllText(x[i]);
-
-						VdfSerializerSettings st = new VdfSerializerSettings();
-						st.UsesEscapeSequences = true;
-
-						dynamic test = VdfConvert.Deserialize(cachedThing, st);
-						VObject game = (VObject)test.UserLocalConfigStore.Software.Valve.Steam.apps["413150"];
-						if (game.ContainsKey("LaunchOptions"))
-						{
-							Message msg = new Message("Launchoption already seems to exist", "error");
-						}
-						else
-						{
-							VValue LaunchOptions = new VValue(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "StardewModdingAPI.exe %command%"));
-							game.Add("LaunchOptions", LaunchOptions);
-							File.WriteAllText(x[i], test.ToString());
-						}
-					}
-				}
-				else
-				{
-					Message msg = new Message("are you sure SDV is correctly installed?", "error");
 				}
 
+				// check fail conditions
+				if (game == null)
+				{
+					Message msg = new Message(MainWindow.Translation.SDVInstalled, "error");
+					return;
+				}
+				if (game.ContainsKey("LaunchOptions"))
+				{
+					Message msg = new Message(MainWindow.Translation.LaunchOptionExist, "error");
+					return;
+				}
+				if (File.Exists(Path.Combine(files[i], "localconfig-sdvmm.vdf.bak")))
+				{
+					Message msg = new Message(MainWindow.Translation.LaunchOptionApplied, "error");
+					return;
+				}
+				// kill steam
+				foreach (var process in Process.GetProcessesByName("Steam"))
+				{
+					process.Kill();
+				}
+
+
+
+				// apply launch options
+				if (!File.Exists(Path.Combine(Path.GetDirectoryName(files[i]), "localconfig-sdvmm.vdf.bak")))
+					File.Copy(files[i], Path.Combine(Path.GetDirectoryName(files[i]), "localconfig-sdvmm.vdf.bak"));
+				VValue launchOptions = new VValue(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "StardewModdingAPI.exe %command%"));
+				game.Add("LaunchOptions", launchOptions);
+				File.WriteAllText(files[i], raw.ToString());
 			}
 			catch (Exception ex)
 			{
 				Message msg = new Message(ex.ToString(), "error");
 			}
+
 
 
 		}

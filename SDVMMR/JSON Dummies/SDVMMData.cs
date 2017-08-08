@@ -9,7 +9,8 @@ namespace SDVMMR {
 	}
 
 	public class SDVMMSettings {
-		public SDVMMSettings(string SmapiVersion, string GameFolder, string SteamFolder, bool GoGVersion, bool overWrite) {
+		public SDVMMSettings(string language,string SmapiVersion, string GameFolder, string SteamFolder, bool GoGVersion, bool overWrite) {
+			this.Language = language;
 			this.SmapiVersion = SmapiVersion;
 			this.GameFolder = GameFolder;
 			this.GoGVersion = GoGVersion;
@@ -17,6 +18,7 @@ namespace SDVMMR {
 			this.SteamFolder = SteamFolder;
 		}
 
+		public string Language { get; set; }
 		public string SmapiVersion { get; set; }
 		public bool SmapiIsinstalled => SmapiVersion != "";
 		public string GameFolder { get; set; }

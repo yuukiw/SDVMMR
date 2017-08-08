@@ -13,16 +13,16 @@ namespace SDVMMR
 		internal static string SDVMMVersion = "";
 		internal static string SMAPIVersion = "";
 		internal static string downloadUrl = "";
-		public static void CheckForUpdates(string smapiVersion, string sdvmmVersion,string mVersion)
+		public static void CheckForUpdates(string smapiVersion, string sdvmmVersion, string mVersion, string gameFolder)
 		{
-			System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors)  => true;
+			System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
 			if (checkForConection() == true)
 			{
 				SMAPIVersion = smapiVersion;
 				SDVMMVersion = sdvmmVersion;
 				//CheckSDVMM();
-				CheckSmapi();
-				CheckXNBLoader(mVersion);
+				CheckSmapi(gameFolder);
+				CheckXNBLoader(mVersion, gameFolder);
 			}
 			//TODO check for updates	
 		}
@@ -71,15 +71,15 @@ namespace SDVMMR
 				downloadUrl = (release.TagName != SDVMMVersion)
 				   ? release.Downloads.OrderByDescending(p => p.Created).FirstOrDefault(p => !p.Name.Contains("developers"))?.DownloadUrl
 				   : null;
-				UpdateHandler.DownloadSMAPI(downloadUrl);
+				UpdateHandler.DownloadSDVMM(downloadUrl);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Message msg = new Message(ex.ToString(), "Error");
 			}
 		}
 
-		public static void CheckSmapi()
+		public static void CheckSmapi(string gameFolder)
 		{
 			try
 			{
@@ -87,33 +87,50 @@ namespace SDVMMR
 				downloadUrl = (release.TagName != SMAPIVersion)
 				   ? release.Downloads.OrderByDescending(p => p.Created).FirstOrDefault(p => !p.Name.Contains("developers"))?.DownloadUrl
 				   : null;
-				UpdateHandler.DownloadSMAPI(downloadUrl);
+				if (downloadUrl != null)
+					UpdateHandler.DownloadSMAPI(downloadUrl, gameFolder, release.TagName);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				Message msg = new Message(ex.ToString(), "Error");
 			}
 		}
 
-		public static void CheckXNBLoader(string mVersion)
+		public static void CheckXNBLoader(string mVersion, string path)
 		{
-			try
+			if (!File.Exists(Path.Combine(path, "Mods", "XnbLoader", "XnbLoader.dll")))
 			{
-				string Version = "";
-				if (Version == "")
-					Version = "0.0";
+				UpdateHandler.DownloadXNBLoader("http://community.playstarbound.com/resources/xnb-loader.4506/download?version=20562");
 
-				GitRelease release = GetLatestRelease("Pathoschild/SMAPI");
-				downloadUrl = (release.TagName != Version)
-				   ? release.Downloads.OrderByDescending(p => p.Created).FirstOrDefault(p => !p.Name.Contains("developers"))?.DownloadUrl
-				   : null;
-				if(downloadUrl != null) 
-					UpdateHandler.DownloadSMAPI(downloadUrl);
 			}
-			catch(Exception ex)
+			if (!File.Exists(Path.Combine(path, "Mods", "XnbLoader", "content", "Minigames")))
 			{
-				Message msg = new Message(ex.ToString(), "Error");
+				var folder = new DirectoryInfo(Path.Combine(MainWindow.SDVMMSettings.GameFolder, "content")).EnumerateDirectories("*.*", SearchOption.AllDirectories);
+				var folderarray = folder.ToArray();			
+				for (int i = 0; i < folderarray.Length; i++)
+				{
+					string dir = Path.Combine(path, "Mods", "XnbLoader", "content", folderarray[i].FullName.Replace(MainWindow.SDVMMSettings.GameFolder,Path.Combine(MainWindow.SDVMMSettings.GameFolder,"Mods","XnbLoader")));
+						Directory.CreateDirectory(dir);				
+				}
 			}
+
+			/*	try
+				{
+					string Version = "";
+					if (Version == "")
+						Version = "0.0";
+
+					GitRelease release = GetLatestRelease("Pathoschild/SMAPI");
+					downloadUrl = (release.TagName != Version)
+					   ? release.Downloads.OrderByDescending(p => p.Created).FirstOrDefault(p => !p.Name.Contains("developers"))?.DownloadUrl
+					   : null;
+					if(downloadUrl != null) 
+						UpdateHandler.DownloadSMAPI(downloadUrl);
+				}
+				catch(Exception ex)
+				{
+					Message msg = new Message(ex.ToString(), "Error");
+				}*/
 		}
 	}
 }

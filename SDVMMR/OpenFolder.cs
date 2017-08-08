@@ -6,6 +6,9 @@ namespace SDVMMR
 		public OpenFolder()
 		{
 			this.Build();
+			openGameFolder.Label = MainWindow.Translation.OpenGameDir;
+			openSDVMMFolder.Label = MainWindow.Translation.OpenSDVMMDir;
+			openAppDataFolder.Label = MainWindow.Translation.OpenAppdata;
 		}
 	}
 }

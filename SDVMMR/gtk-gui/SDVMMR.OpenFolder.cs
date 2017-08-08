@@ -8,11 +8,11 @@ namespace SDVMMR
 
 		private global::Gtk.VBox vbox4;
 
-		private global::Gtk.Button button36;
+		private global::Gtk.Button openAppDataFolder;
 
-		private global::Gtk.Button button37;
+		private global::Gtk.Button openGameFolder;
 
-		private global::Gtk.Button button38;
+		private global::Gtk.Button openSDVMMFolder;
 
 		private global::Gtk.Button buttonCancel;
 
@@ -37,35 +37,35 @@ namespace SDVMMR
 			this.vbox4.Name = "vbox4";
 			this.vbox4.Spacing = 6;
 			// Container child vbox4.Gtk.Box+BoxChild
-			this.button36 = new global::Gtk.Button();
-			this.button36.CanFocus = true;
-			this.button36.Name = "button36";
-			this.button36.UseUnderline = true;
-			this.button36.Label = global::Mono.Unix.Catalog.GetString("GtkButton");
-			this.vbox4.Add(this.button36);
-			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox4[this.button36]));
+			this.openAppDataFolder = new global::Gtk.Button();
+			this.openAppDataFolder.CanFocus = true;
+			this.openAppDataFolder.Name = "openAppDataFolder";
+			this.openAppDataFolder.UseUnderline = true;
+			this.openAppDataFolder.Label = global::Mono.Unix.Catalog.GetString("GtkButton");
+			this.vbox4.Add(this.openAppDataFolder);
+			global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.vbox4[this.openAppDataFolder]));
 			w2.Position = 0;
 			w2.Expand = false;
 			w2.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
-			this.button37 = new global::Gtk.Button();
-			this.button37.CanFocus = true;
-			this.button37.Name = "button37";
-			this.button37.UseUnderline = true;
-			this.button37.Label = global::Mono.Unix.Catalog.GetString("GtkButton");
-			this.vbox4.Add(this.button37);
-			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox4[this.button37]));
+			this.openGameFolder = new global::Gtk.Button();
+			this.openGameFolder.CanFocus = true;
+			this.openGameFolder.Name = "openGameFolder";
+			this.openGameFolder.UseUnderline = true;
+			this.openGameFolder.Label = global::Mono.Unix.Catalog.GetString("GtkButton");
+			this.vbox4.Add(this.openGameFolder);
+			global::Gtk.Box.BoxChild w3 = ((global::Gtk.Box.BoxChild)(this.vbox4[this.openGameFolder]));
 			w3.Position = 1;
 			w3.Expand = false;
 			w3.Fill = false;
 			// Container child vbox4.Gtk.Box+BoxChild
-			this.button38 = new global::Gtk.Button();
-			this.button38.CanFocus = true;
-			this.button38.Name = "button38";
-			this.button38.UseUnderline = true;
-			this.button38.Label = global::Mono.Unix.Catalog.GetString("GtkButton");
-			this.vbox4.Add(this.button38);
-			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox4[this.button38]));
+			this.openSDVMMFolder = new global::Gtk.Button();
+			this.openSDVMMFolder.CanFocus = true;
+			this.openSDVMMFolder.Name = "openSDVMMFolder";
+			this.openSDVMMFolder.UseUnderline = true;
+			this.openSDVMMFolder.Label = global::Mono.Unix.Catalog.GetString("GtkButton");
+			this.vbox4.Add(this.openSDVMMFolder);
+			global::Gtk.Box.BoxChild w4 = ((global::Gtk.Box.BoxChild)(this.vbox4[this.openSDVMMFolder]));
 			w4.Position = 2;
 			w4.Expand = false;
 			w4.Fill = false;

@@ -344,7 +344,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="Gtk.Window" id="SDVMMR.Setting" design-size="840 401">
+  <widget class="Gtk.Window" id="SDVMMR.Setting" design-size="730 447">
     <property name="MemberName" />
     <property name="Title" translatable="yes">Setting</property>
     <property name="WindowPosition">CenterOnParent</property>
@@ -356,7 +356,7 @@
         <property name="MemberName" />
         <property name="Spacing">6</property>
         <child>
-          <widget class="Gtk.Label" id="label1">
+          <widget class="Gtk.Label" id="GeneralSettings">
             <property name="MemberName" />
             <property name="Ypad">6</property>
             <property name="LabelProp" translatable="yes">&lt;b&gt;General Settings&lt;/b&gt;</property>
@@ -549,8 +549,36 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.HSeparator" id="hseparator2">
+          <widget class="Gtk.HBox" id="hbox7">
             <property name="MemberName" />
+            <property name="Spacing">6</property>
+            <child>
+              <widget class="Gtk.Label" id="LanguageLabel">
+                <property name="MemberName" />
+                <property name="WidthRequest">80</property>
+                <property name="LabelProp" translatable="yes">Language</property>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.ComboBox" id="LanguageBox">
+                <property name="MemberName" />
+                <property name="WidthRequest">600</property>
+                <property name="IsTextCombo">True</property>
+                <property name="Items" translatable="yes" />
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
           </widget>
           <packing>
             <property name="Position">5</property>
@@ -560,14 +588,25 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.Label" id="label6">
+          <widget class="Gtk.HSeparator" id="hseparator2">
+            <property name="MemberName" />
+          </widget>
+          <packing>
+            <property name="Position">6</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.Label" id="ModSettings">
             <property name="MemberName" />
             <property name="Ypad">6</property>
             <property name="LabelProp" translatable="yes">&lt;b&gt;Mod Settings&lt;/b&gt;</property>
             <property name="UseMarkup">True</property>
           </widget>
           <packing>
-            <property name="Position">6</property>
+            <property name="Position">7</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -578,7 +617,7 @@
             <property name="MemberName" />
           </widget>
           <packing>
-            <property name="Position">7</property>
+            <property name="Position">8</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -605,7 +644,7 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">8</property>
+            <property name="Position">9</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -616,20 +655,20 @@
             <property name="MemberName" />
           </widget>
           <packing>
-            <property name="Position">9</property>
+            <property name="Position">10</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
           </packing>
         </child>
         <child>
-          <widget class="Gtk.Label" id="label2">
+          <widget class="Gtk.Label" id="SteamSettings">
             <property name="MemberName" />
             <property name="LabelProp" translatable="yes">&lt;b&gt;Steam Settings&lt;/b&gt;</property>
             <property name="UseMarkup">True</property>
           </widget>
           <packing>
-            <property name="Position">10</property>
+            <property name="Position">11</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -640,7 +679,7 @@
             <property name="MemberName" />
           </widget>
           <packing>
-            <property name="Position">11</property>
+            <property name="Position">12</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -652,7 +691,7 @@
             <property name="Size">0</property>
           </widget>
           <packing>
-            <property name="Position">12</property>
+            <property name="Position">13</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -686,7 +725,7 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">13</property>
+            <property name="Position">14</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -718,7 +757,7 @@
           </widget>
           <packing>
             <property name="PackType">End</property>
-            <property name="Position">14</property>
+            <property name="Position">15</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
@@ -810,7 +849,7 @@
                 <property name="MemberName" />
                 <property name="Spacing">6</property>
                 <child>
-                  <widget class="Gtk.Button" id="button36">
+                  <widget class="Gtk.Button" id="openAppDataFolder">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="Type">TextOnly</property>
@@ -825,7 +864,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Button" id="button37">
+                  <widget class="Gtk.Button" id="openGameFolder">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="Type">TextOnly</property>
@@ -840,7 +879,7 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="Gtk.Button" id="button38">
+                  <widget class="Gtk.Button" id="openSDVMMFolder">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
                     <property name="Type">TextOnly</property>

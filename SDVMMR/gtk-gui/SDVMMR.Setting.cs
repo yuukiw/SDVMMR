@@ -6,7 +6,7 @@ namespace SDVMMR
 	{
 		private global::Gtk.VBox vbox2;
 
-		private global::Gtk.Label label1;
+		private global::Gtk.Label GeneralSettings;
 
 		private global::Gtk.HSeparator hseparator1;
 
@@ -34,9 +34,15 @@ namespace SDVMMR
 
 		private global::Gtk.Button GogCBtn;
 
+		private global::Gtk.HBox hbox7;
+
+		private global::Gtk.Label LanguageLabel;
+
+		private global::Gtk.ComboBox LanguageBox;
+
 		private global::Gtk.HSeparator hseparator2;
 
-		private global::Gtk.Label label6;
+		private global::Gtk.Label ModSettings;
 
 		private global::Gtk.HSeparator hseparator3;
 
@@ -46,7 +52,7 @@ namespace SDVMMR
 
 		private global::Gtk.HSeparator hseparator4;
 
-		private global::Gtk.Label label2;
+		private global::Gtk.Label SteamSettings;
 
 		private global::Gtk.HSeparator hseparator5;
 
@@ -75,13 +81,13 @@ namespace SDVMMR
 			this.vbox2.Name = "vbox2";
 			this.vbox2.Spacing = 6;
 			// Container child vbox2.Gtk.Box+BoxChild
-			this.label1 = new global::Gtk.Label();
-			this.label1.Name = "label1";
-			this.label1.Ypad = 6;
-			this.label1.LabelProp = global::Mono.Unix.Catalog.GetString("<b>General Settings</b>");
-			this.label1.UseMarkup = true;
-			this.vbox2.Add(this.label1);
-			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.label1]));
+			this.GeneralSettings = new global::Gtk.Label();
+			this.GeneralSettings.Name = "GeneralSettings";
+			this.GeneralSettings.Ypad = 6;
+			this.GeneralSettings.LabelProp = global::Mono.Unix.Catalog.GetString("<b>General Settings</b>");
+			this.GeneralSettings.UseMarkup = true;
+			this.vbox2.Add(this.GeneralSettings);
+			global::Gtk.Box.BoxChild w1 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.GeneralSettings]));
 			w1.Position = 0;
 			w1.Expand = false;
 			w1.Fill = false;
@@ -222,32 +228,60 @@ namespace SDVMMR
 			w16.Expand = false;
 			w16.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
+			this.hbox7 = new global::Gtk.HBox();
+			this.hbox7.Name = "hbox7";
+			this.hbox7.Spacing = 6;
+			// Container child hbox7.Gtk.Box+BoxChild
+			this.LanguageLabel = new global::Gtk.Label();
+			this.LanguageLabel.WidthRequest = 80;
+			this.LanguageLabel.Name = "LanguageLabel";
+			this.LanguageLabel.LabelProp = global::Mono.Unix.Catalog.GetString("Language");
+			this.hbox7.Add(this.LanguageLabel);
+			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.hbox7[this.LanguageLabel]));
+			w17.Position = 0;
+			w17.Expand = false;
+			w17.Fill = false;
+			// Container child hbox7.Gtk.Box+BoxChild
+			this.LanguageBox = global::Gtk.ComboBox.NewText();
+			this.LanguageBox.WidthRequest = 600;
+			this.LanguageBox.Name = "LanguageBox";
+			this.hbox7.Add(this.LanguageBox);
+			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.hbox7[this.LanguageBox]));
+			w18.Position = 1;
+			w18.Expand = false;
+			w18.Fill = false;
+			this.vbox2.Add(this.hbox7);
+			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox7]));
+			w19.Position = 5;
+			w19.Expand = false;
+			w19.Fill = false;
+			// Container child vbox2.Gtk.Box+BoxChild
 			this.hseparator2 = new global::Gtk.HSeparator();
 			this.hseparator2.Name = "hseparator2";
 			this.vbox2.Add(this.hseparator2);
-			global::Gtk.Box.BoxChild w17 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator2]));
-			w17.Position = 5;
-			w17.Expand = false;
-			w17.Fill = false;
+			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator2]));
+			w20.Position = 6;
+			w20.Expand = false;
+			w20.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
-			this.label6 = new global::Gtk.Label();
-			this.label6.Name = "label6";
-			this.label6.Ypad = 6;
-			this.label6.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Mod Settings</b>");
-			this.label6.UseMarkup = true;
-			this.vbox2.Add(this.label6);
-			global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.label6]));
-			w18.Position = 6;
-			w18.Expand = false;
-			w18.Fill = false;
+			this.ModSettings = new global::Gtk.Label();
+			this.ModSettings.Name = "ModSettings";
+			this.ModSettings.Ypad = 6;
+			this.ModSettings.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Mod Settings</b>");
+			this.ModSettings.UseMarkup = true;
+			this.vbox2.Add(this.ModSettings);
+			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.ModSettings]));
+			w21.Position = 7;
+			w21.Expand = false;
+			w21.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.hseparator3 = new global::Gtk.HSeparator();
 			this.hseparator3.Name = "hseparator3";
 			this.vbox2.Add(this.hseparator3);
-			global::Gtk.Box.BoxChild w19 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator3]));
-			w19.Position = 7;
-			w19.Expand = false;
-			w19.Fill = false;
+			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator3]));
+			w22.Position = 8;
+			w22.Expand = false;
+			w22.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.hbox6 = new global::Gtk.HBox();
 			this.hbox6.Name = "hbox6";
@@ -260,48 +294,48 @@ namespace SDVMMR
 			this.overwriteButton.DrawIndicator = true;
 			this.overwriteButton.UseUnderline = true;
 			this.hbox6.Add(this.overwriteButton);
-			global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.hbox6[this.overwriteButton]));
-			w20.Position = 0;
-			w20.Fill = false;
+			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.hbox6[this.overwriteButton]));
+			w23.Position = 0;
+			w23.Fill = false;
 			this.vbox2.Add(this.hbox6);
-			global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox6]));
-			w21.Position = 8;
-			w21.Expand = false;
-			w21.Fill = false;
+			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox6]));
+			w24.Position = 9;
+			w24.Expand = false;
+			w24.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.hseparator4 = new global::Gtk.HSeparator();
 			this.hseparator4.Name = "hseparator4";
 			this.vbox2.Add(this.hseparator4);
-			global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator4]));
-			w22.Position = 9;
-			w22.Expand = false;
-			w22.Fill = false;
+			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator4]));
+			w25.Position = 10;
+			w25.Expand = false;
+			w25.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
-			this.label2 = new global::Gtk.Label();
-			this.label2.Name = "label2";
-			this.label2.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Steam Settings</b>");
-			this.label2.UseMarkup = true;
-			this.vbox2.Add(this.label2);
-			global::Gtk.Box.BoxChild w23 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.label2]));
-			w23.Position = 10;
-			w23.Expand = false;
-			w23.Fill = false;
+			this.SteamSettings = new global::Gtk.Label();
+			this.SteamSettings.Name = "SteamSettings";
+			this.SteamSettings.LabelProp = global::Mono.Unix.Catalog.GetString("<b>Steam Settings</b>");
+			this.SteamSettings.UseMarkup = true;
+			this.vbox2.Add(this.SteamSettings);
+			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.SteamSettings]));
+			w26.Position = 11;
+			w26.Expand = false;
+			w26.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.hseparator5 = new global::Gtk.HSeparator();
 			this.hseparator5.Name = "hseparator5";
 			this.vbox2.Add(this.hseparator5);
-			global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator5]));
-			w24.Position = 11;
-			w24.Expand = false;
-			w24.Fill = false;
+			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hseparator5]));
+			w27.Position = 12;
+			w27.Expand = false;
+			w27.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.hbuttonbox2 = new global::Gtk.HButtonBox();
 			this.hbuttonbox2.Name = "hbuttonbox2";
 			this.vbox2.Add(this.hbuttonbox2);
-			global::Gtk.Box.BoxChild w25 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbuttonbox2]));
-			w25.Position = 12;
-			w25.Expand = false;
-			w25.Fill = false;
+			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbuttonbox2]));
+			w28.Position = 13;
+			w28.Expand = false;
+			w28.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.hbox1 = new global::Gtk.HBox();
 			this.hbox1.Name = "hbox1";
@@ -313,15 +347,15 @@ namespace SDVMMR
 			this.SetVDF.UseUnderline = true;
 			this.SetVDF.Label = global::Mono.Unix.Catalog.GetString("Set LaunchOptions");
 			this.hbox1.Add(this.SetVDF);
-			global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.SetVDF]));
-			w26.Position = 1;
-			w26.Expand = false;
-			w26.Fill = false;
+			global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.hbox1[this.SetVDF]));
+			w29.Position = 1;
+			w29.Expand = false;
+			w29.Fill = false;
 			this.vbox2.Add(this.hbox1);
-			global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox1]));
-			w27.Position = 13;
-			w27.Expand = false;
-			w27.Fill = false;
+			global::Gtk.Box.BoxChild w30 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox1]));
+			w30.Position = 14;
+			w30.Expand = false;
+			w30.Fill = false;
 			// Container child vbox2.Gtk.Box+BoxChild
 			this.hbox5 = new global::Gtk.HBox();
 			this.hbox5.Name = "hbox5";
@@ -334,25 +368,25 @@ namespace SDVMMR
 			this.Save.UseUnderline = true;
 			this.Save.Label = global::Mono.Unix.Catalog.GetString("Save");
 			this.hbox5.Add(this.Save);
-			global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.Save]));
-			w28.PackType = ((global::Gtk.PackType)(1));
-			w28.Position = 0;
-			w28.Expand = false;
-			w28.Fill = false;
-			w28.Padding = ((uint)(5));
+			global::Gtk.Box.BoxChild w31 = ((global::Gtk.Box.BoxChild)(this.hbox5[this.Save]));
+			w31.PackType = ((global::Gtk.PackType)(1));
+			w31.Position = 0;
+			w31.Expand = false;
+			w31.Fill = false;
+			w31.Padding = ((uint)(5));
 			this.vbox2.Add(this.hbox5);
-			global::Gtk.Box.BoxChild w29 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox5]));
-			w29.PackType = ((global::Gtk.PackType)(1));
-			w29.Position = 14;
-			w29.Expand = false;
-			w29.Fill = false;
+			global::Gtk.Box.BoxChild w32 = ((global::Gtk.Box.BoxChild)(this.vbox2[this.hbox5]));
+			w32.PackType = ((global::Gtk.PackType)(1));
+			w32.Position = 15;
+			w32.Expand = false;
+			w32.Fill = false;
 			this.Add(this.vbox2);
 			if ((this.Child != null))
 			{
 				this.Child.ShowAll();
 			}
-			this.DefaultWidth = 840;
-			this.DefaultHeight = 401;
+			this.DefaultWidth = 730;
+			this.DefaultHeight = 447;
 			this.Show();
 			this.SteamFolderTN.Clicked += new global::System.EventHandler(this.OnSteamFolderTNClicked);
 			this.GameFolderBtn.Clicked += new global::System.EventHandler(this.OnGameFolderBtnClicked);

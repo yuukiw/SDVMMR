@@ -1,49 +1,71 @@
 ﻿using System;
+using Newtonsoft.Json.Linq;
+
 namespace SDVMMR
 {
-	internal class Tanslations
+	public class Translations
 	{
 		//MainWindow UI Toolbar
-		internal string LaunchSDV { get; set; }
-		internal string LaunchSMAPI { get; set; }
-		internal string AddMod { get; set; }
-		internal string openFolder { get; set; }
-		internal string Settings { get; set; }
-		internal string About { get; set; }
+		public string LaunchSDV { get; set; }
+		public string LaunchSMAPI { get; set; }
+		public string AddMod { get; set; }
+		public string openFolder { get; set; }
+		public string Settings { get; set; }
+		public string About { get; set; }
+		public string Yes { get; set; }
+		public string No { get; set; }
 		//MainWindow Treeview
-		internal string TreeViewTitle { get; set; }
-		internal string Active { get; set; }
-		internal string Name { get; set; }
-		internal string Author { get; set; }
-		internal string Version { get; set; }
-		internal string Desciption { get; set; }
+		public string TreeViewTitle { get; set; }
+		public string Active { get; set; }
+		public string Name { get; set; }
+		public string Author { get; set; }
+		public string Version { get; set; }
+		public string Description { get; set; }
 		//Settings
-		internal string SettingsCategoryName1 { get; set; }
-		internal string SettingsSteamFolder { get; set; }
-		internal string SettingsGameFolder { get; set; }
-		internal string isGOG { get; set; }
-		internal string GOGChangeBtn { get; set; }
-		internal string SettingsCategoryName2 { get; set; }
-		internal string overWriteGameFiles { get; set; }
-		internal string SettingsCategoryName3 { get; set; }
-		internal string SettingsSetLaunchOptions { get; set; }
-		internal string SaveSettings { get; set; }
-		internal string SettingsPathsnotSet { get; set; }
-		internal string SettingsPathsnotSetTitle { get; set; }
+		public string SettingsCategoryName1 { get; set; }
+		public string SettingsSteamFolder { get; set; }
+		public string SettingsGameFolder { get; set; }
+		public string isGOG { get; set; }
+		public string GOGChangeBtn { get; set; }
+		public string Language { get; set; }
+		public string LanguageChanged { get; set; }
+		public string LanguageChangedTitle { get; set; }
+		public string SettingsCategoryName2 { get; set; }
+		public string overWriteGameFiles { get; set; }
+		public string SettingsCategoryName3 { get; set; }
+		public string SettingsSetLaunchOptions { get; set; }
+		public string SaveSettings { get; set; }
+		public string SettingsPathsnotSet { get; set; }
+		public string SettingsPathsnotSetTitle { get; set; }
 		//Messages
-		internal string LaunchOptionExist { get; set; }
-		internal string LaunchOptionApplied { get; set; }
-		internal string SDVInstalled { get; set; }
-		internal string SMAPIUpdateFound { get; set; }
-		internal string SDVMMUpdateFound { get; set; }
+		public string LaunchOptionExist { get; set; }
+		public string LaunchOptionApplied { get; set; }
+		public string SDVInstalled { get; set; }
+		public string SMAPIUpdateFound { get; set; }
+		public string SDVMMUpdateFound { get; set; }
+		public string UpdateTitle { get; set; }
+		public string ValuesNotFound { get; set; }
 		//FileChooser
-		internal string FCMods { get; set; }
-		internal string FCTitle { get; set; }
-		internal string FCopen { get; set; }
-		internal string FCcancel { get; set; }
+		public string FCMods { get; set; }
+		public string FCTitle { get; set; }
+		public string FCXNBTitle { get; set;}
+		public string FCopen { get; set; }
+		public string FCcancel { get; set; }
 		//OpenFolder
-		internal string OpenAppdata { get; set; }
-		internal string OpenSDVMMDir { get; set; }
-		internal string OpenGameDir { get; set; }
+		public string OpenAppdata { get; set; }
+		public string OpenSDVMMDir { get; set; }
+		public string OpenGameDir { get; set; }
+		//About
+		public string ChangeLog { get; set; }
+		public string CurrentVersion { get; set; }
+		public string Translator { get; set; }
+		public string TranslatorName { get; set; }
+		public string credits { get; set; }
+		public string Website { get; set; }
+		public string BuyMeACoffe { get; set; }
+		//Updating
+		public string UpdateDone { get; set; }
+		public string Close { get; set; }
+
 	}
 }
