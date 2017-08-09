@@ -1,13 +1,9 @@
 ﻿using System;
-
 using System.IO;
 using Gtk;
-using System.Collections.Generic;
-using Pango;
-using System.Text.RegularExpressions;
 using System.Linq;
 using System.Windows.Forms;
-using System.Diagnostics;
+
 
 namespace SDVMMR
 {

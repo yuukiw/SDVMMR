@@ -1,9 +1,5 @@
 ﻿using System;
 using System.IO;
-using Gameloop;
-using Newtonsoft.Json;
-using System.Runtime;
-using Microsoft.CSharp;
 using Gameloop.Vdf;
 using System.Linq;
 using System.Diagnostics;
@@ -13,7 +9,7 @@ namespace SDVMMR
 	public class WriteToVDF
 	{
 		internal static dynamic raw;
-		internal static VObject game;
+		internal static Gameloop.Vdf.VObject game;
 		internal static string path;
 
 		internal static void EditVDF(SDVMMSettings Settings)

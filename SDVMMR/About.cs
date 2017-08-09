@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-
-namespace SDVMMR
+﻿namespace SDVMMR
 {
 	public partial class About : Gtk.Window
 	{

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 
-
-
 namespace SDVMMR
 {
 	public static class DirectoryOperations

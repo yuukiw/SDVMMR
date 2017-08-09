@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using SDVMMR;
 using System.Linq;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Globalization;
 using System.Net;
@@ -14,157 +11,139 @@ using System.Net;
 public partial class MainWindow : Gtk.Window
 {
 
-	internal ModManager ModManager;
+	internal ModManager ModManager = null;
 	private List<ModInfo> Mods => ModManager.Mods;
 
 	internal ListStore ModStore => activeMods.Model as ListStore;
 
-	internal static SDVMMSettings SDVMMSettings;
+	internal static SDVMMSettings SDVMMSettings = null;
 
 	internal string SDVMMVersion = "1.0";
 
-	internal static Translations Translation;
+	internal static Translations Translation = null;
 
 	internal static string key = "";
 
-	internal static string selectedItemName;
-	internal static string selectedItemAuthor;
-	internal static string selectedItemState;
-	internal static string selectedUID;
+	internal static string selectedItemName = "";
+	internal static string selectedItemAuthor = "";
+	internal static string selectedItemState = "";
+	internal static string selectedUID = "";
 	internal static bool itemChanged = false;
 
 	public MainWindow() : base(Gtk.WindowType.Toplevel)
 	{
-
-		SDVMMSettings = FileHandler.LoadSettings();
-
-		if (!File.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations", "en.json")))
+		try
 		{
-			using (WebClient WC = new WebClient())
+			SDVMMSettings = FileHandler.LoadSettings();
+
+			if (!File.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations", "en.json")))
 			{
-				if (System.IO.File.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip")))
+				using (WebClient WC = new WebClient())
 				{
-					System.IO.File.Delete(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip"));
-				}
-				WC.Headers.Add("user-agent", "SDVMM/Version: 1.0");
-				WC.DownloadFile("https://drive.google.com/uc?export=download&id=0B94u0_R6vixWaGtXWVBDOVViaEk", System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip"));
-				if (System.IO.Directory.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
-				{
-					Directory.Delete(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"), true);
-				}
-				if (!System.IO.Directory.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
-				{
-					System.IO.Directory.CreateDirectory(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
-				}
+					if (System.IO.File.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip")))
+					{
+						System.IO.File.Delete(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip"));
+					}
+					WC.Headers.Add("user-agent", "SDVMM/Version: 1.0");
+					WC.DownloadFile("https://drive.google.com/uc?export=download&id=0B94u0_R6vixWaGtXWVBDOVViaEk", System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip"));
+					if (System.IO.Directory.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
+					{
+						Directory.Delete(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"), true);
+					}
+					if (!System.IO.Directory.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
+					{
+						System.IO.Directory.CreateDirectory(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
+					}
 					zipHandling.extractZip(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip"), System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder")));
-			;
+					;
+				}
 			}
-		}
 
-		if (SDVMMSettings.Language == null)
-		{
-			key = "en";
-			Translation = FileHandler.LoadTranslations("en", new Translations());
-			var x = Directory.GetFiles(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations"), "*.json", SearchOption.TopDirectoryOnly).ToList();
-			if (x.Count == 2)
+			if (SDVMMSettings.Language == null)
 			{
-				if (System.IO.Path.GetFileNameWithoutExtension(x[0]) != "en")
+				key = "en";
+				Translation = FileHandler.LoadTranslations("en", new Translations());
+				var x = Directory.GetFiles(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations"), "*.json", SearchOption.TopDirectoryOnly).ToList();
+				if (x.Count == 2)
 				{
-					key = System.IO.Path.GetFileNameWithoutExtension(x[0]);
-					FileHandler.LoadTranslations(key, Translation);
+					if (System.IO.Path.GetFileNameWithoutExtension(x[0]) != "en")
+					{
+						key = System.IO.Path.GetFileNameWithoutExtension(x[0]);
+						FileHandler.LoadTranslations(key, Translation);
 
+					}
+					else
+					{
+						key = System.IO.Path.GetFileNameWithoutExtension(x[1]);
+						FileHandler.LoadTranslations(key, Translation);
+
+					}
 				}
-				else
+				if (x.Count > 2)
 				{
-					key = System.IO.Path.GetFileNameWithoutExtension(x[1]);
-					FileHandler.LoadTranslations(key, MainWindow.Translation);
-
+					string ci = CultureInfo.CurrentUICulture.ToString();
+					string[] SystemLanguage = ci.Split('-');
+					string path = System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations", String.Join(".", SystemLanguage[0], "json"));
+					if (x.Contains(path))
+					{
+						SDVMMSettings.Language = SystemLanguage[0];
+						FileHandler.SaveSettings(SDVMMSettings);
+						key = SDVMMSettings.Language;
+						Translation = FileHandler.LoadTranslations(key, new Translations());
+					}
+					else
+					{
+						key = null;
+						Setting Swin = new Setting(SDVMMSettings);
+						Swin.Show();
+					}
 				}
 			}
-			if (x.Count > 2)
+			else
 			{
-				string ci = CultureInfo.CurrentUICulture.ToString();
-				string[] SystemLanguage = ci.Split('-');
-				string path = System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations", String.Join(".", SystemLanguage[0], "json"));
-				if (x.Contains(path))
-				{
-					SDVMMSettings.Language = SystemLanguage[0];
-					FileHandler.SaveSettings(SDVMMSettings);
-					key = SDVMMSettings.Language;
-					Translation = FileHandler.LoadTranslations(key, new Translations());
-				}
-				else
-				{
-					key = null;
-					Setting Swin = new Setting(SDVMMSettings);
-					Swin.Show();
-				}
+				key = SDVMMSettings.Language;
+				Translation = FileHandler.LoadTranslations(key, new Translations());
 			}
-		}
-		else
-		{
-			key = SDVMMSettings.Language;
-			Translation = FileHandler.LoadTranslations(key, new Translations());
-		}
 
 
 
-		SetupWindow();
-		support.Label = Translation.BuyMeACoffe;
-		add_Mod.Label = Translation.AddMod;
-		open_about.Label = Translation.About;
-		open_Folder.Label = Translation.openFolder;
-		open_Settings.Label = Translation.Settings;
+			SetupWindow();
+			support.Label = Translation.BuyMeACoffe;
+			add_Mod.Label = Translation.AddMod;
+			open_about.Label = Translation.About;
+			open_Folder.Label = Translation.openFolder;
+			open_Settings.Label = Translation.Settings;
 
-		this.ModManager = new ModManager(SDVMMSettings, activeMods.Model as ListStore);
-
-
-		string Sv = SDVMMSettings.SmapiVersion;
-		string XnBVersion = "";
-		foreach (ModInfo Mod in Mods)
-			if (Mod.Name == "XNBLoader") XnBVersion = Mod.Version;
+			this.ModManager = new ModManager(SDVMMSettings, activeMods.Model as ListStore);
 
 
-		Updates.CheckForUpdates(Sv, SDVMMVersion, XnBVersion, SDVMMSettings.GameFolder, ModStore);
-
-		string filepath = System.IO.Path.Combine(SDVMMSettings.GameFolder, "Mods");
-		DirectoryInfo d = new DirectoryInfo(filepath);
-
-		foreach (var file in d.GetFiles("manifest.json", SearchOption.AllDirectories))
-		{
-			ModManifest Manifest = FileHandler.LoadModManifest(file.FullName);
-			string uId = Manifest.UniqueID;
-			string version = String.Concat(Manifest.Version.MajorVersion, ".", Manifest.Version.MinorVersion, ".", Manifest.Version.PatchVersion);
-			ModInfo newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, true, false/*isX*/, "OrgXP");
+			string Sv = SDVMMSettings.SmapiVersion;
+			string XnBVersion = "";
+			foreach (ModInfo Mod in Mods)
+				if (Mod.Name == "XNBLoader") XnBVersion = Mod.Version;
 
 
-			ModInfo modLookingFor = Mods.Find(x => x.UniqueID == uId);
-			if (modLookingFor == null)
-				Mods.Add(newMod);
-		}
-		if (!Directory.Exists(System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivated Mods")))
-			Directory.CreateDirectory(System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivated Mods"));
+			Updates.CheckForUpdates(Sv, SDVMMVersion, XnBVersion, SDVMMSettings.GameFolder, ModStore);
 
-		filepath = System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivated Mods");
-		d = new DirectoryInfo(filepath);
+			string filepath = System.IO.Path.Combine(SDVMMSettings.GameFolder, "Mods");
+			DirectoryInfo d = new DirectoryInfo(filepath);
 
-		foreach (var file in d.GetFiles("manifest.json", SearchOption.AllDirectories))
-		{
-			ModManifest Manifest = FileHandler.LoadModManifest(file.FullName);
-			string uId = Manifest.UniqueID;
-			string version = String.Concat(Manifest.Version.MajorVersion, ".", Manifest.Version.MinorVersion, ".", Manifest.Version.PatchVersion);
-			ModInfo newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, false, false/*isX*/, "OrgXP");
+			foreach (var file in d.GetFiles("manifest.json", SearchOption.AllDirectories))
+			{
+				ModManifest Manifest = FileHandler.LoadModManifest(file.FullName);
+				string uId = Manifest.UniqueID;
+				string version = String.Concat(Manifest.Version.MajorVersion, ".", Manifest.Version.MinorVersion, ".", Manifest.Version.PatchVersion);
+				ModInfo newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, true, false/*isX*/, "OrgXP");
 
 
-			ModInfo modLookingFor = Mods.Find(x => x.UniqueID == uId);
-			if (modLookingFor == null)
-				Mods.Add(newMod);
+				ModInfo modLookingFor = Mods.Find(x => x.UniqueID == uId);
+				if (modLookingFor == null)
+					Mods.Add(newMod);
+			}
+			if (!Directory.Exists(System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivated Mods")))
+				Directory.CreateDirectory(System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivated Mods"));
 
-		}
-
-		if (Directory.Exists(System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivatedMods")))
-		{
-			filepath = System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivatedMods");
+			filepath = System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivated Mods");
 			d = new DirectoryInfo(filepath);
 
 			foreach (var file in d.GetFiles("manifest.json", SearchOption.AllDirectories))
@@ -177,20 +156,43 @@ public partial class MainWindow : Gtk.Window
 
 				ModInfo modLookingFor = Mods.Find(x => x.UniqueID == uId);
 				if (modLookingFor == null)
-				{
 					Mods.Add(newMod);
-					var source = new DirectoryInfo(System.IO.Path.GetDirectoryName(file.FullName));
-					var destination = new DirectoryInfo(file.FullName.Replace(System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivatedMods"), System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivated Mods")));
-					source.MoveMod(destination);
-				}
-
 
 			}
 
+			if (Directory.Exists(System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivatedMods")))
+			{
+				filepath = System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivatedMods");
+				d = new DirectoryInfo(filepath);
+
+				foreach (var file in d.GetFiles("manifest.json", SearchOption.AllDirectories))
+				{
+					ModManifest Manifest = FileHandler.LoadModManifest(file.FullName);
+					string uId = Manifest.UniqueID;
+					string version = String.Concat(Manifest.Version.MajorVersion, ".", Manifest.Version.MinorVersion, ".", Manifest.Version.PatchVersion);
+					ModInfo newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, false, false/*isX*/, "OrgXP");
+
+
+					ModInfo modLookingFor = Mods.Find(x => x.UniqueID == uId);
+					if (modLookingFor == null)
+					{
+						Mods.Add(newMod);
+						var source = new DirectoryInfo(System.IO.Path.GetDirectoryName(file.FullName));
+						var destination = new DirectoryInfo(file.FullName.Replace(System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivatedMods"), System.IO.Path.Combine(SDVMMSettings.GameFolder, "deactivated Mods")));
+						source.MoveMod(destination);
+					}
+
+
+				}
+
+			}
+
+			RefreshTreeView();
 		}
-
-		RefreshTreeView();
-
+		catch (Exception ex)
+		{
+			Console.Write(ex.Message);
+		}
 
 
 		//SDVMMR.ModListManagment.addToTree(SDVMMR.JsonHandler.readFromMod(System.IO.Path.Combine(SDVMMR.DirectoryOperations.getFolder("AppData"), "SDVMM", "Mods.json")), ModStore);
@@ -205,7 +207,7 @@ public partial class MainWindow : Gtk.Window
 		SMAPIVersion.Text = SDVMMSettings.SmapiVersion;
 		// Createing  columns
 		Gtk.TreeViewColumn CBColumn = new Gtk.TreeViewColumn();
-		CBColumn.Title = MainWindow.Translation.Active;
+		CBColumn.Title = Translation.Active;
 
 		Gtk.CellRendererText CBCell = new Gtk.CellRendererText();
 		CBColumn.PackStart(CBCell, true);

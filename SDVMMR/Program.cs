@@ -1,10 +1,6 @@
 ﻿using System;
 using Gtk;
-using Glade;
-using System.Collections.Generic;
 using System.IO;
-using Microsoft.Win32;
-using System.Diagnostics;
 
 namespace SDVMMR
 {
@@ -12,45 +8,45 @@ namespace SDVMMR
 	{
 		public static void Main(string[] args)
 		{
+			Application.Init();
 			MainWindow main = null;
 
-			try
-			{
-				Application.Init();
-				SetupEnvironment();
-				main = new MainWindow();
-
-
-				main.Present();
-
-				Application.Run();
-
-			}
-			catch (Exception ex)
-			{
-
-				// close main window to prevent further damage
-				if (main != null)
-					main.Destroy();
-
-				Console.Write(ex);
-
-				// Alert User
-				ErrorAlert alert = new ErrorAlert(ex.ToString(), "Error")
+				try
 				{
-					DefaultWidth = 100,
-					DefaultHeight = 100
-				};
 
-				alert.WindowShouldClosed += (sender, e) =>
+					SetupEnvironment();
+					main = new MainWindow();
+
+
+					main.Present();
+
+					Application.Run();
+
+				}
+				catch (Exception ex)
 				{
-					Application.Quit();
-				};
-				alert.Present();
-				Application.Run();
 
-			}
+					// close main window to prevent further damage
+					if (main != null)
+						main.Destroy();
 
+					Console.Write(ex);
+
+					// Alert User
+					ErrorAlert alert = new ErrorAlert(ex.ToString(), "Error")
+					{
+						DefaultWidth = 100,
+						DefaultHeight = 100
+					};
+
+					alert.WindowShouldClosed += (sender, e) =>
+					{
+						Application.Quit();
+					};
+					alert.Present();
+					Application.Run();
+
+				}
 		}
 
 		internal static void SetupEnvironment()
