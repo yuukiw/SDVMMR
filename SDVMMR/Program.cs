@@ -9,13 +9,13 @@ namespace SDVMMR
 		public static void Main(string[] args)
 		{
 			Application.Init();
-			MainWindow main = null;
+			var main = new MainWindow(); 
 
 				try
 				{
 
 					SetupEnvironment();
-					main = new MainWindow();
+				MainWindow.SDVMMSettings = FileHandler.LoadSettings();
 
 
 					main.Present();

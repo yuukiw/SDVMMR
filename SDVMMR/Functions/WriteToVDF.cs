@@ -34,11 +34,12 @@ namespace SDVMMR
 					ste.UsesEscapeSequences = true;
 
 					raw = VdfConvert.Deserialize(fileText, ste);
-					VObject data = (VObject)raw.UserLocalConfigStore.Software.Valve.Steam.Apps;
+					VObject data = (VObject)raw.Value.Software.Valve.Steam.Apps;
+
 
 					if (data.ContainsKey("413150"))
 					{
-						game = (VObject)raw.UserLocalConfigStore.Software.Valve.Steam.Apps["413150"];
+						game = (VObject)raw.Value.Software.Valve.Steam.Apps["413150"];
 						break;
 					}
 
@@ -78,6 +79,7 @@ VValue launchOptions = new VValue($" \\\"{path}\\\" %command%");
 
 				game.Add("LaunchOptions",launchOptions);
 				File.WriteAllText(files[i], raw.ToString());
+
 			}
 			catch (Exception ex)
 			{

@@ -11,12 +11,13 @@ using System.Net;
 public partial class MainWindow : Gtk.Window
 {
 
-	internal ModManager ModManager = null;
-	private List<ModInfo> Mods => ModManager.Mods;
 
 	internal ListStore ModStore => activeMods.Model as ListStore;
 
 	internal static SDVMMSettings SDVMMSettings = null;
+
+	internal ModManager ModManager = null;
+	private List<ModInfo> Mods => ModManager.Mods;
 
 	internal string SDVMMVersion = "1.0";
 

@@ -14,19 +14,19 @@ namespace SDVMMR
 	{
 		public static void DownloadSDVMM(string url)
 		{
-			DialogResult dialogResult = MessageBox.Show(MainWindow.Translation.SDVMMUpdateFound, MainWindow.Translation.UpdateTitle, MessageBoxButtons.YesNo);
-			if (dialogResult == DialogResult.Yes)
-			{
-				ProcessStartInfo startInfo = new ProcessStartInfo()
+				DialogResult dialogResult = MessageBox.Show(MainWindow.Translation.SDVMMUpdateFound, MainWindow.Translation.UpdateTitle, MessageBoxButtons.YesNo);
+				if (dialogResult == DialogResult.Yes)
 				{
-					FileName = (Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SDVMM Updater.exe")),
-					Arguments = url,
-					UseShellExecute = true,
-					WindowStyle = ProcessWindowStyle.Normal
-				};
-				Process.Start(startInfo);
-				Environment.Exit(0);
-			}
+					ProcessStartInfo startInfo = new ProcessStartInfo()
+					{
+						FileName = (Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SDVMM Updater.exe")),
+						Arguments = url,
+						UseShellExecute = true,
+						WindowStyle = ProcessWindowStyle.Normal
+					};
+					Process.Start(startInfo);
+					Environment.Exit(0);
+				}
 		}
 
 		public static void DownloadSMAPI(string url, string gameFolder, string version)
