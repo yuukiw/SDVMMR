@@ -3,8 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Cache;
-using Gtk;
 using Newtonsoft.Json;
+using System.Windows.Forms;
+using SDVMMR.Functions;
+
 
 namespace SDVMMR
 {
@@ -13,11 +15,11 @@ namespace SDVMMR
 		internal static string SDVMMVersion = "";
 		internal static string SMAPIVersion = "";
 		internal static string downloadUrl = "";
-		internal static ListStore ModStore;
-		public static void CheckForUpdates(string smapiVersion, string sdvmmVersion, string mVersion, string gameFolder,ListStore Mods)
+        internal static MainWindow mf;
+		public static void CheckForUpdates(string smapiVersion, string sdvmmVersion, string mVersion, string gameFolder,MainWindow mMainForm)
 		{
-			ModStore = Mods;
-			System.Net.ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
+            mf = mMainForm;
+            ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
 			if (checkForConection() == true)
 			{
 				SMAPIVersion = smapiVersion;
@@ -77,7 +79,7 @@ namespace SDVMMR
 			}
 			catch (Exception ex)
 			{
-				Message msg = new Message(ex.ToString(), "Error");
+				MessageBox.Show(ex.ToString(), "Error");
 			}
 		}
 
@@ -94,36 +96,22 @@ namespace SDVMMR
 			}
 			catch (Exception ex)
 			{
-				Message msg = new Message(ex.ToString(), "Error");
+				MessageBox.Show(ex.ToString(), "Error");
 			}
 		}
 
 		public static void CheckXNBLoader(string mVersion, string path)
 		{
-			if (!File.Exists(Path.Combine(path, "Mods", "XnbLoader", "XnbLoader.dll")))
-			{
-				UpdateHandler.DownloadXNBLoader("http://community.playstarbound.com/resources/xnb-loader.4506/download?version=20562",ModStore);
+            //ModUpdateHandler MUH = new ModUpdateHandler();
+            //MUH.CheckModUpdateAsync("http://community.playstarbound.com/resources/xnb-loader.4506/history");
 
+
+
+            UpdateHandler.DownloadXNBLoader("https://drive.google.com/uc?export=download&id=0B94u0_R6vixWRGhRVkFzUHU0eU0", mf);
+		
 			}
-			}
 
-			/*	try
-				{
-					string Version = "";
-					if (Version == "")
-						Version = "0.0";
-
-					GitRelease release = GetLatestRelease("Pathoschild/SMAPI");
-					downloadUrl = (release.TagName != Version)
-					   ? release.Downloads.OrderByDescending(p => p.Created).FirstOrDefault(p => !p.Name.Contains("developers"))?.DownloadUrl
-					   : null;
-					if(downloadUrl != null) 
-						UpdateHandler.DownloadSMAPI(downloadUrl);
-				}
-				catch(Exception ex)
-				{
-					Message msg = new Message(ex.ToString(), "Error");
-				}*/
+			
 		}
 
 }

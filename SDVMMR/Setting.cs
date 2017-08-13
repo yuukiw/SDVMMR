@@ -1,168 +1,114 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.IO;
-using Gtk;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-
 
 namespace SDVMMR
 {
+    public partial class Setting : Form
+    {
+        internal SDVMMSettings settings;
+        internal static string lang;
+
+        public Setting(SDVMMSettings Settings)
+        {
+            this.settings = Settings;
+            InitializeComponent();
+            lang = settings.Language;
+            GeneralSettings.Text = MainWindow.Translation.SettingsCategoryName1;
+            ModSettings.Text = MainWindow.Translation.SettingsCategoryName2;
+            SteamSettings.Text = MainWindow.Translation.SettingsCategoryName3;
+            SteamFolder.Text = MainWindow.Translation.SettingsSteamFolder;
+            GameFolder.Text = MainWindow.Translation.SettingsGameFolder;
+            IsGOG.Text = MainWindow.Translation.isGOG;
+            Save.Text = MainWindow.Translation.SaveSettings;
+            isGogBtn.Text = MainWindow.Translation.GOGChangeBtn;
+            IsGOGBox.Text = settings.GoGVersion.ToString();
+            overwriteButton.Text = MainWindow.Translation.overWriteGameFiles;
+            SetVDF.Text = MainWindow.Translation.SettingsSetLaunchOptions;
+            LanguageLabel.Text = MainWindow.Translation.Language;
+            LanguageBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            if (MainWindow.SDVMMSettings.overWrite == true)
+                overwriteButton.Checked = true;
+
+            SteamFolderBox.Text = settings.SteamFolder;
+            GameFolderBox.Text = settings.GameFolder;
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+                SetVDF.Hide();
+
+            var x = Directory.GetFiles(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations"), "*.json", SearchOption.TopDirectoryOnly).ToList();
+
+            foreach (String y in x)
+            {
+                LanguageBox.Items.Add(System.IO.Path.GetFileNameWithoutExtension(y));
+            }
+
+            if (lang != null)
+                LanguageBox.SelectedIndex = LanguageBox.FindStringExact(lang);
+            else
+                LanguageBox.SelectedIndex = LanguageBox.FindStringExact("en");
+
+            if (settings.overWrite == true)
+                overwriteButton.CheckState = CheckState.Checked;
+
+            if (MainWindow.SDVMMSettings.Language == null)
+                this.TopMost = true;
+
+        }
 
 
-	public partial class Setting : Gtk.Window
-	{
-		SDVMMSettings settings;
 
-		internal static string lang;
-		public Setting(SDVMMSettings settings) :
-				base(Gtk.WindowType.Toplevel)
-		{
-			
-			this.settings = settings;
-			this.Build();
-			lang = settings.Language;
-			GeneralSettings.Text = MainWindow.Translation.SettingsCategoryName1;
-			ModSettings.Text = MainWindow.Translation.SettingsCategoryName2;
-			SteamSettings.Text = MainWindow.Translation.SettingsCategoryName3;
-			SteamFolderLabel.Text = MainWindow.Translation.SettingsSteamFolder;
-			GameFolderLabel.Text = MainWindow.Translation.SettingsGameFolder;
-			GogLabel.Text = MainWindow.Translation.isGOG;
-			Save.Label = MainWindow.Translation.SaveSettings;
-			GogCBtn.Label = MainWindow.Translation.GOGChangeBtn;
-			overwriteButton.Label = MainWindow.Translation.overWriteGameFiles;
-			SetVDF.Label = MainWindow.Translation.SettingsSetLaunchOptions;
-			LanguageLabel.Text = MainWindow.Translation.Language;
-			if (MainWindow.SDVMMSettings.overWrite == true)
-				overwriteButton.Active = true;
+        private void SaveBtn_Click(object sender, EventArgs e)
+        {
+            if (SteamFolderBox.Text != "" & GameFolderBox.Text != "")
+            {
+                bool isGOG = Boolean.Parse(IsGOGBox.Text);
+                bool overwrite = overwriteButton.CheckState == CheckState.Checked ? true : false;
+                settings.Language = LanguageBox.Text;
+                settings.GameFolder = GameFolderBox.Text;
+                settings.SteamFolder = SteamFolderBox.Text;
+                settings.GoGVersion = isGOG;
+                settings.overWrite = overwrite;
 
-			SteamFolderBox.Text = settings.SteamFolder;
-			GameFolderBox.Text = settings.GameFolder;
-			if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-				SetVDF.Hide();
+                FileHandler.SaveSettings(this.settings);
+                if (lang != settings.Language)
+                {
+                    DialogResult dialogResult = MessageBox.Show(MainWindow.Translation.LanguageChanged, MainWindow.Translation.LanguageChangedTitle, MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        Application.Exit();
+                    }
+                }
 
-			var x = Directory.GetFiles(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations"), "*.json", SearchOption.TopDirectoryOnly).ToList();
+            }
+            else
+            {
+                MessageBox.Show(MainWindow.Translation.ValuesNotFound, "Error");
+            }
+        }
 
-			ListStore store = new ListStore(typeof(string));
+        private void SteamFolderBox_TextChanged(object sender, EventArgs e)
+        {
 
-			foreach (String name in x)
-			{
-				store.AppendValues(System.IO.Path.GetFileNameWithoutExtension(name));
-			}
-			LanguageBox.Model = store;
-			LanguageBox.Active = 0;
+        }
 
-			int help = 0;
-			while (LanguageBox.ActiveText != lang)
-			{
-				if (lang == null)
-					break;
-				help++;
-				LanguageBox.Active = help;
-			}
-			if (MainWindow.SDVMMSettings.Language == null)
-			this.KeepAbove = true;
+        private void SetVDF_Click(object sender, EventArgs e)
+        {
+            WriteToVDF.EditVDF(settings);
+        }
 
-		}
-
-		protected void OnSteamFolderTNClicked(object sender, EventArgs e)
-		{
-			string folder = "";
-			Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog(
-					   MainWindow.Translation.FCTitle,
-					   this,
-					   FileChooserAction.Open,
-				MainWindow.Translation.FCcancel, ResponseType.Cancel,
-					   MainWindow.Translation.FCopen, ResponseType.Accept);
-
-			if (filechooser.Run() == (int)ResponseType.Accept)
-			{
-				System.IO.FileStream file = System.IO.File.OpenRead(filechooser.Filename);
-				folder = System.IO.Path.GetDirectoryName(filechooser.Filename);
-				file.Close();
-				if (System.IO.File.Exists(System.IO.Path.Combine(folder, "Steam.dll")))
-				{
-					SteamFolderBox.Text = folder;
-					filechooser.Destroy();
-				}
-				else
-				{
-					SDVMMR.Message msg = new Message(MainWindow.Translation.SettingsPathsnotSet, MainWindow.Translation.SettingsPathsnotSetTitle);
-					msg.Show();
-					filechooser.Destroy();
-				}
-			}
-
-		}
-
-		protected void OnGameFolderBtnClicked(object sender, EventArgs e)
-		{
-			string folder = "";
-			Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog(
-					   MainWindow.Translation.FCTitle,
-					   this,
-					   FileChooserAction.Open,
-				MainWindow.Translation.FCcancel, ResponseType.Cancel,
-					   MainWindow.Translation.FCopen, ResponseType.Accept);
-
-			if (filechooser.Run() == (int)ResponseType.Accept)
-			{
-				System.IO.FileStream file = System.IO.File.OpenRead(filechooser.Filename);
-				folder = System.IO.Path.GetDirectoryName(filechooser.Filename);
-				file.Close();
-				if (System.IO.File.Exists(System.IO.Path.Combine(folder, "Stardew Valley.exe")))
-				{
-					GameFolderBox.Text = folder;
-				}
-				else
-				{
-					SDVMMR.Message msg = new Message(MainWindow.Translation.SettingsPathsnotSet, MainWindow.Translation.SettingsPathsnotSetTitle);
-					msg.Show();
-				}
-			}
-		}
-
-		protected void OnGogCBtnClicked(object sender, EventArgs e)
-		{
-			if (GogBox.Text == "False")
-				GogBox.Text = "True";
-			else
-				GogBox.Text = "False";
-		}
-
-		protected void OnSaveClicked(object sender, EventArgs e)
-		{
-			if (SteamFolderBox.Text != "" & GameFolderBox.Text != "")
-			{
-				bool isGOG = (GogBox.Text == "True");
-				bool overwrite = overwriteButton.Active;
-				settings.Language = LanguageBox.ActiveText;
-				settings.GameFolder = GameFolderBox.Text;
-				settings.SteamFolder = SteamFolderBox.Text;
-				settings.GoGVersion = isGOG;
-				settings.overWrite = overwrite;
-
-				FileHandler.SaveSettings(this.settings);
-				if (lang != settings.Language)
-				{
-					DialogResult dialogResult = MessageBox.Show(MainWindow.Translation.LanguageChanged,MainWindow.Translation.LanguageChangedTitle, MessageBoxButtons.YesNo);
-					if (dialogResult == DialogResult.Yes)
-					{
-						Environment.Exit(0);
-					}
-				}
-				this.Destroy();
-			}
-			else
-			{
-				SDVMMR.Message msg = new Message(MainWindow.Translation.ValuesNotFound, "Error");
-				msg.Show();
-			}
-		}
-
-
-		protected void OnSetVDFClicked(object sender, EventArgs e)
-		{
-			WriteToVDF.EditVDF(settings);
-		}
-	}
+        private void isGogBtn_Click(object sender, EventArgs e)
+        {
+            if (IsGOGBox.Text == "False")
+                IsGOGBox.Text = "True";
+            else
+                IsGOGBox.Text = "False";
+        }
+    }
 }

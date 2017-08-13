@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using System.Net.Cache;
 using System.Windows.Forms;
-using Gtk;
 using Newtonsoft.Json;
 
 namespace SDVMMR
@@ -70,7 +69,7 @@ namespace SDVMMR
 			}
 		}
 
-		public static void DownloadXNBLoader(string url, ListStore Mods)
+		public static void DownloadXNBLoader(string url, MainWindow mf)
 		{
 			//todo download and put into mods folder http://community.playstarbound.com/resources/xnb-loader.4506/download?version=20562
 			using (WebClient WC = new WebClient())
@@ -80,7 +79,7 @@ namespace SDVMMR
 					System.IO.File.Delete(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "xl.zip"));
 				}
 				WC.Headers.Add("user-agent", "SDVMM/Version: 1.0");
-				WC.DownloadFile("https://drive.google.com/uc?export=download&id=0B94u0_R6vixWc3lkZm5RbF9sXzQ", Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "xl.zip"));
+				WC.DownloadFile(url, Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "xl.zip"));
 				if (System.IO.Directory.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
 				{
 					Directory.Delete(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"), true);
@@ -90,11 +89,12 @@ namespace SDVMMR
 					System.IO.Directory.CreateDirectory(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
 				}
 				zipHandling.extractZip(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "xl.zip"), Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
-				ModManager mm = new ModManager(MainWindow.SDVMMSettings, Mods);
+				ModManager mm = new ModManager(MainWindow.SDVMMSettings,mf);
 				mm.addMod(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked", "XnbLoader", "XnbLoader.dll"), false, "");
+                mm.addMod(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked", "!EntoaroxFramework", "EntoaroxFramework.dll"), false, "");
 
 
-			}
+            }
 		}
 
 	}

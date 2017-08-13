@@ -1,82 +1,58 @@
 ﻿using System;
-using Gtk;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SDVMMR
 {
-	class MainClass
-	{
-		public static void Main(string[] args)
-		{
-			Application.Init();
-			var main = new MainWindow(); 
+    static class Program
+    {
+        /// <summary>
+        /// Der Haupteinstiegspunkt für die Anwendung.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            SetupEnvironment();
+            Application.Run(new MainWindow());
+        }
 
-				try
-				{
+        internal static void SetupEnvironment()
+        {
+            if (!System.IO.Directory.Exists(Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM")))
+            {
+                System.IO.Directory.CreateDirectory(Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM"));
+            }
+            string path = Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "SDVMM.json");
+            //first of we check if the old non mono version of SDVMM was used
+            //if so migrate the ini to the new system
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                if (System.IO.File.Exists(Path.Combine(DirectoryOperations.getFolder("OldAppData"), "SDVMM.ini")))
+                {
 
-					SetupEnvironment();
-				MainWindow.SDVMMSettings = FileHandler.LoadSettings();
+                    string language = "en";
+                    string oldPath = Path.Combine(DirectoryOperations.getFolder("OldAppData"), "SDVMM.ini");
+                    string GFolder = iniParsing.INI_ReadValueFromFile("General", "GameFolder", "C:\\", oldPath);
+                    string SFolder = iniParsing.INI_ReadValueFromFile("General", "SteamFolder", "C:\\", oldPath);
+                    string GoGV = iniParsing.INI_ReadValueFromFile("General", "SteamFolder", "C:\\", oldPath);
+                    string SVersion = iniParsing.INI_ReadValueFromFile("SMAPI Details", "Version", "C:\\", oldPath);
+                    bool isGOG = (GoGV == "1");
+                    if (!System.IO.File.Exists(path))
+                    {
+                        DirectoryOperations.CreateFile(path);
+                    }
 
+                    var settings = new SDVMMSettings(language, SVersion, GFolder, SFolder, isGOG, false);
 
-					main.Present();
-
-					Application.Run();
-
-				}
-				catch (Exception ex)
-				{
-
-					// close main window to prevent further damage
-					if (main != null)
-						main.Destroy();
-
-					Console.Write(ex);
-
-					// Alert User
-					ErrorAlert alert = new ErrorAlert(ex.ToString(), "Error")
-					{
-						DefaultWidth = 100,
-						DefaultHeight = 100
-					};
-
-					alert.WindowShouldClosed += (sender, e) =>
-					{
-						Application.Quit();
-					};
-					alert.Present();
-					Application.Run();
-
-				}
-		}
-
-		internal static void SetupEnvironment()
-		{
-			string path = Path.Combine(DirectoryOperations.getFolder("AppData"), "SDVMM", "SDVMM.json");
-			//first of we check if the old non mono version of SDVMM was used
-			//if so migrate the ini to the new system
-			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-			{
-				if (System.IO.File.Exists(Path.Combine(DirectoryOperations.getFolder("OldAppData"), "SDVMM.ini")))
-				{
-
-					string language = "en";
-					string oldPath = Path.Combine(DirectoryOperations.getFolder("OldAppData"), "SDVMM.ini");
-					string GFolder = iniParsing.INI_ReadValueFromFile("General", "GameFolder", "C:\\", oldPath);
-					string SFolder = iniParsing.INI_ReadValueFromFile("General", "SteamFolder", "C:\\", oldPath);
-					string GoGV = iniParsing.INI_ReadValueFromFile("General", "SteamFolder", "C:\\", oldPath);
-					string SVersion = iniParsing.INI_ReadValueFromFile("SMAPI Details", "Version", "C:\\", oldPath);
-					bool isGOG = (GoGV == "1");
-					if (!System.IO.File.Exists(path))
-					{
-						DirectoryOperations.CreateFile(path);
-					}
-
-					var settings = new SDVMMSettings(language, SVersion, GFolder, SFolder, isGOG, false);
-
-					FileHandler.SaveSettings(settings);
-					System.IO.File.Delete(Path.Combine(DirectoryOperations.getFolder("OldAppData"), "SDVMM.ini"));
-				}
-			}
-		}
-	}
+                    FileHandler.SaveSettings(settings);
+                    System.IO.File.Delete(Path.Combine(DirectoryOperations.getFolder("OldAppData"), "SDVMM.ini"));
+                }
+            }
+        }
+    }
 }

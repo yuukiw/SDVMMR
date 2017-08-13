@@ -3,6 +3,7 @@ using System.IO;
 using Gameloop.Vdf;
 using System.Linq;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace SDVMMR
 {
@@ -48,17 +49,17 @@ namespace SDVMMR
 				// check fail conditions
 				if (game == null)
 				{
-					Message msg = new Message(MainWindow.Translation.SDVInstalled, "error");
+					MessageBox.Show(MainWindow.Translation.SDVInstalled, "error");
 					return;
 				}
 				if (game.ContainsKey("LaunchOptions"))
 				{
-					Message msg = new Message(MainWindow.Translation.LaunchOptionExist, "error");
+                    MessageBox.Show(MainWindow.Translation.LaunchOptionExist, "error");
 					return;
 				}
 				if (File.Exists(Path.Combine(files[i], "localconfig-sdvmm.vdf.bak")))
 				{
-					Message msg = new Message(MainWindow.Translation.LaunchOptionApplied, "error");
+                    MessageBox.Show(MainWindow.Translation.LaunchOptionApplied, "error");
 					return;
 				}
 								// kill steam
@@ -83,7 +84,7 @@ VValue launchOptions = new VValue($" \\\"{path}\\\" %command%");
 			}
 			catch (Exception ex)
 			{
-				Message msg = new Message(ex.ToString(), "error");
+                MessageBox.Show(ex.ToString(), "error");
 			}
 
 

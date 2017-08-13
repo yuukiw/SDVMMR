@@ -3,38 +3,44 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using Gtk;
+using System.Windows.Forms;
 
 namespace SDVMMR
 {
 	public class ModManager
 	{
 
-		internal List<ModInfo> Mods = FileHandler.LoadModList();
+		internal static List<ModInfo> Mods = FileHandler.LoadModList();
 
-		private ListStore ModStore;
+        private MainWindow mf;
 
 		private SDVMMSettings Settings;
 
-		public ModManager(SDVMMSettings settings, ListStore modStore)
-		{
-			this.ModStore = modStore;
-			this.Settings = settings;
+		public ModManager(SDVMMSettings settings, MainWindow nMainForm )
+        {
+            mf = nMainForm;
+			this.Settings = settings;          
 		}
 
-		internal void addMod(string path, bool skipRec, string recdestPath)
+
+
+        internal void addMod(string path, bool skipRec, string recdestPath)
 		{
 			try
 			{
 				if ((System.IO.Path.GetFileName(path).Contains(".zip")))
 				{
 					string oldPath = path;
-					if (!Directory.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unzipped")))
+                    if (Directory.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unzipped")))
+                    {
+                        System.IO.Directory.Delete(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unzipped"),true);
+                    }
+                    if (!Directory.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unzipped")))
 					{
 						System.IO.Directory.CreateDirectory(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unzipped"));
 					}
 					zipHandling.extractZip(path, Path.Combine(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unzipped")));
-					var x = Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories).ToList();
+					var x = Directory.GetFiles(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unzipped"), "*.dll", SearchOption.AllDirectories).ToList();
 					if (x.Count > 0)
 					{
 						path = x[0];
@@ -55,7 +61,7 @@ namespace SDVMMR
 					string orgpath = "";
 					if (skipRec == false)
 					{
-						destPath = recSearchForXNB.recXNB(System.IO.Path.Combine(Settings.GameFolder, "Content"), System.IO.Path.GetFileName(path), Settings, ModStore, path, "add", null);
+						destPath = recSearchForXNB.recXNB(System.IO.Path.Combine(Settings.GameFolder, "Content"), System.IO.Path.GetFileName(path), Settings, mf, path, "add", null);
 						orgpath = destPath;
 					}
 					else
@@ -94,7 +100,7 @@ namespace SDVMMR
 						if (modLookingFor == null)
 						{
 							Mods.Add(newMod);
-							addToTree(newMod);
+							addToTree(newMod,mf);
 							FileHandler.SaveModList(Mods);
 						}
 
@@ -144,7 +150,7 @@ namespace SDVMMR
 						if (modLookingFor == null)
 						{
 							Mods.Add(newMod);
-							addToTree(newMod);
+							addToTree(newMod,mf);
 							FileHandler.SaveModList(Mods);
 						}
 					}
@@ -153,23 +159,14 @@ namespace SDVMMR
 						if (destPath != null & skipRec == false)
 						{
 							string folder = "";
-							Gtk.FileChooserDialog filechooser = new Gtk.FileChooserDialog(
-									   MainWindow.Translation.FCTitle,
-									   null,
-									   FileChooserAction.Open,
-									   MainWindow.Translation.FCcancel, ResponseType.Cancel,
-									   MainWindow.Translation.FCopen, ResponseType.Accept);
 
-							filechooser.SelectMultiple = false;
-							FileFilter filter = new FileFilter();
-							filter.Name = MainWindow.Translation.FCXNBTitle;
-							filter.AddPattern("*.xnb"); ;
-							filechooser.Filter = filter;
-							if (filechooser.Run() == (int)ResponseType.Accept)
+                            OpenFileDialog filechooser = new OpenFileDialog();
+                            filechooser.Filter = String.Join("",MainWindow.Translation.FCXNBTitle ,"|*.xnb");
+                            filechooser.Title = MainWindow.Translation.FCTitle;
+                            if (filechooser.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 							{
-								folder = filechooser.Filename;
-								addMod(folder, false, "");
-								filechooser.Destroy();
+                                folder = filechooser.FileName;
+								addMod(folder, false, "");								
 							}
 						}
 					}
@@ -195,7 +192,7 @@ namespace SDVMMR
 					else
 					{
 						Mods.Add(newMod);
-						addToTree(newMod);
+						addToTree(newMod,mf);
 					}
 					string destFolder = System.IO.Path.Combine(Settings.GameFolder, "Mods", Path.GetFileName(path));
 					var source = new DirectoryInfo(System.IO.Path.GetFullPath(path));
@@ -207,8 +204,7 @@ namespace SDVMMR
 			}
 			catch (Exception ex)
 			{
-				Message msg = new Message(ex.ToString(), "error");
-				msg.Show();
+                MessageBox.Show(ex.ToString(), "error");
 			}
 			Mods = FileHandler.LoadModList();
 		}
@@ -218,10 +214,37 @@ namespace SDVMMR
 			File.Delete(path);
 		}
 
-		internal void addToTree(ModInfo Mod)
+		internal void addToTree(ModInfo Mod, MainWindow mf)
 		{
-			ModStore.AppendValues(Mod.IsActive.ToString(), Mod.Name, Mod.Author, Mod.Version, Mod.Description);
-		}
+            ListViewItem item = new ListViewItem(Mod.Name, -2);
+            item.SubItems.Add(Mod.Author);
+            item.SubItems.Add(Mod.Version);
+            item.SubItems.Add(Mod.Description);
+            item.SubItems.Add(Mod.UniqueID);
+            item.SubItems.Add(Mod.IsActive.ToString());
+            item.SubItems.Add(Mod.IsXnb.ToString());
+           
+            if (MainWindow.tile)
+            {
+                if (Mod.IsActive == false)
+                    item.BackColor = System.Drawing.Color.Gray;
+
+                else
+                    item.BackColor = System.Drawing.Color.Green;
+            }
+            else
+            {
+                if (Mod.IsActive == false)
+                    item.Checked = false;
+
+                else
+                    item.Checked = true;
+            }
+
+            mf.addToList(item);
+            
+
+        }
 
 
 	}

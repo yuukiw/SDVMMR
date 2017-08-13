@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using Gtk;
+
 
 namespace SDVMMR
 {
@@ -10,14 +10,14 @@ namespace SDVMMR
 	{
 		internal static List<ModInfo> Mods = FileHandler.LoadModList();
 		internal static SDVMMSettings Settings;
-		internal static ListStore ModStore;
+		internal static MainWindow ModStore;
 		internal static string spath = "";
 		internal static string mod = "";
 		internal static string checkValue = "";
-		internal static string recXNB(string SourcePath, string search, SDVMMSettings settings, ListStore modStore, string filepath, string mode,string CheckValue)
+		internal static string recXNB(string SourcePath, string search, SDVMMSettings settings, MainWindow mf, string filepath, string mode,string CheckValue)
 		{
 			Settings = settings;
-			ModStore = modStore;
+			ModStore = mf;
 			spath = filepath;
 			mod = mode;
 			checkValue = CheckValue;
@@ -50,7 +50,10 @@ namespace SDVMMR
 				{
 					ModManager mm = new ModManager(Settings, ModStore);
 					mm.removeMod(array[x]);
-					File.Copy(array[x].Replace(Path.Combine(MainWindow.SDVMMSettings.GameFolder, "Content"), Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Backup")),array[x]);
+                    if(Settings.overWrite == true)
+                    {
+                        File.Copy(array[x].Replace(Path.Combine(MainWindow.SDVMMSettings.GameFolder, "Content"), Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Backup")), array[x]);
+                    }
 				}
 
 			}
