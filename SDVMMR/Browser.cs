@@ -1,0 +1,144 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+
+using System.Windows.Forms;
+
+namespace SDVMMR
+{
+    public partial class Browser : Form
+    {
+        List<Uri> HistoryStack;
+        int HistoryStack_Index;
+        bool fromHistory;
+        MainWindow Mf = null;
+        SDVMMSettings settings = null;
+        internal string bHome;
+        internal string file;
+
+        public Browser(string url, MainWindow mf, SDVMMSettings set)
+        {
+            Mf = mf;
+            settings = set;
+            bHome = url;
+            System.Uri URL = new System.Uri(url);
+            HistoryStack = new List<Uri>();
+            HistoryStack_Index = 0;
+            fromHistory = false;
+            InitializeComponent();
+            webBrowser1.Url = URL;
+            webBrowser1.ScriptErrorsSuppressed = true;
+            webBrowser1.Navigating += new WebBrowserNavigatingEventHandler(webBrowser1_Navigating);
+            UpdateNavButtons();
+        }
+
+
+        private void webBrowser1_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            if (!fromHistory)
+            {
+                if (HistoryStack_Index < HistoryStack.Count)
+                {
+                    HistoryStack.RemoveRange(HistoryStack_Index, HistoryStack.Count - HistoryStack_Index);
+                }
+
+                HistoryStack.Add(e.Url);
+                HistoryStack_Index++;
+                UpdateNavButtons();
+            }
+            fromHistory = false;
+
+            if (e.Url.Segments[e.Url.Segments.Length - 1].EndsWith(".zip")|| e.Url.Segments[e.Url.Segments.Length - 1].EndsWith(".rar"))
+            {
+                file = "Mod.zip";
+
+                if (e.Url.Segments[e.Url.Segments.Length - 1].EndsWith(".rar"))
+                {
+                    file = "Mod.rar";
+                }
+                var url = e.Url;
+                e.Cancel = true;
+                using (WebClient WC = new WebClient())
+                {
+                    try
+                    {
+                        if (System.IO.File.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), file)))
+                        {
+                            System.IO.File.Delete(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), file));
+                        }
+
+                        WC.Headers.Add("user-agent", "SDVMM/Version: 1.0");
+                        WC.DownloadFileAsync(url, Path.Combine(DirectoryOperations.getFolder("ExeFolder"), file));
+                        WC.DownloadFileCompleted += new AsyncCompletedEventHandler(WC_DownloadFileCompleted);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }
+        }
+
+        void WC_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            if (System.IO.Directory.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
+            {
+                Directory.Delete(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"), true);
+            }
+
+            if (!System.IO.Directory.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
+            {
+                System.IO.Directory.CreateDirectory(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
+            }
+
+            Mf.ManualRaise = false;
+            ModManager mm = new ModManager(settings,Mf);
+            mm.addMod(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), file), false, "");
+            Mf.RefreshListView();
+            Mf.ManualRaise = false;
+        }
+
+        private void back_Click(object sender, EventArgs e)
+        {
+            if (HistoryStack_Index > 1)
+            {
+                HistoryStack_Index--;
+                fromHistory = true;
+                webBrowser1.Navigate(HistoryStack[HistoryStack_Index - 1]);
+                UpdateNavButtons();
+            }
+        }
+
+        private void forward_Click(object sender, EventArgs e)
+        {
+            if (HistoryStack_Index < HistoryStack.Count)
+            {
+                HistoryStack_Index++;
+                fromHistory = true;
+                webBrowser1.Navigate(HistoryStack[HistoryStack_Index - 1]);
+                UpdateNavButtons();
+            }
+        }
+
+        private void UpdateNavButtons()
+        {
+            back.Enabled = HistoryStack_Index > 1;
+            forward.Enabled = HistoryStack_Index < HistoryStack.Count;
+        }
+
+        private void home_Click(object sender, EventArgs e)
+        {
+            webBrowser1.Url = new System.Uri(bHome);
+        }
+    }
+
+
+}

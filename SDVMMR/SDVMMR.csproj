@@ -52,6 +52,9 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="SharpCompress, Version=0.18.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpCompress.0.18.0\lib\net45\SharpCompress.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -75,7 +78,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms">
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Tamir.SharpSSH, Version=1.1.1.13, Culture=neutral">
@@ -86,10 +89,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Browser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Browser.Designer.cs">
+      <DependentUpon>Browser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Functions\Class1.cs" />
     <Compile Include="Functions\DirectoryOperations.cs" />
     <Compile Include="Functions\FileHandler.cs" />
     <Compile Include="Functions\iniParser.cs" />
     <Compile Include="Functions\ModManager.cs" />
+    <Compile Include="Functions\ModType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Functions\ModType.Designer.cs">
+      <DependentUpon>ModType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Functions\ModUpdateHandler.cs" />
     <Compile Include="Functions\MoveMod.cs" />
     <Compile Include="Functions\recSearchForXNB.cs" />
@@ -98,6 +114,7 @@
     <Compile Include="Functions\Updates.cs" />
     <Compile Include="Functions\WriteToVDF.cs" />
     <Compile Include="Functions\zipHandling.cs" />
+    <Compile Include="JSON Dummies\ALLManifest.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +134,12 @@
     <Compile Include="Setting.Designer.cs">
       <DependentUpon>Setting.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Browser.resx">
+      <DependentUpon>Browser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Functions\ModType.resx">
+      <DependentUpon>ModType.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -196,6 +219,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="manager.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Home_16x.png" />
+    <None Include="Resources\Forward_256x.png" />
+    <None Include="Resources\Forward_16x.png" />
+    <None Include="Resources\Backward_16x.png" />
+    <Content Include="TextFile1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="System\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

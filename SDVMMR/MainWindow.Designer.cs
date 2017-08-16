@@ -37,21 +37,24 @@ namespace SDVMMR
             this.activeModsLabel = new System.Windows.Forms.Label();
             this.SDVV = new System.Windows.Forms.Label();
             this.SdvvmrV = new System.Windows.Forms.Label();
-            this.ChangeView = new System.Windows.Forms.Button();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.Toolbar = new System.Windows.Forms.ToolStrip();
             this.Launch = new System.Windows.Forms.ToolStripSplitButton();
             this.launchSDVItem = new System.Windows.Forms.ToolStripMenuItem();
             this.launchSMAPIItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addMod = new System.Windows.Forms.ToolStripButton();
+            this.addMod = new System.Windows.Forms.ToolStripSplitButton();
+            this.downloadModsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenSDV = new System.Windows.Forms.ToolStripSplitButton();
             this.OpenSDVMM = new System.Windows.Forms.ToolStripMenuItem();
             this.OpenAPPData = new System.Windows.Forms.ToolStripMenuItem();
             this.Settings = new System.Windows.Forms.ToolStripButton();
             this.donate = new System.Windows.Forms.ToolStripButton();
             this.About = new System.Windows.Forms.ToolStripButton();
+            this.Mode = new System.Windows.Forms.ComboBox();
+            this.search = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.SMAPIUpdate = new System.Windows.Forms.LinkLabel();
             this.Toolbar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -93,16 +96,6 @@ namespace SDVMMR
             this.SdvvmrV.Size = new System.Drawing.Size(35, 13);
             this.SdvvmrV.TabIndex = 6;
             this.SdvvmrV.Text = "label2";
-            // 
-            // ChangeView
-            // 
-            this.ChangeView.Location = new System.Drawing.Point(868, 192);
-            this.ChangeView.Name = "ChangeView";
-            this.ChangeView.Size = new System.Drawing.Size(75, 23);
-            this.ChangeView.TabIndex = 7;
-            this.ChangeView.Text = "Change View";
-            this.ChangeView.UseVisualStyleBackColor = true;
-            this.ChangeView.Click += new System.EventHandler(this.button1_Click);
             // 
             // toolStripSeparator1
             // 
@@ -174,6 +167,8 @@ namespace SDVMMR
             // addMod
             // 
             this.addMod.AutoSize = false;
+            this.addMod.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.downloadModsToolStripMenuItem});
             this.addMod.Image = global::SDVMMR.Properties.Resources.Add_16x;
             this.addMod.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addMod.Margin = new System.Windows.Forms.Padding(0, 1, 5, 2);
@@ -183,7 +178,15 @@ namespace SDVMMR
             this.addMod.Text = "Add";
             this.addMod.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.addMod.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.addMod.ButtonClick += new System.EventHandler(this.addMod_ButtonClick);
             this.addMod.Click += new System.EventHandler(this.addMod_Click);
+            // 
+            // downloadModsToolStripMenuItem
+            // 
+            this.downloadModsToolStripMenuItem.Name = "downloadModsToolStripMenuItem";
+            this.downloadModsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.downloadModsToolStripMenuItem.Text = "Download Mods";
+            this.downloadModsToolStripMenuItem.Click += new System.EventHandler(this.downloadModsToolStripMenuItem_Click);
             // 
             // OpenSDV
             // 
@@ -205,14 +208,14 @@ namespace SDVMMR
             // OpenSDVMM
             // 
             this.OpenSDVMM.Name = "OpenSDVMM";
-            this.OpenSDVMM.Size = new System.Drawing.Size(152, 22);
+            this.OpenSDVMM.Size = new System.Drawing.Size(149, 22);
             this.OpenSDVMM.Text = "OpenSDV";
             this.OpenSDVMM.Click += new System.EventHandler(this.OpenSDVMM_Click);
             // 
             // OpenAPPData
             // 
             this.OpenAPPData.Name = "OpenAPPData";
-            this.OpenAPPData.Size = new System.Drawing.Size(152, 22);
+            this.OpenAPPData.Size = new System.Drawing.Size(149, 22);
             this.OpenAPPData.Text = "OpenAPPData";
             this.OpenAPPData.Click += new System.EventHandler(this.OpenAPPData_Click);
             // 
@@ -243,6 +246,7 @@ namespace SDVMMR
             this.donate.Text = "spenden";
             this.donate.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.donate.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.donate.Click += new System.EventHandler(this.donate_Click);
             // 
             // About
             // 
@@ -258,6 +262,22 @@ namespace SDVMMR
             this.About.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.About.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
+            // Mode
+            // 
+            this.Mode.FormattingEnabled = true;
+            this.Mode.Location = new System.Drawing.Point(856, 192);
+            this.Mode.Name = "Mode";
+            this.Mode.Size = new System.Drawing.Size(87, 21);
+            this.Mode.TabIndex = 7;
+            this.Mode.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // search
+            // 
+            this.search.Location = new System.Drawing.Point(657, 193);
+            this.search.Name = "search";
+            this.search.Size = new System.Drawing.Size(182, 20);
+            this.search.TabIndex = 8;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::SDVMMR.Properties.Resources.SDVM;
@@ -267,13 +287,28 @@ namespace SDVMMR
             this.pictureBox1.Size = new System.Drawing.Size(952, 113);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // SMAPIUpdate
+            // 
+            this.SMAPIUpdate.AutoSize = true;
+            this.SMAPIUpdate.Location = new System.Drawing.Point(144, 545);
+            this.SMAPIUpdate.Name = "SMAPIUpdate";
+            this.SMAPIUpdate.Size = new System.Drawing.Size(49, 13);
+            this.SMAPIUpdate.TabIndex = 9;
+            this.SMAPIUpdate.TabStop = true;
+            this.SMAPIUpdate.Text = "SUpdate";
+            this.SMAPIUpdate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SMAPIUpdate_LinkClicked);
+            this.SMAPIUpdate.Click += new System.EventHandler(this.SMAPIUpdate_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(950, 565);
-            this.Controls.Add(this.ChangeView);
+            this.Controls.Add(this.SMAPIUpdate);
+            this.Controls.Add(this.search);
+            this.Controls.Add(this.Mode);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.SdvvmrV);
             this.Controls.Add(this.SDVV);
@@ -301,12 +336,10 @@ namespace SDVMMR
         private System.Windows.Forms.Label activeModsLabel;
         private System.Windows.Forms.Label SDVV;
         private System.Windows.Forms.Label SdvvmrV;
-        private System.Windows.Forms.Button ChangeView;
         private System.Windows.Forms.ToolStripSplitButton Launch;
         private System.Windows.Forms.ToolStripMenuItem launchSDVItem;
         private System.Windows.Forms.ToolStripMenuItem launchSMAPIItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripButton addMod;
         private System.Windows.Forms.ToolStripSplitButton OpenSDV;
         private System.Windows.Forms.ToolStripMenuItem OpenSDVMM;
         private System.Windows.Forms.ToolStripMenuItem OpenAPPData;
@@ -315,6 +348,11 @@ namespace SDVMMR
         private System.Windows.Forms.ToolStripButton About;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStrip Toolbar;
+        private ComboBox Mode;
+        private TextBox search;
+        private LinkLabel SMAPIUpdate;
+        private ToolStripSplitButton addMod;
+        private ToolStripMenuItem downloadModsToolStripMenuItem;
     }
 }
 

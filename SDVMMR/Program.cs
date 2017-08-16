@@ -9,16 +9,23 @@ namespace SDVMMR
 {
     static class Program
     {
+
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            SetupEnvironment();
-            Application.Run(new MainWindow());
+            try
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                SetupEnvironment();
+                Application.Run(new MainWindow());
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         internal static void SetupEnvironment()

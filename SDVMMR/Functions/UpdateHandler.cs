@@ -35,36 +35,50 @@ namespace SDVMMR
 			{
 				using (WebClient WC = new WebClient())
 				{
-					if (System.IO.File.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Smapi.zip")))
-					{
-						System.IO.File.Delete(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Smapi.zip"));
-					}
-					WC.Headers.Add("user-agent", "SDVMM/Version: 1.0");
-					WC.DownloadFile(url, Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Smapi.zip"));
-					if (System.IO.Directory.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
-					{
-						Directory.Delete(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"), true);
-					}
-					if (!System.IO.Directory.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
-					{
-						System.IO.Directory.CreateDirectory(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
-					}
-					zipHandling.extractZip(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Smapi.zip"), Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
-					var x = Directory.GetDirectories(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
-					string path = "";
-					if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-					{
-						path = Path.Combine(x[0], "internal", "Windows");
-					}
-					else
-					{
-						path = Path.Combine(x[0], "internal", "Mono");
-					}
-					var source = new DirectoryInfo(System.IO.Path.GetFullPath(path));
-					var destination = new DirectoryInfo(gameFolder);
-					source.MoveMod(destination);
-					MainWindow.SDVMMSettings.SmapiVersion = version;
-					FileHandler.SaveSettings(MainWindow.SDVMMSettings);
+                    string text = "0";
+                    try
+                    {
+                        if (System.IO.File.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Smapi.zip")))
+                        {
+                            System.IO.File.Delete(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Smapi.zip"));
+                        }
+                        text = "1";
+                        WC.Headers.Add("user-agent", "SDVMM/Version: 1.0");
+                        WC.DownloadFile(url, Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Smapi.zip"));
+                        text = "2";
+                        if (System.IO.Directory.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
+                        {
+                            Directory.Delete(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"), true);
+                        }
+                        text = "3";
+                        if (!System.IO.Directory.Exists(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
+                        {
+                            System.IO.Directory.CreateDirectory(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
+                        }
+                        text = "4";
+                        zipHandling.extractZip(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Smapi.zip"), Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
+                        var x = Directory.GetDirectories(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
+                        string path = "";
+                        text = "5";
+                        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                        {
+                            path = Path.Combine(x[0], "internal", "Windows");
+                        }
+                        else
+                        {
+                            text = "6";
+                            path = Path.Combine(x[0], "internal", "Mono");
+                        }
+                        text = "7";
+                        var source = new DirectoryInfo(System.IO.Path.GetFullPath(path));
+                        var destination = new DirectoryInfo(gameFolder);
+                        source.MoveMod(destination);
+                        MainWindow.SDVMMSettings.SmapiVersion = version;
+                        FileHandler.SaveSettings(MainWindow.SDVMMSettings);
+                    }
+                    catch {
+                        MessageBox.Show(text);
+                    }
 				}
 			}
 		}

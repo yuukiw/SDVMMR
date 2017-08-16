@@ -24,7 +24,8 @@ namespace SDVMMR
 			{
 				SMAPIVersion = smapiVersion;
 				SDVMMVersion = sdvmmVersion;
-				//CheckSDVMM();
+            //    CheckSDVMM();
+               //MessageBox.Show(String.Join("  ", smapiVersion, sdvmmVersion, mVersion, gameFolder));
 				CheckSmapi(gameFolder);
 				CheckXNBLoader(mVersion, gameFolder);
 			}
@@ -87,7 +88,10 @@ namespace SDVMMR
 		{
 			try
 			{
-				GitRelease release = GetLatestRelease("Pathoschild/SMAPI");
+                if (SMAPIVersion == "" || SMAPIVersion == null)
+                    SMAPIVersion = "1.0";
+                GitRelease release = GetLatestRelease("Pathoschild/SMAPI");
+
 				downloadUrl = (release.TagName != SMAPIVersion)
 				   ? release.Downloads.OrderByDescending(p => p.Created).FirstOrDefault(p => !p.Name.Contains("developers"))?.DownloadUrl
 				   : null;

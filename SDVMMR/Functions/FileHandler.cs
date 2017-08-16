@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using System.Windows.Forms;
+using SDVMMR.JSON_Dummies;
 
 namespace SDVMMR
 {
@@ -60,14 +61,38 @@ namespace SDVMMR
 
 		public static ModManifest LoadModManifest(string Path)
 		{
-			if (!File.Exists(Path))
-				return null;
+            try
+            {
+                if (!File.Exists(Path))
+                    return null;
 
-			string JsonData = File.ReadAllText(Path);
-			return JsonConvert.DeserializeObject<ModManifest>(JsonData);
+                string JsonData = File.ReadAllText(Path);
+                return JsonConvert.DeserializeObject<ModManifest>(JsonData);
+            }
+            catch(Exception )
+            {
+                return null;
+            }
 		}
 
-		internal static Translations LoadTranslations(string key, Translations obj)
+        public static ALLManifest LoadALLManifest(string Path)
+        {
+            try
+            {
+                if (!File.Exists(Path))
+                    return null;
+
+                string JsonData = File.ReadAllText(Path);
+                return JsonConvert.DeserializeObject<ALLManifest>(JsonData);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+
+        internal static Translations LoadTranslations(string key, Translations obj)
 		{
 			try
 			{
@@ -228,7 +253,7 @@ namespace SDVMMR
 					}
 
 					defaultGogPath = Path.Combine(userpath, "Games", "Stardew Valley", "game");
-					defaultSPath = Path.Combine(userpath, ".local", "share", "Steam", "steamapps", "common", "Stardew Valley");
+					defaultSPath = Path.Combine(userpath, ".steam", "steam", "steamapps", "common", "Stardew Valley");
 				}
 				if (System.IO.Directory.Exists(defaultSPath) || System.IO.Directory.Exists(defaultGogPath))
 				{
