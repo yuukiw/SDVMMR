@@ -1,4 +1,7 @@
-﻿namespace SDVMMR
+﻿using Gecko;
+using System.IO;
+
+namespace SDVMMR
 {
     partial class Browser
     {
@@ -29,7 +32,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.webBrowser1 = new Gecko.GeckoWebBrowser();
             this.back = new System.Windows.Forms.Button();
             this.forward = new System.Windows.Forms.Button();
             this.home = new System.Windows.Forms.Button();
@@ -39,11 +42,14 @@
             // 
             // webBrowser1
             // 
+            this.webBrowser1.FrameEventsPropagateToMainWindow = false;
             this.webBrowser1.Location = new System.Drawing.Point(0, 33);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.Size = new System.Drawing.Size(1539, 476);
             this.webBrowser1.TabIndex = 0;
+            this.webBrowser1.UseHttpActivityObserver = false;
+            this.webBrowser1.Navigating += new System.EventHandler<Gecko.Events.GeckoNavigatingEventArgs>(this.webBrowser1_Navigating);
             // 
             // back
             // 
@@ -94,7 +100,8 @@
         #endregion
 
         private System.Windows.Forms.BindingSource bindingSource1;
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        //private System.Windows.Forms.WebBrowser webBrowser1;
+        private GeckoWebBrowser webBrowser1;
         private System.Windows.Forms.Button back;
         private System.Windows.Forms.Button home;
         private System.Windows.Forms.Button forward;

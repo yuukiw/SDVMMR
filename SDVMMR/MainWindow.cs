@@ -39,33 +39,46 @@ namespace SDVMMR
 
         internal string dpath;
 
+        internal static bool dMode = false;
+
 
 
         public MainWindow()
         {
+            try
+            {
+                if (dMode)
+                    Console.Write("building components...");
+                InitializeComponent();
+                if (dMode)
+                    Console.Write("done, setting up window...");
+                initWindow();
+                SdvvmrV.Text = String.Join("", "SDVMM Version: ", SDVMMVersion);
+                SDVV.Text = String.Join("", "SMAPI Version: ", SDVMMSettings.SmapiVersion);
+                donate.Text = Translation.BuyMeACoffe;
+                addMod.Text = Translation.AddMod;
+                About.Text = Translation.About;
+                OpenSDV.Text = Translation.OpenGameDir;
+                OpenAPPData.Text = Translation.OpenAppdata;
+                OpenSDVMM.Text = Translation.OpenSDVMMDir;
+                Settings.Text = Translation.Settings;
 
-            InitializeComponent();
-            initWindow();
-            SdvvmrV.Text = String.Join("", "SDVMM Version: ", SDVMMVersion);
-            SDVV.Text = String.Join("", "SMAPI Version: ", SDVMMSettings.SmapiVersion);
-            donate.Text = Translation.BuyMeACoffe;
-            addMod.Text = Translation.AddMod;
-            About.Text = Translation.About;
-            OpenSDV.Text = Translation.OpenGameDir;
-            OpenAPPData.Text = Translation.OpenAppdata;
-            OpenSDVMM.Text = Translation.OpenSDVMMDir;
-            Settings.Text = Translation.Settings;
-
-            SMAPIUpdate.Text = "Smapi update found!";
-            LinkLabel.Link link = new LinkLabel.Link();
-            link.LinkData = "http://www.google.com";
-            SMAPIUpdate.Links.Add(link);
+                SMAPIUpdate.Text = "Smapi update found!";
+                LinkLabel.Link link = new LinkLabel.Link();
+                link.LinkData = "http://www.google.com";
+                SMAPIUpdate.Links.Add(link);
 
 
 
-            initListView();
-            checkForMods();
-            RefreshListView();
+                initListView();
+                checkForMods();
+                RefreshListView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
 
@@ -74,87 +87,106 @@ namespace SDVMMR
 
         private void initWindow()
         {
-            SDVMMSettings = FileHandler.LoadSettings();
-            string XLversion = "";
-            Mode.DropDownStyle = ComboBoxStyle.DropDownList;
-            Mode.Items.Add("Details");
-            Mode.Items.Add("Large Icons");
-            Mode.Items.Add("Small Icons");
-            Mode.Items.Add("List");
-            Mode.Items.Add("Tile");
-            Mode.Text = "Details";
-            Updates.CheckForUpdates(SDVMMSettings.SmapiVersion, SDVMMVersion, XLversion, SDVMMSettings.GameFolder, this);
-
-            if (!File.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations", "en.json")))
+            try
             {
-                using (WebClient WC = new WebClient())
+
+                if (dMode)
+                    Console.Write("loading settings...");
+
+                SDVMMSettings = FileHandler.LoadSettings();
+                if (dMode)
+                    Console.Write("settings loaded...");
+
+                string XLversion = "";
+                Mode.DropDownStyle = ComboBoxStyle.DropDownList;
+                Mode.Items.Add("Details");
+                Mode.Items.Add("Large Icons");
+                Mode.Items.Add("Small Icons");
+                Mode.Items.Add("List");
+                Mode.Items.Add("Tile");
+                Mode.Text = "Details";
+
+
+                if (dMode)
+                    Console.Write("checking for updates...");
+
+                Updates.CheckForUpdates(SDVMMSettings.SmapiVersion, SDVMMVersion, XLversion, SDVMMSettings.GameFolder, this);
+
+                if (!File.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations", "en.json")))
                 {
-                    if (System.IO.File.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip")))
+                    using (WebClient WC = new WebClient())
                     {
-                        System.IO.File.Delete(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip"));
-                    }
-                    WC.Headers.Add("user-agent", "SDVMM/Version: 1.0");
-                    WC.DownloadFile("https://drive.google.com/uc?export=download&id=0B94u0_R6vixWaGtXWVBDOVViaEk", System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip"));
-                    if (System.IO.Directory.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
-                    {
-                        Directory.Delete(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"), true);
-                    }
-                    if (!System.IO.Directory.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
-                    {
-                        System.IO.Directory.CreateDirectory(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
-                    }
-                    zipHandling.extractZip(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip"), System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder")));
-
-                }
-            }
-
-            if (SDVMMSettings.Language == null)
-            {
-                key = "en";
-                Translation = FileHandler.LoadTranslations("en", new Translations());
-                var x = Directory.GetFiles(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations"), "*.json", SearchOption.TopDirectoryOnly).ToList();
-                if (x.Count == 2)
-                {
-                    if (System.IO.Path.GetFileNameWithoutExtension(x[0]) != "en")
-                    {
-                        key = System.IO.Path.GetFileNameWithoutExtension(x[0]);
-                        FileHandler.LoadTranslations(key, Translation);
-
-                    }
-                    else
-                    {
-                        key = System.IO.Path.GetFileNameWithoutExtension(x[1]);
-                        FileHandler.LoadTranslations(key, Translation);
+                        if (System.IO.File.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip")))
+                        {
+                            System.IO.File.Delete(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip"));
+                        }
+                        WC.Headers.Add("user-agent", "SDVMM/Version: 1.0");
+                        WC.DownloadFile("https://drive.google.com/uc?export=download&id=0B94u0_R6vixWaGtXWVBDOVViaEk", System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip"));
+                        if (System.IO.Directory.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
+                        {
+                            Directory.Delete(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"), true);
+                        }
+                        if (!System.IO.Directory.Exists(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked")))
+                        {
+                            System.IO.Directory.CreateDirectory(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "unpacked"));
+                        }
+                        zipHandling.extractZip(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "lang.zip"), System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder")));
 
                     }
                 }
-                if (x.Count > 2)
+
+                if (SDVMMSettings.Language == null)
                 {
-                    string ci = CultureInfo.CurrentUICulture.ToString();
-                    string[] SystemLanguage = ci.Split('-');
-                    string path = System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations", String.Join(".", SystemLanguage[0], "json"));
-                    if (x.Contains(path))
+                    key = "en";
+                    Translation = FileHandler.LoadTranslations("en", new Translations());
+                    var x = Directory.GetFiles(System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations"), "*.json", SearchOption.TopDirectoryOnly).ToList();
+                    if (x.Count == 2)
                     {
-                        SDVMMSettings.Language = SystemLanguage[0];
-                        FileHandler.SaveSettings(SDVMMSettings);
-                        key = SDVMMSettings.Language;
-                        Translation = FileHandler.LoadTranslations(key, new Translations());
+                        if (System.IO.Path.GetFileNameWithoutExtension(x[0]) != "en")
+                        {
+                            key = System.IO.Path.GetFileNameWithoutExtension(x[0]);
+                            FileHandler.LoadTranslations(key, Translation);
+
+                        }
+                        else
+                        {
+                            key = System.IO.Path.GetFileNameWithoutExtension(x[1]);
+                            FileHandler.LoadTranslations(key, Translation);
+
+                        }
                     }
-                    else
+                    if (x.Count > 2)
                     {
-                        key = null;
-                        //Setting Swin = new Setting(SDVMMSettings);
-                        // Swin.Show();
+                        string ci = CultureInfo.CurrentUICulture.ToString();
+                        string[] SystemLanguage = ci.Split('-');
+                        string path = System.IO.Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations", String.Join(".", SystemLanguage[0], "json"));
+                        if (x.Contains(path))
+                        {
+                            SDVMMSettings.Language = SystemLanguage[0];
+                            FileHandler.SaveSettings(SDVMMSettings);
+                            key = SDVMMSettings.Language;
+                            Translation = FileHandler.LoadTranslations(key, new Translations());
+                        }
+                        else
+                        {
+                            key = null;
+                            //Setting Swin = new Setting(SDVMMSettings);
+                            // Swin.Show();
+                        }
                     }
                 }
+                else
+                {
+                    key = SDVMMSettings.Language;
+                    Translation = FileHandler.LoadTranslations(key, new Translations());
+                }
+                launchSMAPIItem.Checked = true;
+                Launch.Text = launchSMAPIItem.Text;
             }
-            else
+            catch (Exception ex)
             {
-                key = SDVMMSettings.Language;
-                Translation = FileHandler.LoadTranslations(key, new Translations());
+                MessageBox.Show(ex.Message);
             }
-            launchSMAPIItem.Checked = true;
-            Launch.Text = launchSMAPIItem.Text;
 
         }
 
@@ -472,7 +504,8 @@ namespace SDVMMR
                 {
                     if (uID == "Entoarox.AdvancedLocationLoader" & itemToChange.IsActive)
                     {
-                        string msg = $"Cant deactivate {item.Text} due it being required by:" + System.Environment.NewLine;
+                        string msg = Translation.changeStateDepError.Replace("{item.Text}", item.Text) + Environment.NewLine;
+
                         foreach (ModInfo mod in ListOfMods.Where(x => x.IsALL == true))
                         {
                             dependingMods = true;
@@ -489,7 +522,7 @@ namespace SDVMMR
                     if (uID == "spacechase0.CustomCritters" & itemToChange.IsActive)
                     {
                         var dirList = new DirectoryInfo(System.IO.Path.Combine(SDVMMSettings.GameFolder, "Mods", "CustomCritters", "Critters"));
-                        string msg = $"Cant deactivate {item.Text} due it being required by:" + System.Environment.NewLine;
+                        string msg = Translation.changeStateDepError.Replace("{item.Text}", item.Text) + Environment.NewLine;
                         foreach (var dir in dirList.GetDirectories().ToArray())
                         {
                             dependingMods = true;
@@ -506,7 +539,7 @@ namespace SDVMMR
                     if (uID == "Platonymous.CustomFarming" & itemToChange.IsActive)
                     {
                         var dirList = new DirectoryInfo(System.IO.Path.Combine(SDVMMSettings.GameFolder, "Mods", "CustomFarming", "CustomContent"));
-                        string msg = $"Cant deactivate {item.Text} due it being required by:" + System.Environment.NewLine;
+                        string msg = Translation.changeStateDepError.Replace("{item.Text}", item.Text) + Environment.NewLine;
                         foreach (var dir in dirList.GetDirectories().ToArray())
                         {
                             dependingMods = true;
@@ -666,14 +699,14 @@ namespace SDVMMR
                 {
                     if (itemFound.Author == "CustomCritter")
                     {
-                        Process.Start(Path.Combine(SDVMMSettings.GameFolder, folder, "CustomCritters","Critters", itemFound.Name));
+                        Process.Start(Path.Combine(SDVMMSettings.GameFolder, folder, "CustomCritters", "Critters", itemFound.Name));
                     }
                     if (itemFound.Author == "CustomFarming")
                     {
-                        Process.Start(Path.Combine(SDVMMSettings.GameFolder, folder, "CustomFarming","CustomContent", itemFound.Name));
+                        Process.Start(Path.Combine(SDVMMSettings.GameFolder, folder, "CustomFarming", "CustomContent", itemFound.Name));
                     }
                     else
-                    Process.Start(Path.Combine(SDVMMSettings.GameFolder, folder, itemFound.EntryDll.Replace(".dll", "")));
+                        Process.Start(Path.Combine(SDVMMSettings.GameFolder, folder, itemFound.EntryDll.Replace(".dll", "")));
                 }
                 else
                 {
@@ -701,19 +734,26 @@ namespace SDVMMR
                     }
                     if (uID == "Entoarox.AdvancedLocationLoader" & itemToChange.IsActive)
                     {
-                        string msg = $"Cant change the state of {item.Text} due it being required by:" + System.Environment.NewLine;
+                        //string msg = $"Cant change the state of {item.Text} due it being required by:" + System.Environment.NewLine;
+                        string msg = Translation.changeStateDepError.Replace("{item.Text}",item.Text) + Environment.NewLine;
                         foreach (ModInfo mod in ListOfMods.Where(x => x.IsALL == true))
                         {
                             dependingMods = true;
                             msg += mod.Name + System.Environment.NewLine;
                         }
                         if (dependingMods)
+                        {
                             MessageBox.Show(msg);
+                            RefreshListView();
+                            ManualRaise = true;
+                            return;
+                        }
                     }
                     if (uID == "spacechase0.CustomCritters" & itemToChange.IsActive)
                     {
                         var dirList = new DirectoryInfo(System.IO.Path.Combine(SDVMMSettings.GameFolder, "Mods", "CustomCritters", "Critters"));
-                        string msg = $"Cant change the state of {item.Text} due it being required by:" + System.Environment.NewLine;
+                        //string msg = $"Cant change the state of {item.Text} due it being required by:" + System.Environment.NewLine;
+                        string msg = Translation.changeStateDepError.Replace("{item.Text}", item.Text) + Environment.NewLine;
                         foreach (var dir in dirList.GetDirectories().ToArray())
                         {
                             dependingMods = true;
@@ -727,7 +767,8 @@ namespace SDVMMR
                     if (uID == "Platonymous.CustomFarming" & itemToChange.IsActive)
                     {
                         var dirList = new DirectoryInfo(System.IO.Path.Combine(SDVMMSettings.GameFolder, "Mods", "CustomFarming", "CustomContent"));
-                        string msg = $"Cant change the state of {item.Text} due it being required by:" + System.Environment.NewLine;
+                        //string msg = $"Cant change the state of {item.Text} due it being required by:" + System.Environment.NewLine;
+                        string msg = Translation.changeStateDepError.Replace("{item.Text}", item.Text) + Environment.NewLine;
                         foreach (var dir in dirList.GetDirectories().ToArray())
                         {
                             dependingMods = true;
@@ -837,7 +878,8 @@ namespace SDVMMR
                 {
                     if (uID == "Entoarox.AdvancedLocationLoader")
                     {
-                        string msg = $"Cant delete {item.Text} due it being required by:" + System.Environment.NewLine;
+                        //string msg = $"Cant delete {item.Text} due it being required by:" + System.Environment.NewLine;
+                        string msg = Translation.delModDepError.Replace("{item.Text}", item.Text) + Environment.NewLine;
                         foreach (ModInfo mod in ListOfMods.Where(x => x.IsALL == true))
                         {
                             dependingMods = true;
@@ -849,7 +891,8 @@ namespace SDVMMR
                     if (uID == "spacechase0.CustomCritters")
                     {
                         var dirList = new DirectoryInfo(System.IO.Path.Combine(SDVMMSettings.GameFolder, "Mods", "CustomCritters", "Critters"));
-                        string msg = $"Cant delete {item.Text} due it being required by:" + System.Environment.NewLine;
+                        //string msg = $"Cant delete {item.Text} due it being required by:" + System.Environment.NewLine;
+                        string msg = Translation.delModDepError.Replace("{item.Text}", item.Text) + Environment.NewLine;
                         foreach (var dir in dirList.GetDirectories().ToArray())
                         {
                             dependingMods = true;
@@ -863,7 +906,8 @@ namespace SDVMMR
                     if (uID == "Platonymous.CustomFarming")
                     {
                         var dirList = new DirectoryInfo(System.IO.Path.Combine(SDVMMSettings.GameFolder, "Mods", "CustomFarming", "CustomContent"));
-                        string msg = $"Cant delete {item.Text} due it being required by:" + System.Environment.NewLine;
+                        //string msg = $"Cant delete {item.Text} due it being required by:" + System.Environment.NewLine;
+                        string msg = Translation.delModDepError.Replace("{item.Text}", item.Text) + Environment.NewLine;
                         foreach (var dir in dirList.GetDirectories().ToArray())
                         {
                             dependingMods = true;
@@ -1114,7 +1158,8 @@ namespace SDVMMR
         private void downloadModsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ManualRaise = false;
-            Browser Wb = new Browser("http://www.nexusmods.com/stardewvalley/mods/searchresults/?src_cat=1",this,SDVMMSettings);
+            //Xpcom.Initialize(Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "xulrunner"));
+            Browser Wb = new Browser("http://www.nexusmods.com/stardewvalley/mods/searchresults/?src_cat=1", this, SDVMMSettings);
             Wb.Show();
             ManualRaise = false;
         }

@@ -157,6 +157,7 @@
             this.GameFolderBtn.Size = new System.Drawing.Size(75, 23);
             this.GameFolderBtn.TabIndex = 7;
             this.GameFolderBtn.UseVisualStyleBackColor = true;
+            this.GameFolderBtn.Click += new System.EventHandler(this.GameFolderBtn_Click);
             // 
             // SteamFolderBtn
             // 
@@ -166,6 +167,7 @@
             this.SteamFolderBtn.Size = new System.Drawing.Size(75, 23);
             this.SteamFolderBtn.TabIndex = 6;
             this.SteamFolderBtn.UseVisualStyleBackColor = true;
+            this.SteamFolderBtn.Click += new System.EventHandler(this.SteamFolderBtn_Click);
             // 
             // IsGOGBox
             // 
@@ -181,6 +183,7 @@
             this.GameFolderBox.Name = "GameFolderBox";
             this.GameFolderBox.Size = new System.Drawing.Size(300, 20);
             this.GameFolderBox.TabIndex = 4;
+            this.GameFolderBox.TextChanged += new System.EventHandler(this.GameFolderBox_TextChanged);
             // 
             // SteamSettings
             // 

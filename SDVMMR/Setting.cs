@@ -82,6 +82,7 @@ namespace SDVMMR
                     DialogResult dialogResult = MessageBox.Show(MainWindow.Translation.LanguageChanged, MainWindow.Translation.LanguageChangedTitle, MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
+                      
                         Application.Exit();
                     }
                 }
@@ -95,7 +96,7 @@ namespace SDVMMR
 
         private void SteamFolderBox_TextChanged(object sender, EventArgs e)
         {
-
+          
         }
 
         private void SetVDF_Click(object sender, EventArgs e)
@@ -109,6 +110,36 @@ namespace SDVMMR
                 IsGOGBox.Text = "True";
             else
                 IsGOGBox.Text = "False";
+        }
+
+        private void SteamFolderBtn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog filechooser = new OpenFileDialog();
+
+            filechooser.Title = "";
+            filechooser.Multiselect = false;
+            if (filechooser.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+
+            {
+                SteamFolderBox.Text = filechooser.FileName;
+            }
+        }
+
+        private void GameFolderBtn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog filechooser = new OpenFileDialog();
+
+            filechooser.Title = "";
+            filechooser.Multiselect = false;
+            if (filechooser.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                SteamFolderBox.Text = filechooser.FileName;
+            }
+        }
+
+        private void GameFolderBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

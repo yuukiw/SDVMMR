@@ -12,19 +12,40 @@ namespace SDVMMR
 {
 	public static class FileHandler
 	{
+        internal static bool dMode = false;
+        public static bool IsDebugRelease
+        {
+            get
+            {
+#if DEBUG
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+        
 
-		private static readonly string dataDirectory = DirectoryOperations.getFolder("AppData");
+
+
+        private static readonly string dataDirectory = DirectoryOperations.getFolder("AppData");
 
 		public static SDVMMSettings LoadSettings()
 		{
 			string Path = System.IO.Path.Combine(dataDirectory, "SDVMM", "SDVMM.json");
 
-			// TODO Set proper initial values for settings
-			if (!File.Exists(Path))
-				return CreateDefaultSettings();
-
-
-			StreamReader read = new StreamReader(Path);
+            if (dMode)
+                Console.Write("Checking if SDVMM.json exist...");
+            // TODO Set proper initial values for settings
+            if (!File.Exists(Path))
+            {
+                if (dMode)
+                    Console.Write("it doesnt exist, loading default...");
+                return CreateDefaultSettings();
+            }
+            if (dMode)
+                Console.Write("it does exist loading it now...");
+            StreamReader read = new StreamReader(Path);
 			string JsonData = read.ReadToEnd();
 			read.Close();
 
@@ -104,10 +125,13 @@ namespace SDVMMR
 				JsonConvert.PopulateObject(text, obj);
 				return obj;
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+                if(!dMode)
 				MessageBox.Show("Couldn`t load the Translation. Defaulting to English", "Translation Error");
-				string path = Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations", "en.json");
+                if (dMode)       
+                MessageBox.Show(ex.ToString());
+                string path = Path.Combine(DirectoryOperations.getFolder("ExeFolder"), "Translations", "en.json");
 				if (!File.Exists(path))
 					return obj;
 
@@ -142,17 +166,24 @@ namespace SDVMMR
 
 		public static List<ModInfo> LoadModList()
 		{
+            try
+            {
+                string modListPath = Path.Combine(dataDirectory, "SDVMM", "Mods.json");
 
-			string modListPath = Path.Combine(dataDirectory, "SDVMM", "Mods.json");
+                if (!File.Exists(modListPath))
+                {
+                    return new List<ModInfo>();
+                }
 
-			if (!File.Exists(modListPath))
-			{
-				return new List<ModInfo>();
-			}
+                string JsonData = File.ReadAllText(modListPath);
 
-			string JsonData = File.ReadAllText(modListPath);
+                return JsonConvert.DeserializeObject<List<ModInfo>>(JsonData) ?? new List<ModInfo>();
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
 
-			return JsonConvert.DeserializeObject<List<ModInfo>>(JsonData) ?? new List<ModInfo>();
+            }
 		}
 
 		internal static string getSMAPIVersion(string gameFolder)

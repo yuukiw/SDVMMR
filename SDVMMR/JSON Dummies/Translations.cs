@@ -21,8 +21,11 @@ namespace SDVMMR
 		public string Author { get; set; }
 		public string Version { get; set; }
 		public string Description { get; set; }
-		//Settings
-		public string SettingsCategoryName1 { get; set; }
+        //Mod Actions
+        public string delModDepError { get; set; }
+        public string changeStateDepError { get; set; }
+        //Settings
+        public string SettingsCategoryName1 { get; set; }
 		public string SettingsSteamFolder { get; set; }
 		public string SettingsGameFolder { get; set; }
 		public string isGOG { get; set; }

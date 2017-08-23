@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gecko;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+
 using System.Threading.Tasks;
 
 using System.Windows.Forms;
@@ -25,22 +27,32 @@ namespace SDVMMR
 
         public Browser(string url, MainWindow mf, SDVMMSettings set)
         {
-            Mf = mf;
-            settings = set;
-            bHome = url;
-            System.Uri URL = new System.Uri(url);
-            HistoryStack = new List<Uri>();
-            HistoryStack_Index = 0;
-            fromHistory = false;
-            InitializeComponent();
-            webBrowser1.Url = URL;
-            webBrowser1.ScriptErrorsSuppressed = true;
-            webBrowser1.Navigating += new WebBrowserNavigatingEventHandler(webBrowser1_Navigating);
-            UpdateNavButtons();
-        }
 
 
-        private void webBrowser1_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+            try
+            {
+                Mf = mf;
+                settings = set;
+                bHome = url;
+                string URL = url;
+                HistoryStack = new List<Uri>();
+                HistoryStack_Index = 0;
+                fromHistory = false;
+                InitializeComponent();                
+                var app_dir = Path.GetDirectoryName(Application.ExecutablePath);
+                Gecko.Xpcom.Initialize(Path.Combine("Firefox"));
+                webBrowser1.Navigate(URL);
+                //webBrowser1.ScriptErrorsSuppressed = true;
+
+                UpdateNavButtons();
+                }catch(Exception  ex)
+            {
+                MessageBox.Show((ex.ToString()));
+            }
+            }
+
+
+        private void webBrowser1_Navigating(object sender, Gecko.Events.GeckoNavigatingEventArgs e)
         {
             if (!fromHistory)
             {
@@ -48,22 +60,21 @@ namespace SDVMMR
                 {
                     HistoryStack.RemoveRange(HistoryStack_Index, HistoryStack.Count - HistoryStack_Index);
                 }
-
-                HistoryStack.Add(e.Url);
+                HistoryStack.Add(e.Uri);
                 HistoryStack_Index++;
                 UpdateNavButtons();
             }
             fromHistory = false;
-
-            if (e.Url.Segments[e.Url.Segments.Length - 1].EndsWith(".zip")|| e.Url.Segments[e.Url.Segments.Length - 1].EndsWith(".rar"))
+            
+            if (e.Uri.Segments[e.Uri.Segments.Length - 1].EndsWith(".zip")|| e.Uri.Segments[e.Uri.Segments.Length - 1].EndsWith(".rar"))
             {
                 file = "Mod.zip";
 
-                if (e.Url.Segments[e.Url.Segments.Length - 1].EndsWith(".rar"))
+                if (e.Uri.Segments[e.Uri.Segments.Length - 1].EndsWith(".rar"))
                 {
                     file = "Mod.rar";
                 }
-                var url = e.Url;
+                var url = e.Uri;
                 e.Cancel = true;
                 using (WebClient WC = new WebClient())
                 {
@@ -108,22 +119,24 @@ namespace SDVMMR
 
         private void back_Click(object sender, EventArgs e)
         {
+            webBrowser1.GoBack();
             if (HistoryStack_Index > 1)
             {
                 HistoryStack_Index--;
                 fromHistory = true;
-                webBrowser1.Navigate(HistoryStack[HistoryStack_Index - 1]);
+               // webBrowser1.Navigate(HistoryStack[HistoryStack_Index - 1]);
                 UpdateNavButtons();
             }
         }
 
         private void forward_Click(object sender, EventArgs e)
         {
+            webBrowser1.GoForward();
             if (HistoryStack_Index < HistoryStack.Count)
             {
                 HistoryStack_Index++;
                 fromHistory = true;
-                webBrowser1.Navigate(HistoryStack[HistoryStack_Index - 1]);
+               // webBrowser1.Navigate(HistoryStack[HistoryStack_Index - 1]);
                 UpdateNavButtons();
             }
         }
@@ -136,8 +149,9 @@ namespace SDVMMR
 
         private void home_Click(object sender, EventArgs e)
         {
-            webBrowser1.Url = new System.Uri(bHome);
+            webBrowser1.Navigate(bHome);
         }
+
     }
 
 

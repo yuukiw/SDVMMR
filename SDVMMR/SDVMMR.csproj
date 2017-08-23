@@ -35,22 +35,41 @@
   <ItemGroup>
     <Reference Include="AngleSharp, Version=0.9.9.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
       <HintPath>..\packages\AngleSharp.0.9.9\lib\net45\AngleSharp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="BetterSplitButton, Version=3.15.0.0, Culture=neutral, PublicKeyToken=e6c91a3add447be2, processorArchitecture=MSIL" />
-    <Reference Include="BetterSplitButton-net20, Version=3.15.0.0, Culture=neutral, PublicKeyToken=e6c91a3add447be2, processorArchitecture=MSIL" />
-    <Reference Include="BetterSplitButton-net35, Version=3.15.0.0, Culture=neutral, PublicKeyToken=e6c91a3add447be2, processorArchitecture=MSIL" />
     <Reference Include="Gameloop.Vdf, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Gameloop.Vdf.0.4.0\lib\netstandard1.0\Gameloop.Vdf.dll</HintPath>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
-      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="Geckofx-Core, Version=45.0.32.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
+      <HintPath>..\packages\Geckofx45.45.0.32\lib\net45\Geckofx-Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Geckofx-Winforms, Version=45.0.32.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
+      <HintPath>..\packages\Geckofx45.45.0.32\lib\net45\Geckofx-Winforms.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenWebKitSharp.1.0.7\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
       <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
     </Reference>
+    <Reference Include="JSCore, Version=1.0.1.2, Culture=neutral, PublicKeyToken=d6b823da6d3fa04b, processorArchitecture=x86">
+      <HintPath>..\packages\OpenWebKitSharp.1.0.7\lib\net40\JSCore.dll</HintPath>
+    </Reference>
+    <Reference Include="MyDownloader.App, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenWebKitSharp.1.0.7\lib\net40\MyDownloader.App.dll</HintPath>
+    </Reference>
+    <Reference Include="MyDownloader.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenWebKitSharp.1.0.7\lib\net40\MyDownloader.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MyDownloader.Extension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenWebKitSharp.1.0.7\lib\net40\MyDownloader.Extension.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="OpenWebKitSharp, Version=3.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\OpenWebKitSharp.1.0.7\lib\net40\OpenWebKitSharp.dll</HintPath>
     </Reference>
     <Reference Include="SharpCompress, Version=0.18.0.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.18.0\lib\net45\SharpCompress.dll</HintPath>
@@ -59,9 +78,11 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.Primitives, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ComponentModel.Primitives.4.3.0\lib\net45\System.ComponentModel.Primitives.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.ComponentModel.TypeConverter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ComponentModel.TypeConverter.4.3.0\lib\net45\System.ComponentModel.TypeConverter.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
@@ -69,6 +90,7 @@
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -81,11 +103,15 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="TabStrip, Version=2.0.2523.29272, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenWebKitSharp.1.0.7\lib\net40\TabStrip.dll</HintPath>
+    </Reference>
     <Reference Include="Tamir.SharpSSH, Version=1.1.1.13, Culture=neutral">
       <HintPath>..\packages\Tamir.SharpSSH.1.1.1.13\lib\Tamir.SharpSSH.dll</HintPath>
     </Reference>
     <Reference Include="Winterdom.IO.FileMap, Version=2.0.2.0, Culture=neutral, PublicKeyToken=4982617362e1edb5, processorArchitecture=MSIL">
       <HintPath>..\packages\Winterdom.IO.FileMap.2.0.2.0\lib\Winterdom.IO.FileMap.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +182,7 @@
     <EmbeddedResource Include="Setting.resx">
       <DependentUpon>Setting.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Firefox\omni.ja" />
     <None Include="Functions\app.manifest" />
     <None Include="Functions\ini_handling.manifest" />
     <None Include="packages.config" />
@@ -225,10 +252,36 @@
     <None Include="Resources\Forward_256x.png" />
     <None Include="Resources\Forward_16x.png" />
     <None Include="Resources\Backward_16x.png" />
+    <Content Include="Firefox\AccessibleMarshal.dll" />
+    <Content Include="Firefox\breakpadinjector.dll" />
+    <Content Include="Firefox\d3dcompiler_47.dll" />
+    <Content Include="Firefox\freebl3.dll" />
+    <Content Include="Firefox\icudt56.dll" />
+    <Content Include="Firefox\icuin56.dll" />
+    <Content Include="Firefox\icuuc56.dll" />
+    <Content Include="Firefox\lgpllibs.dll" />
+    <Content Include="Firefox\libEGL.dll" />
+    <Content Include="Firefox\libGLESv2.dll" />
+    <Content Include="Firefox\mozglue.dll" />
+    <Content Include="Firefox\nss3.dll" />
+    <Content Include="Firefox\nssckbi.dll" />
+    <Content Include="Firefox\nssdbm3.dll" />
+    <Content Include="Firefox\plugin-container.exe" />
+    <Content Include="Firefox\plugin-hang-ui.exe" />
+    <Content Include="Firefox\sandboxbroker.dll" />
+    <Content Include="Firefox\softokn3.dll" />
+    <Content Include="Firefox\xul.dll" />
     <Content Include="TextFile1.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="System\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Geckofx45.45.0.32\build\Geckofx45.targets" Condition="Exists('..\packages\Geckofx45.45.0.32\build\Geckofx45.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Dieses Projekt verweist auf mindestens ein NuGet-Paket, das auf diesem Computer fehlt. Verwenden Sie die Wiederherstellung von NuGet-Paketen, um die fehlenden Dateien herunterzuladen. Weitere Informationen finden Sie unter "http://go.microsoft.com/fwlink/?LinkID=322105". Die fehlende Datei ist "{0}".</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Geckofx45.45.0.32\build\Geckofx45.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Geckofx45.45.0.32\build\Geckofx45.targets'))" />
+  </Target>
 </Project>
