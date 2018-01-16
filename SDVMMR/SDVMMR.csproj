@@ -141,6 +141,7 @@
     <Compile Include="Functions\WriteToVDF.cs" />
     <Compile Include="Functions\zipHandling.cs" />
     <Compile Include="JSON Dummies\ALLManifest.cs" />
+    <Compile Include="JSON Dummies\ModManifest_old.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>

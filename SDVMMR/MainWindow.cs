@@ -265,7 +265,7 @@ namespace SDVMMR
                     {
                         ModManifest Manifest = FileHandler.LoadModManifest(file.FullName);
                         string uId = Manifest.UniqueID;
-                        string version = String.Concat(Manifest.Version.MajorVersion, ".", Manifest.Version.MinorVersion, ".", Manifest.Version.PatchVersion);
+                        string version = Manifest.Version;
                         newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, true, false/*isX*/, "OrgXP", false);
                         modLookingFor = ListOfMods.Find(x => x.UniqueID == uId);
                     }
@@ -282,7 +282,7 @@ namespace SDVMMR
                 {
                     ModManifest Manifest = FileHandler.LoadModManifest(file.FullName);
                     string uId = Manifest.UniqueID;
-                    string version = String.Concat(Manifest.Version.MajorVersion, ".", Manifest.Version.MinorVersion, ".", Manifest.Version.PatchVersion);
+                    string version = Manifest.Version;
                     ModInfo newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, false, false/*isX*/, "OrgXP", false);
 
 
@@ -301,7 +301,7 @@ namespace SDVMMR
                     {
                         ModManifest Manifest = FileHandler.LoadModManifest(file.FullName);
                         string uId = Manifest.UniqueID;
-                        string version = String.Concat(Manifest.Version.MajorVersion, ".", Manifest.Version.MinorVersion, ".", Manifest.Version.PatchVersion);
+                        string version = Manifest.Version;
                         ModInfo newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, false, false/*isX*/, "OrgXP", false);
 
 

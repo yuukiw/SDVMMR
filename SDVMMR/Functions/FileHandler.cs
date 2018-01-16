@@ -90,11 +90,39 @@ namespace SDVMMR
                 string JsonData = File.ReadAllText(Path);
                 return JsonConvert.DeserializeObject<ModManifest>(JsonData);
             }
-            catch(Exception )
+            catch(Exception ex)
             {
-                return null;
+                return LoadOldModManifest(Path);
             }
 		}
+
+        private static ModManifest LoadOldModManifest(string Path)
+        {
+            try
+            {
+                if (!File.Exists(Path))
+                    return null;
+
+                string JsonData = File.ReadAllText(Path);
+                ModManifestOld oldData  = JsonConvert.DeserializeObject<ModManifestOld>(JsonData);
+                ModManifest newData = new ModManifest();
+                newData.Author = oldData.Author;
+                newData.Author = oldData.Description;
+                newData.EntryDll = oldData.EntryDll;
+                newData.MinimumApiVersion = oldData.MinimumApiVersion;
+                newData.Name = oldData.Name;    
+                newData.Version = String.Join(".", oldData.Version.MajorVersion, oldData.Version.MinorVersion, oldData.Version.PatchVersion);
+                return newData;             
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+
+
 
         public static ALLManifest LoadALLManifest(string Path)
         {
