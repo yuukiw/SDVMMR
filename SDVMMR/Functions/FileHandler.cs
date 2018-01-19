@@ -112,6 +112,7 @@ namespace SDVMMR
                 newData.MinimumApiVersion = oldData.MinimumApiVersion;
                 newData.Name = oldData.Name;    
                 newData.Version = String.Join(".", oldData.Version.MajorVersion, oldData.Version.MinorVersion, oldData.Version.PatchVersion);
+                newData.UpdateKeys = oldData.UpdateKeys;
                 return newData;             
 
             }

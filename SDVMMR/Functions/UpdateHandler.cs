@@ -1,17 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Cache;
+using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using Pathoschild.Http;
+using Pathoschild.Http.Client;
 
 namespace SDVMMR
 {
 
 	internal static class UpdateHandler
 	{
-		public static void DownloadSDVMM(string url)
+        //public static readonly HttpClient client = new HttpClient();
+       
+
+        public static void DownloadSDVMM(string url)
 		{
 				DialogResult dialogResult = MessageBox.Show(MainWindow.Translation.SDVMMUpdateFound, MainWindow.Translation.UpdateTitle, MessageBoxButtons.YesNo);
 				if (dialogResult == DialogResult.Yes)
@@ -111,6 +121,19 @@ namespace SDVMMR
             }
 		}
 
-	}
 
+
+
+        internal static async Task<IDictionary<string, ModInfoModel>> CheckModUpdate(string[] modKeys, MainWindow mf)
+        {
+            using (IClient client = new FluentClient("https://api.smapi.io/v2.0/"))
+            {
+                return await client
+                   .PostAsync("mods", new ModSearchModel(modKeys))
+                   .As<IDictionary<string, ModInfoModel>>();
+            }
+        }
+    }    
+
+   
 }

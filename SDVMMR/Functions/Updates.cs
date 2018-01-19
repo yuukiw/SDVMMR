@@ -112,10 +112,9 @@ namespace SDVMMR
 
 
             UpdateHandler.DownloadXNBLoader("https://drive.google.com/uc?export=download&id=0B94u0_R6vixWRGhRVkFzUHU0eU0", mf);
-		
-			}
-
-			
+        }   
+    internal void ModUpdateDownload()
+    { }
 		}
 
 }

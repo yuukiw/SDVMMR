@@ -40,6 +40,10 @@ namespace SDVMMR
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.Toolbar = new System.Windows.Forms.ToolStrip();
+            this.Mode = new System.Windows.Forms.ComboBox();
+            this.search = new System.Windows.Forms.TextBox();
+            this.SMAPIUpdate = new System.Windows.Forms.LinkLabel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.Launch = new System.Windows.Forms.ToolStripSplitButton();
             this.launchSDVItem = new System.Windows.Forms.ToolStripMenuItem();
             this.launchSMAPIItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,10 +55,6 @@ namespace SDVMMR
             this.Settings = new System.Windows.Forms.ToolStripButton();
             this.donate = new System.Windows.Forms.ToolStripButton();
             this.About = new System.Windows.Forms.ToolStripButton();
-            this.Mode = new System.Windows.Forms.ComboBox();
-            this.search = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.SMAPIUpdate = new System.Windows.Forms.LinkLabel();
             this.Toolbar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -129,6 +129,45 @@ namespace SDVMMR
             this.Toolbar.Stretch = true;
             this.Toolbar.TabIndex = 2;
             this.Toolbar.Text = "Toolbar";
+            // 
+            // Mode
+            // 
+            this.Mode.FormattingEnabled = true;
+            this.Mode.Location = new System.Drawing.Point(856, 192);
+            this.Mode.Name = "Mode";
+            this.Mode.Size = new System.Drawing.Size(87, 21);
+            this.Mode.TabIndex = 7;
+            this.Mode.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // search
+            // 
+            this.search.Location = new System.Drawing.Point(657, 193);
+            this.search.Name = "search";
+            this.search.Size = new System.Drawing.Size(182, 20);
+            this.search.TabIndex = 8;
+            // 
+            // SMAPIUpdate
+            // 
+            this.SMAPIUpdate.AutoSize = true;
+            this.SMAPIUpdate.Location = new System.Drawing.Point(144, 545);
+            this.SMAPIUpdate.Name = "SMAPIUpdate";
+            this.SMAPIUpdate.Size = new System.Drawing.Size(49, 13);
+            this.SMAPIUpdate.TabIndex = 9;
+            this.SMAPIUpdate.TabStop = true;
+            this.SMAPIUpdate.Text = "SUpdate";
+            this.SMAPIUpdate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SMAPIUpdate_LinkClicked);
+            this.SMAPIUpdate.Click += new System.EventHandler(this.SMAPIUpdate_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::SDVMMR.Properties.Resources.SDVM;
+            this.pictureBox1.InitialImage = global::SDVMMR.Properties.Resources.SDVM;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(952, 113);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // Launch
             // 
@@ -261,45 +300,6 @@ namespace SDVMMR
             this.About.Text = "About";
             this.About.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.About.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            // 
-            // Mode
-            // 
-            this.Mode.FormattingEnabled = true;
-            this.Mode.Location = new System.Drawing.Point(856, 192);
-            this.Mode.Name = "Mode";
-            this.Mode.Size = new System.Drawing.Size(87, 21);
-            this.Mode.TabIndex = 7;
-            this.Mode.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // search
-            // 
-            this.search.Location = new System.Drawing.Point(657, 193);
-            this.search.Name = "search";
-            this.search.Size = new System.Drawing.Size(182, 20);
-            this.search.TabIndex = 8;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::SDVMMR.Properties.Resources.SDVM;
-            this.pictureBox1.InitialImage = global::SDVMMR.Properties.Resources.SDVM;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(952, 113);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // SMAPIUpdate
-            // 
-            this.SMAPIUpdate.AutoSize = true;
-            this.SMAPIUpdate.Location = new System.Drawing.Point(144, 545);
-            this.SMAPIUpdate.Name = "SMAPIUpdate";
-            this.SMAPIUpdate.Size = new System.Drawing.Size(49, 13);
-            this.SMAPIUpdate.TabIndex = 9;
-            this.SMAPIUpdate.TabStop = true;
-            this.SMAPIUpdate.Text = "SUpdate";
-            this.SMAPIUpdate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SMAPIUpdate_LinkClicked);
-            this.SMAPIUpdate.Click += new System.EventHandler(this.SMAPIUpdate_Click);
             // 
             // MainWindow
             // 

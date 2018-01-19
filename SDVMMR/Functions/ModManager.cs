@@ -108,7 +108,8 @@ namespace SDVMMR
                         IsA: true,
                         IsX: true,
                         OrgXP: orgpath,
-                        IsAll: false);
+                        IsAll: false,
+                        Key: null);
                         ModInfo modLookingFor = Mods.Find(x => x.UniqueID == newMod.UniqueID);
                         if (modLookingFor == null)
                         {
@@ -159,7 +160,8 @@ namespace SDVMMR
                         IsA: true,
                         IsX: true,
                         OrgXP: orgpath,
-                        IsAll: false);
+                        IsAll: false,
+                        Key: null);
                         ModInfo modLookingFor = Mods.Find(x => x.UniqueID == newMod.UniqueID);
                         if (modLookingFor == null)
                         {
@@ -202,7 +204,7 @@ namespace SDVMMR
                         {
                             uId = String.Join(Manifest.About.ModName, Manifest.About.Author);
                             version = Manifest.About.Version;
-                            newMod = new ModInfo(Manifest.About.ModName, Manifest.About.Author, version, System.IO.Path.GetDirectoryName(path), uId, "", Manifest.About.Description, "", true, false/*isX*/, "OrgXP", true);
+                            newMod = new ModInfo(Manifest.About.ModName, Manifest.About.Author, version, System.IO.Path.GetDirectoryName(path), uId, "", Manifest.About.Description, "", true, false/*isX*/, "OrgXP", true,null);
                         }
                         catch (Exception)
                         {
@@ -222,7 +224,7 @@ namespace SDVMMR
                                     }
                                     uId = String.Join("", "CustomFarming-", dirName);
                                     version = "1.0";
-                                    newMod = new ModInfo(dirName, "CustomFarming","1.0", System.IO.Path.GetDirectoryName(path), String.Join("","CustomFarming-",Path.GetFileNameWithoutExtension(path)), "", "", Path.GetFileNameWithoutExtension(path), true, false/*isX*/, "OrgXP", false);
+                                    newMod = new ModInfo(dirName, "CustomFarming","1.0", System.IO.Path.GetDirectoryName(path), String.Join("","CustomFarming-",Path.GetFileNameWithoutExtension(path)), "", "", Path.GetFileNameWithoutExtension(path), true, false/*isX*/, "OrgXP", false,null);
                                 }
                                 else
                                 {
@@ -233,7 +235,7 @@ namespace SDVMMR
                                     }
                                     uId = String.Join("", "CustomCritter-", dirName);
                                     version = "1.0";
-                                    newMod = new ModInfo(dirName, "CustomCritter", "1.0", System.IO.Path.GetDirectoryName(path), String.Join("", "CustomCritter-", Path.GetFileNameWithoutExtension(path)), "", "", Path.GetFileNameWithoutExtension(path), true, false/*isX*/, "OrgXP", false);
+                                    newMod = new ModInfo(dirName, "CustomCritter", "1.0", System.IO.Path.GetDirectoryName(path), String.Join("", "CustomCritter-", Path.GetFileNameWithoutExtension(path)), "", "", Path.GetFileNameWithoutExtension(path), true, false/*isX*/, "OrgXP", false,null);
                                 }
                             }
 
@@ -241,10 +243,13 @@ namespace SDVMMR
                     }
                     else
                     {
-
                         uId = Manifest.UniqueID;
-                        version = String.Concat(Manifest.Version.MajorVersion, ".", Manifest.Version.MinorVersion, ".", Manifest.Version.PatchVersion);
-                        newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(path), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, true, false/*isX*/, "OrgXP", false);
+                        version = Manifest.Version;
+                        if(Manifest.UpdateKeys != null)
+                            newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(path), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, true, false/*isX*/, "OrgXP", false, Manifest.UpdateKeys);
+                        else
+                            newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(path), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, true, false/*isX*/, "OrgXP", false, null);
+
                     }
                     modLookingFor = Mods.Find(x => x.UniqueID == uId);
                     if (modLookingFor != null)
@@ -306,6 +311,7 @@ namespace SDVMMR
             item.SubItems.Add(Mod.UniqueID);
             item.SubItems.Add(Mod.IsActive.ToString());
             item.SubItems.Add(Mod.IsXnb.ToString());
+            
 
             if (MainWindow.tile)
             {
@@ -329,6 +335,7 @@ namespace SDVMMR
 
         }
 
+       
 
     }
 }

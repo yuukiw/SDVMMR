@@ -11,9 +11,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace SDVMMR
 {
@@ -73,6 +75,7 @@ namespace SDVMMR
                 initListView();
                 checkForMods();
                 RefreshListView();
+                checkModUpdate();
             }
             catch (Exception ex)
             {
@@ -80,9 +83,6 @@ namespace SDVMMR
             }
 
         }
-
-
-
 
 
         private void initWindow()
@@ -258,7 +258,7 @@ namespace SDVMMR
                         ALLManifest Manifest = FileHandler.LoadALLManifest(file.FullName);
                         string uId = String.Join(Manifest.About.ModName, Manifest.About.Author);
                         string version = Manifest.About.Version;
-                        newMod = new ModInfo(Manifest.About.ModName, Manifest.About.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, "", Manifest.About.Description, "", true, false/*isX*/, "OrgXP", true);
+                        newMod = new ModInfo(Manifest.About.ModName, Manifest.About.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, "", Manifest.About.Description, "", true, false/*isX*/, "OrgXP", true,null/*updatekey*/);
                         modLookingFor = ListOfMods.Find(x => x.UniqueID == uId);
                     }
                     else
@@ -266,7 +266,7 @@ namespace SDVMMR
                         ModManifest Manifest = FileHandler.LoadModManifest(file.FullName);
                         string uId = Manifest.UniqueID;
                         string version = Manifest.Version;
-                        newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, true, false/*isX*/, "OrgXP", false);
+                        newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, true, false/*isX*/, "OrgXP", false,null);
                         modLookingFor = ListOfMods.Find(x => x.UniqueID == uId);
                     }
                     if (modLookingFor == null)
@@ -283,7 +283,7 @@ namespace SDVMMR
                     ModManifest Manifest = FileHandler.LoadModManifest(file.FullName);
                     string uId = Manifest.UniqueID;
                     string version = Manifest.Version;
-                    ModInfo newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, false, false/*isX*/, "OrgXP", false);
+                    ModInfo newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, false, false/*isX*/, "OrgXP", false,Manifest.UpdateKeys);
 
 
                     ModInfo modLookingFor = ListOfMods.Find(x => x.UniqueID == uId);
@@ -302,7 +302,7 @@ namespace SDVMMR
                         ModManifest Manifest = FileHandler.LoadModManifest(file.FullName);
                         string uId = Manifest.UniqueID;
                         string version = Manifest.Version;
-                        ModInfo newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, false, false/*isX*/, "OrgXP", false);
+                        ModInfo newMod = new ModInfo(Manifest.Name, Manifest.Author, version, System.IO.Path.GetDirectoryName(file.FullName), uId, Manifest.MinimumApiVersion, Manifest.Description, Manifest.EntryDll, false, false/*isX*/, "OrgXP", false,Manifest.UpdateKeys);
 
 
                         ModInfo modLookingFor = ListOfMods.Find(x => x.UniqueID == uId);
@@ -322,7 +322,7 @@ namespace SDVMMR
                     {
                         string uId = "CustomCritters-" + Dir.Name;
                         string version = "1.0";
-                        ModInfo newMod = new ModInfo(Dir.Name, "CustomCritter", version, System.IO.Path.GetDirectoryName(Dir.FullName), uId, "", "", "", true, false/*isX*/, "OrgXP", false);
+                        ModInfo newMod = new ModInfo(Dir.Name, "CustomCritter", version, System.IO.Path.GetDirectoryName(Dir.FullName), uId, "", "", "", true, false/*isX*/, "OrgXP", false,null);
 
 
                         ModInfo modLookingFor = ListOfMods.Find(x => x.UniqueID == uId);
@@ -339,7 +339,7 @@ namespace SDVMMR
                     {
                         string uId = "CustomFarming-" + Dir.Name;
                         string version = "1.0";
-                        ModInfo newMod = new ModInfo(Dir.Name, "CustomFarming", version, System.IO.Path.GetDirectoryName(Dir.FullName), uId, "", "", "", true, false/*isX*/, "OrgXP", false);
+                        ModInfo newMod = new ModInfo(Dir.Name, "CustomFarming", version, System.IO.Path.GetDirectoryName(Dir.FullName), uId, "", "", "", true, false/*isX*/, "OrgXP", false,null);
 
 
                         ModInfo modLookingFor = ListOfMods.Find(x => x.UniqueID == uId);
@@ -352,6 +352,7 @@ namespace SDVMMR
             }
             FileHandler.SaveModList(ListOfMods);
             RefreshListView();
+            checkModUpdate();
         }
 
         internal void RefreshListView()
@@ -369,6 +370,29 @@ namespace SDVMMR
             }
         }
 
+     
+
+        internal async void checkModUpdate()
+        {
+            foreach (ModInfo Mod in ListOfMods)
+            {
+                ManualRaise = false;
+
+                if(Mod.IsALL == false & Mod.IsALL == false & Mod.IsXnb == false & Mod.UpdateKeys != null)
+                {
+                    IDictionary<string, ModInfoModel> data = await UpdateHandler.CheckModUpdate(Mod.UpdateKeys, this);
+                    ModInfoModel info = data.Values.FirstOrDefault(p => p.Error == null);
+                    if (info != null && info.Version != Mod.Version)
+                    {
+                        string text = String.Join("", "The Mod " , Mod.Name , " has an Update! Currently Installed: " , Mod.Version , "  new Version:" , info.Version);
+                        MessageBox.Show(text);
+                    }
+                            
+                    
+
+                }
+            }
+        }
 
         private void CheckEnterKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
@@ -1162,9 +1186,7 @@ namespace SDVMMR
             Browser Wb = new Browser("http://www.nexusmods.com/stardewvalley/mods/searchresults/?src_cat=1", this, SDVMMSettings);
             Wb.Show();
             ManualRaise = false;
-        }
-
-
+        } 
     }
 
     public static class StringExtensions
